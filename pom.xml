@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>gov.nih.ncats</groupId>
-    <artifactId>gsrs-spring-application</artifactId>
+    <artifactId>gsrs-spring-drug-applications</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gsrs-spring-application</name>
-    <description>GSRS Application Entity</description>
+    <name>gsrs-spring-drug-applications</name>
+    <description>GSRS Drug Application Entity</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
