@@ -1,8 +1,10 @@
 package gov.nih.ncats.application.indexers;
 
-import gov.nih.ncats.application.model.Application;
+import gov.nih.ncats.application.models.Application;
+
 import ix.core.search.text.IndexValueMaker;
 import ix.core.search.text.IndexableValue;
+
 import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;

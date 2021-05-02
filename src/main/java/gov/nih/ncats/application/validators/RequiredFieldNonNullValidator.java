@@ -1,6 +1,7 @@
 package gov.nih.ncats.application.validators;
 
-import gov.nih.ncats.application.model.Application;
+import gov.nih.ncats.application.models.Application;
+
 import gsrs.validator.ValidatorConfig;
 import ix.core.validator.GinasProcessingMessage;
 import ix.core.validator.ValidatorCallback;
@@ -16,15 +17,16 @@ public class RequiredFieldNonNullValidator implements ValidatorPlugin<Applicatio
     @Override
     public void validate(Application objnew, Application objold, ValidatorCallback callback) {
 
-        if(objnew.getCenter() == null){
-            callback.addMessage(GinasProcessingMessage.WARNING_MESSAGE("Center is required"));
+        if ((objnew.center == null) || (objnew.center.isEmpty())) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Center is required"));
         }
-        /*
-        if(objnew.getAppType() == null){
-            callback.addMessage(GinasProcessingMessage.WARNING_MESSAGE("null Application Type"));
-        }else if(objnew.getNumber().trim().isEmpty()){
-            callback.addMessage(GinasProcessingMessage.WARNING_MESSAGE("blank Application Number"));
+
+        if (objnew.appType == null || objnew.appType.isEmpty()) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Application Type is required."));
         }
-         */
+
+        if (objnew.appNumber == null || objnew.appNumber.isEmpty()) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Application Number is required."));
+        }
     }
 }

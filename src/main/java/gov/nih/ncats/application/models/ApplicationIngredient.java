@@ -1,8 +1,10 @@
-package gov.nih.ncats.application.model;
+package gov.nih.ncats.application.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
+import ix.core.SingleParent;
 import ix.core.models.Indexable;
 import ix.core.models.IxModel;
 import ix.core.search.text.TextIndexerEntityListener;
@@ -18,32 +20,20 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.EntityListeners;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
-import javax.persistence.CascadeType;
+import javax.persistence.*;
 
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+@SingleParent
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_TYPE_SRS")
+@Table(name="SRSCID_APPLICATION_TYPE_SRS", schema = "srscid")
 public class ApplicationIngredient extends AbstractGsrsEntity {
 
     @Id
-    @SequenceGenerator(name="appingSeq", sequenceName="SRSCID_SQ_APPLICATION_TYPE_ID",allocationSize=1)
+    @SequenceGenerator(name="appingSeq", sequenceName="SRSCID.SRSCID_SQ_APPLICATION_TYPE_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appingSeq")
     @Column(name="APPLICATION_TYPE_ID")
     public Long id;
@@ -54,6 +44,13 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Indexable(facet = true, name = "Bdnum")
     @Column(name="BDNUM")
     public String bdnum;
+
+    @Indexable(facet = true, name = "Substance Code")
+    @Column(name="SUBSTANCE_CODE")
+    public String substanceCode;
+
+    @Column(name="SUBSTANCE_ID_TYPE")
+    public String substanceIdType;
 
     @Column(name="BASIS_OF_STRENGTH")
     public String basisOfStrengthBdnum;
@@ -92,46 +89,17 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Column(name="REVIEW_DATE")
     public Date reviewDate;
 
-    @Column(name="FARM_SUBSTANCE_ID")
-    public Integer farmSubstanceId;
-
-    @Column(name="FARM_SUBSTANCE")
-    public String farmSubstance;
-
     @Version
+    @Column(name = "INTERNAL_VERSION")
     public Long internalVersion;
 
     @Indexable(facet = true, name = "Ingredient Created By")
+    @Column(name = "CREATED_BY")
     public String createdBy;
 
     @Indexable(facet = true, name = "Ingredient Last Modified By")
+    @Column(name = "MODIFIED_BY")
     public String modifiedBy;
-
-    /*
-    @JsonIgnore
-    @Transient
-    public String ingredientName;
-
-    @JsonIgnore
-    @Transient
-    public String basisOfStrengthName;
-
-    @JsonIgnore
-    @Transient
-    public String ingBasisMessage;
-
-    @JsonIgnore
-    @Transient
-    public String ingNameMessage;
-
-    @JsonIgnore
-    @Transient
-    public String substanceId;
-
-    @JsonIgnore
-    @Transient
-    public String basisOfStrengthSubstanceId;
-    */
 
     @JsonSerialize(using = GsrsDateSerializer.class)
     @JsonDeserialize(using = GsrsDateDeserializer.class)
@@ -146,5 +114,29 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Indexable( name = "Ingredient Last Modified Date", sortable=true)
     @Column(name = "MODIFY_DATE")
     private Date lastModifiedDate;
+
+    @Transient
+    @JsonProperty("_name")
+    public String _name;
+
+    @Transient
+    @JsonProperty("_approvalID")
+    public String _approvalID;
+
+    @Transient
+    @JsonProperty("_substanceUuid")
+    public String _substanceUuid;
+
+    @Transient
+    @JsonProperty("_basisOfStrengthName")
+    public String _basisOfStrengthName;
+
+    @Transient
+    @JsonProperty("_basisOfStrengthApprovalID")
+    public String _basisOfStrengthApprovalID;
+
+    @Transient
+    @JsonProperty("_basisOfStrengthSubstanceUuid")
+    public String _basisOfStrengthSubstanceUuid;
 
 }

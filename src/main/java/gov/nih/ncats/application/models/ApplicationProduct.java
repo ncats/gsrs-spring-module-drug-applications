@@ -1,8 +1,9 @@
-package gov.nih.ncats.application.model;
+package gov.nih.ncats.application.models;
 
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
+import ix.core.SingleParent;
 import ix.core.models.Indexable;
 import ix.core.models.IxModel;
 import ix.core.search.text.TextIndexerEntityListener;
@@ -18,50 +19,49 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.EntityListeners;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
-import javax.persistence.CascadeType;
+import javax.persistence.*;
 
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+@SingleParent
 @Data
 @Entity
-@Table(name="SRSCID_PRODUCT_NAME_SRS")
-public class ApplicationProductName extends AbstractGsrsEntity {
+@Table(name="SRSCID_PRODUCT_SRS", schema = "srscid")
+public class ApplicationProduct extends ApplicationCommanData {
 
     @Id
-    @SequenceGenerator(name="prodNameSrsSeq", sequenceName="SRSCID_SQ_PRODUCT_NAME_SRS_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodNameSrsSeq")
-    @Column(name="ID")
+    @SequenceGenerator(name="prodsrsSeq", sequenceName="SRSCID.SRSCID_SQ_PRODUCT_ID",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodsrsSeq")
+    @Column(name = "PRODUCT_ID")
     public Long id;
 
-    @Indexable(facet=true, name = "Product Name")
-    @Column(name="PRODUCT_NAME")
-    public String productName;
+    @Indexable(facet = true, name = "Dosage Form")
+    @Column(name="DOSAGE_FORM")
+    public String dosageForm;
 
-    @Column(name="PRODUCT_NAME_TYPE")
-    public String productNameType;
+    @Column(name="ROUTE_OF_ADMINISTRATION")
+    public String routeAdmin;
 
-    @Column(name="PROVENANCE")
-    public String provenance;
+    @Column(name="UNIT_PRESENTATION")
+    public String unitPresentation;
 
-    @Column(name="DEPRECATED")
-    public String deprecated;
+    @Column(name="AMOUNT")
+    public Double amount;
 
+    @Column(name="UNIT")
+    public String unit;
+
+    @Column(name="REVIEWED_BY")
+    public String reviewedBy;
+
+    @Column(name="REVIEW_DATE")
+    public Date reviewDate;
+
+    /*
     @Version
+    @Column(name = "INTERNAL_VERSION")
     public Long internalVersion;
 
     @Column(name = "CREATED_BY")
@@ -83,13 +83,21 @@ public class ApplicationProductName extends AbstractGsrsEntity {
     @Indexable( name = "Last Modified Date", sortable=true)
     @Column(name = "MODIFY_DATE")
     private Date lastModifiedDate;
+    */
 
     /*
     @Indexable(indexed=false)
     @JsonIgnore
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="PRODUCT_ID")
-    public ApplicationProduct productFromName;
-     */
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName="APPLICATION_ID")
+    public Application application;
+    */
+    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    public List<ApplicationProductName> applicationProductNameList = new ArrayList<>();
+
+    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    public List<ApplicationIngredient> applicationIngredientList = new ArrayList<>();
 
 }
