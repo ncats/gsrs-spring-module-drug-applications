@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
 
 @ExposesResourceFor(Application.class)
-@GsrsRestApiController(context = ApplicationEntityService.CONTEXT,  idHelper = IdHelpers.NUMBER)
+@GsrsRestApiController(context = ApplicationEntityService.CONTEXT, idHelper = IdHelpers.NUMBER)
 public class ApplicationController extends EtagLegacySearchEntityController<ApplicationController, Application, Long> {
 
 
@@ -96,15 +97,15 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
         return stream;
     }
 
-    public ResponseEntity<Object> createExport(@PathVariable("etagId") String etagId, @PathVariable("format") String format, @RequestParam(value = "publicOnly",required = false) Boolean publicOnlyObj, @RequestParam(value = "filename",required = false) String fileName, Principal prof, @RequestParam Map<String, String> parameters) throws Exception {
+    public ResponseEntity<Object> createExport(@PathVariable("etagId") String etagId, @PathVariable("format") String format, @RequestParam(value = "publicOnly", required = false) Boolean publicOnlyObj, @RequestParam(value = "filename", required = false) String fileName, Principal prof, @RequestParam Map<String, String> parameters) throws Exception {
 
         Optional<ETag> etagObj = this.eTagRepository.findByEtag(etagId);
         boolean publicOnly = publicOnlyObj == null ? true : publicOnlyObj;
         if (!etagObj.isPresent()) {
             return new ResponseEntity("could not find etag with Id " + etagId, this.gsrsControllerConfiguration.getHttpStatusFor(HttpStatus.BAD_REQUEST, parameters));
         } else {
-            ExportMetaData emd = new ExportMetaData(etagId, ((ETag)etagObj.get()).uri, "admin", publicOnly, format);
-            Stream<Application> mstream = (Stream)(new EtagExportGenerator(this.entityManager)).generateExportFrom("application", (ETag)etagObj.get()).get();
+            ExportMetaData emd = new ExportMetaData(etagId, ((ETag) etagObj.get()).uri, "admin", publicOnly, format);
+            Stream<Application> mstream = (Stream) (new EtagExportGenerator(this.entityManager)).generateExportFrom("application", (ETag) etagObj.get()).get();
             Stream<Application> effectivelyFinalStream = this.filterStream(mstream, publicOnly, parameters);
 
             if (fileName != null) {
@@ -149,29 +150,42 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
                                 for (int i = 0; i < prod.applicationIngredientList.size(); i++) {
                                     ApplicationIngredient ingred = prod.applicationIngredientList.get(i);
                                     if (ingred != null) {
-                                        if (ingred.bdnum != null) {
+                                        if (ingred.substanceKey != null) {
 
                                             // ********* Get Substance Module/Details by Substance Code ***********
-                                            Optional<Substance> objSub = this.substanceModuleService.getSubstanceDetails("0017298AA");
+                                            // Using this for local Substance Module:  0017298AA
+                                            // Use this for NCAT FDA URL API:   0126085AB
+                                            ResponseEntity<String> response = this.substanceModuleService.getSubstanceDetailsFromSubstanceKey(ingred.substanceKey);
 
-                                            if (objSub.isPresent()) {
-                                                ingred._name = objSub.get().getName();
-                                                ingred._approvalID = objSub.get().getApprovalID();
-                                                ingred._substanceUuid = objSub.get().uuid.toString();
+                                            String jsonString = response.getBody();
+                                            if (jsonString != null) {
+                                                ObjectMapper mapper = new ObjectMapper();
+                                                JsonNode actualObj = mapper.readTree(jsonString);
+
+                                                ingred._substanceUuid = actualObj.path("uuid").textValue();
+                                                ingred._approvalID = actualObj.path("approvalID").textValue();
+                                                ingred._name = actualObj.path("_name").textValue();
                                             }
                                         }
 
-                                        if (ingred.basisOfStrengthBdnum != null) {
+                                        if (ingred.basisOfStrengthSubstanceKey != null) {
 
                                             // ********** Get Substance Module/Details by Basis of Strength by Substance Code **********
-                                            Optional<Substance> objSub = this.substanceModuleService.getSubstanceDetails("0017298AA");
+                                            // Optional<Substance> objSub = this.substanceModuleService.getSubstanceDetails("0017298AA");
 
-                                            if (objSub.isPresent()) {
-                                                ingred._basisOfStrengthName = objSub.get().getName();
-                                                ingred._basisOfStrengthApprovalID = objSub.get().getApprovalID();
-                                                ingred._basisOfStrengthSubstanceUuid = objSub.get().uuid.toString();
+                                            ResponseEntity<String> response = this.substanceModuleService.getSubstanceDetailsFromSubstanceKey(ingred.basisOfStrengthSubstanceKey);
+
+                                            String jsonString = response.getBody();
+                                            if (jsonString != null) {
+                                                ObjectMapper mapper = new ObjectMapper();
+                                                JsonNode actualObj = mapper.readTree(jsonString);
+
+                                                ingred._basisOfStrengthSubstanceUuid = actualObj.path("uuid").textValue();
+                                                ingred._basisOfStrengthApprovalID = actualObj.path("approvalID").textValue();
+                                                ingred._basisOfStrengthName = actualObj.path("_name").textValue();
                                             }
                                         }
+
                                     }
                                 }
                             }
@@ -179,7 +193,7 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
                     }
                 }
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return application;

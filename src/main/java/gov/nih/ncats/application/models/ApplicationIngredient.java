@@ -45,15 +45,22 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Column(name="BDNUM")
     public String bdnum;
 
-    @Indexable(facet = true, name = "Substance Code")
-    @Column(name="SUBSTANCE_CODE")
-    public String substanceCode;
-
-    @Column(name="SUBSTANCE_ID_TYPE")
-    public String substanceIdType;
-
     @Column(name="BASIS_OF_STRENGTH")
     public String basisOfStrengthBdnum;
+
+    @Indexable(facet = true, name = "Substance Key")
+    @Column(name="SUBSTANCE_KEY")
+    public String substanceKey;
+
+    @Column(name="SUBSTANCE_KEY_TYPE")
+    public String substanceKeyType;
+
+    @Indexable(name = "Basis Of Strength Substance Key")
+    @Column(name="BOS_SUBSTANCE_KEY")
+    public String basisOfStrengthSubstanceKey ;
+
+    @Column(name="BOS_SUBSTANCE_KEY_TYPE")
+    public String basisOfStrengthSubstanceKeyType;
 
     @Column(name="AVERAGE")
     public Double average;
@@ -116,27 +123,26 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     private Date lastModifiedDate;
 
     @Transient
-    @JsonProperty("_name")
-    public String _name;
+    @JsonProperty("_substanceUuid")
+    public String _substanceUuid;
 
     @Transient
     @JsonProperty("_approvalID")
     public String _approvalID;
 
     @Transient
-    @JsonProperty("_substanceUuid")
-    public String _substanceUuid;
+    @JsonProperty("_name")
+    public String _name;
 
     @Transient
-    @JsonProperty("_basisOfStrengthName")
-    public String _basisOfStrengthName;
+    @JsonProperty("_basisOfStrengthSubstanceUuid")
+    public String _basisOfStrengthSubstanceUuid;
 
     @Transient
     @JsonProperty("_basisOfStrengthApprovalID")
     public String _basisOfStrengthApprovalID;
 
     @Transient
-    @JsonProperty("_basisOfStrengthSubstanceUuid")
-    public String _basisOfStrengthSubstanceUuid;
-
+    @JsonProperty("_basisOfStrengthName")
+    public String _basisOfStrengthName;
 }

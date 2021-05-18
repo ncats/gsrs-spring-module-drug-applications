@@ -32,18 +32,11 @@ import javax.persistence.EntityManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-// import springfox.documentation.spring.web.json.Json;
 import ix.utils.Util;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-// @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Service
 public class ApplicationEntityService extends AbstractGsrsEntityService<Application, Long> {
     public static final String  CONTEXT = "application";
@@ -60,10 +53,6 @@ public class ApplicationEntityService extends AbstractGsrsEntityService<Applicat
 
     @Autowired
     private GroupRepository groupRepository;
-
-    @Autowired
-    protected SubstanceEntityService substanceEntityService;
-
 
     @Override
     public Class<Application> getEntityClass() {
@@ -137,10 +126,8 @@ public class ApplicationEntityService extends AbstractGsrsEntityService<Applicat
     @Override
     protected Application fromUpdatedJson(JsonNode json) throws IOException {
         //TODO should we make any edits to remove fields?
-     //   return JsonSubstanceFactory.makeSubstance(json);
         return objectMapper.convertValue(json, Application.class);
     }
-
 
     @Override
     protected List<Application> fromUpdatedJsonList(JsonNode list) throws IOException {
@@ -166,17 +153,12 @@ public class ApplicationEntityService extends AbstractGsrsEntityService<Applicat
 
     @Override
     public Optional<Application> get(Long id) {
-
-        if (substanceEntityService != null) {
-            System.out.println("********************** INSIDE ");
-        }
         return repository.findById(id);
     }
 
     @Override
     public Optional<Application> flexLookup(String someKindOfId) {
-        System.out.println("ID ID: " + someKindOfId);
-        if(someKindOfId==null){
+        if (someKindOfId == null){
             return Optional.empty();
         }
         return repository.findById(Long.parseLong(someKindOfId));

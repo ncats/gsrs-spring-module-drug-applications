@@ -60,20 +60,24 @@ public class ApplicationCommanData extends AbstractGsrsEntity {
     public ApplicationCommanData () {
     }
 
-    /*
     @PrePersist
     public void prePersist() {
-        Date currentDate = TimeUtil.getCurrentDate();
+      //  Date currentDate = TimeUtil.getCurrentDate();
+     /*
         Principal p1=UserFetcher.getActingUser();
         if (p1 != null) {
             this.createdBy = p1.username;
         }
 
         this.createDate = currentDate;
+      */
+        this.createdBy = "ADMIN";
     }
+
 
     @PreUpdate
     public void preUpdate() {
+        /*
         Date currentDate = TimeUtil.getCurrentDate();
         Principal p1=UserFetcher.getActingUser();
         if (p1 != null) {
@@ -81,9 +85,11 @@ public class ApplicationCommanData extends AbstractGsrsEntity {
         }
 
         this.modifyDate = currentDate;
+         */
+        this.modifiedBy = "ADMIN";
     }
-    */
 
+    /*
     public String getCreatedBy () {
         //Get from Database
         return this.createdBy;
