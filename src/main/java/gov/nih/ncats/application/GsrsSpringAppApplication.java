@@ -1,7 +1,6 @@
 package gov.nih.ncats.application;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gsrs.*;
-import gov.nih.ncats.application.repositories.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -25,21 +24,24 @@ import javax.sql.DataSource;
 // import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@EnableConfigurationProperties
 
+/* June 4, 2021 */
 @SpringBootApplication
-@EnableGsrsApi(indexerType = EnableGsrsApi.IndexerType.LEGACY,
-        entityProcessorDetector = EnableGsrsApi.EntityProcessorDetector.CONF)
+@EnableGsrsApi(indexValueMakerDetector = EnableGsrsApi.IndexValueMakerDetector.CONF)
 @EnableGsrsJpaEntities
-// @EnableGsrsLegacyAuthentication
-@EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
-@EnableJpaRepositories(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
-@EnableAutoConfiguration (exclude = {  DataSourceAutoConfiguration.class })
-@ComponentScan(basePackages = "gov.nih.ncats.application")
+@EnableGsrsLegacyAuthentication
 @EnableGsrsLegacyCache
 @EnableGsrsLegacyPayload
 @EnableGsrsLegacySequenceSearch
+@EnableGsrsLegacyStructureSearch
+@EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
+@EnableJpaRepositories(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
+//@EnableGsrsScheduler
+@EnableGsrsBackup
 
 public class GsrsSpringAppApplication {
 
@@ -47,54 +49,13 @@ public class GsrsSpringAppApplication {
         SpringApplication.run(GsrsSpringAppApplication.class, args);
     }
 
-    /*
     @Bean
-    @ConfigurationProperties("spring.datasource")
-    public HikariDataSource dataSource() {
-        return DataSourceBuilder.create().type(HikariDataSource.class).build();
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**");
+            }
+        };
     }
-    */
-    /*
-    @Bean
-    @ConfigurationProperties("spring.datasource")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
-    }
-     */
-
-    /*
-
-    @Bean
-    @ConfigurationProperties("spring.datasource")
-    public HikariDataSource dataSource() {
-        return DataSourceBuilder.create().type(HikariDataSource.class).build();
-    }
-
-     */
-
-    /*
-    @ConfigurationProperties(prefix = "spring.datasource")
-    @Bean
-    @Primary
-    public DataSource dataSource() {
-        return DataSourceBuilder
-                .create()
-                .build();
-    }
-    */
-
-
-    /*
-    @Bean
-    public DataSource dataSource(){
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
-        dataSource.setUrl("jdbc:oracle:thin:@//D15311532.fda.gov:1532/SRSIDDEV");
-        dataSource.setUsername("SRSCID");
-        dataSource.setPassword("App4gsrs!");
-        return dataSource;
-    }
-
-     */
-
 }
