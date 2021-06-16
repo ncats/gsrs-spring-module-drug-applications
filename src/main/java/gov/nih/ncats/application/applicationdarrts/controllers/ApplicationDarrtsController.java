@@ -20,6 +20,7 @@ import ix.ginas.exporters.ExportMetaData;
 import ix.ginas.exporters.ExportProcess;
 import ix.ginas.exporters.Exporter;
 import ix.ginas.exporters.ExporterFactory;
+import ix.ginas.models.v1.Code;
 import ix.ginas.models.v1.Substance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
@@ -43,6 +44,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import javax.persistence.PersistenceContext;
@@ -52,9 +54,8 @@ import javax.persistence.EntityManager;
 @GsrsRestApiController(context = ApplicationDarrtsEntityService.CONTEXT, idHelper = IdHelpers.STRING_NO_WHITESPACE)
 public class ApplicationDarrtsController extends EtagLegacySearchEntityController<ApplicationDarrtsController, ApplicationDarrts, String> {
 
-
-    @Autowired
-    private ETagRepository eTagRepository;
+ //   @Autowired
+ //   private ETagRepository eTagRepository;
     @Autowired
     private EntityManager entityManager;
     @Autowired
@@ -78,7 +79,6 @@ public class ApplicationDarrtsController extends EtagLegacySearchEntityControlle
     @Autowired
     private ObjectMapper objectMapper;
 
-
     @Override
     public GsrsEntityService<ApplicationDarrts, String> getEntityService() {
         return applicationDarrtsEntityService;
@@ -94,6 +94,7 @@ public class ApplicationDarrtsController extends EtagLegacySearchEntityControlle
         return stream;
     }
 
+    /*
     public ResponseEntity<Object> createExport(@PathVariable("etagId") String etagId, @PathVariable("format") String format, @RequestParam(value = "publicOnly", required = false) Boolean publicOnlyObj, @RequestParam(value = "filename", required = false) String fileName, Principal prof, @RequestParam Map<String, String> parameters) throws Exception {
 
         Optional<ETag> etagObj = this.eTagRepository.findByEtag(etagId);
@@ -132,7 +133,7 @@ public class ApplicationDarrtsController extends EtagLegacySearchEntityControlle
             return factory.createNewExporter(pos, params);
         }
     }
-
+    */
     public Optional<ApplicationDarrts> injectSubstanceDetails(Optional<ApplicationDarrts> application) {
 
         try {
