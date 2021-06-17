@@ -40,7 +40,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableGsrsLegacyStructureSearch
 @EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
 @EnableJpaRepositories(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
-//@EnableGsrsScheduler
+@EnableGsrsScheduler
 @EnableGsrsBackup
 
 public class GsrsSpringAppApplication {

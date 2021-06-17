@@ -45,25 +45,21 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Column(name="APPLICATION_ID")
     public String id;
 
-    @Indexable(facet=true, name = "Application Type")
     @Column(name="APP_TYPE")
     public String appType;
 
     @Column(name="APP_NUMBER")
     public String appNumber;
 
-    @Indexable(facet=true, name = "Sponsor Name")
     @Column(name="SPONSOR_NAME")
     public String sponsorName;
 
-    @Indexable(facet=true, name= "Application Status")
     @Column(name="STATUS")
     public String appStatus;
 
     @Column(name="DIVISION_CLASS_DESC")
     public String divisionClassDesc;
 
-    @Indexable(facet=true, name = "Application Sub Type")
     @Column(name="APP_SUB_TYPE")
     public String appSubType;
 
@@ -78,6 +74,7 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Column(name="IN_DARRTS_DETAIL")
     public String inDarrtsDetail;
 
+    @Indexable(facet=true, name = "Provenance")
     @Column(name="PROVENANCE")
     public String provenance;
 
@@ -85,75 +82,23 @@ public class ApplicationAll extends AbstractGsrsEntity {
         return id;
     }
 
-    /*
-    @Transient
-    public String substanceId;
-
-    @Transient
-    public String name;
-
-    @Transient
-    public String bdnum;
-
-    @Transient
-    public String unii;
-
-    @Transient
-    public String productName;
-
-    @Transient
-    public String appCount;
-
-    //@Transient
-    //public String appSrsCount;
-
-    @Transient
-    public String ingredientType;
-    */
-
-
-    /*
-    @Column(name="NAME")
-    public String name;
-
-    @Column(name="UNII")
-    public String unii;
-
-    @Column(name="SUBSTANCE_ID")
-    public String substanceId;
-
-    @Column(name="APPCOUNT")
-    public String appCount;
-
-    @Column(name="APPSRSCOUNT")
-    public String appSrsCount;
-    */
-    
-    @Transient
-    public double similarityValue;
-
     @JoinColumn(name = "APPLICATION_ID", referencedColumnName = "APPLICATION_ID")
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     public List<ProductSrsAll> applicationProductList = new ArrayList<>();
 
     @Indexable(indexed=false)
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="APPLICATION_ID", referencedColumnName="APPLICATION_ID")
     public List<AppIndicationAll> indicationList = new ArrayList<>();
 
-   // @Indexable(indexed=false)
-   // @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-  //  @JoinColumn(name="APPLICATION_ID", referencedColumnName="APPLICATION_ID", columnDefinition="varchar2(100)")
-  //  public List<ClinicalTrialApplication> clinicalTrialApplicationList = new ArrayList<>();
-
-    /*
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="APPLICATION_ID")
-    public List<ClinicalTrialApplication> clinicalTrialApplicationList = new ArrayList<>();
-    */
-
     public ApplicationAll () {}
-    
+
+    @JsonIgnore
+    @Indexable(facet=true, name="Deprecated")
+    public String getDeprecated(){
+        return "Not Deprecated";
+    }
+
     /*
     @JsonIgnore
     @Indexable(facet=true, name= "Ingredient Type")

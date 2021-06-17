@@ -54,7 +54,6 @@ public class AppIngredientAll extends AbstractGsrsEntity {
     @Column(name="SUBSTANCE_KEY")
     public String substanceKey;
 
-    @Indexable(facet=true, name= "Ingredient Type")
     @Column(name="INGREDIENT_TYPE")
     public String ingredientType;
 

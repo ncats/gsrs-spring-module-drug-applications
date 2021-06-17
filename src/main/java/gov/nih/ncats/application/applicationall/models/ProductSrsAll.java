@@ -47,28 +47,11 @@ public class ProductSrsAll extends AbstractGsrsEntity {
     @Column(name="APPLICATION_ID")
     public String applicationId;
 
-    /*
-    @Column(name="APP_TYPE")
-    public String appType;
-
-    @Column(name="APP_NUMBER")
-    public String appNumber;
-
-    @Column(name="PRODUCT_NAME")
-    public String productName;
-    */
-
     @Column(name="DOSAGE_FORM")
     public String dosageForm;
 
-
-    //  @JsonIgnore
-  //  @ManyToOne
- //   @JoinColumn(name="APPLICATION_ID")
-  //  public ApplicationAll applicationAll;
-
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     public List<AppIngredientAll> applicationIngredientList = new ArrayList<>();
 
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")

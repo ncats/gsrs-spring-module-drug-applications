@@ -96,7 +96,6 @@ public class ApplicationAllController extends EtagLegacySearchEntityController<A
 
     @GetGsrsRestApiMapping("/distcenter/{substanceKey}")
     public ResponseEntity<String> findCenterBySubstanceKey(@PathVariable("substanceKey") String substanceKey) throws Exception {
-        System.out.println("*********** INSIDE CENTER ");
         List<String> provenanceList = applicationEntityService.findCenterBySubstanceKey(substanceKey);
         if (substanceKey == null) {
             throw new IllegalArgumentException("There is no Substance Key provided");
