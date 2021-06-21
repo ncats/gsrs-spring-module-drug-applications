@@ -106,7 +106,7 @@ public class ApplicationAllController extends EtagLegacySearchEntityController<A
     public Optional<ApplicationAll> injectSubstanceDetails(Optional<ApplicationAll> application) {
 
         try {
-            /*
+         /*
             if (application.isPresent()) {
 
                 if (application.get().applicationProductList.size() > 0) {
@@ -136,23 +136,26 @@ public class ApplicationAllController extends EtagLegacySearchEntityController<A
                                             }
                                         }
 
-                                        if (ingred.basisOfStrengthSubstanceKey != null) {
+
+                                      //  if (ingred.basisOfStrengthSubstanceKey != null) {
 
                                             // ********** Get Substance Module/Details by Basis of Strength by Substance Code **********
                                             // Optional<Substance> objSub = this.substanceModuleService.getSubstanceDetails("0017298AA");
 
-                                            ResponseEntity<String> response = this.substanceModuleService.getSubstanceDetailsFromSubstanceKey(ingred.basisOfStrengthSubstanceKey);
+                                        //    ResponseEntity<String> response = this.substanceModuleService.getSubstanceDetailsFromSubstanceKey(ingred.basisOfStrengthSubstanceKey);
 
                                             String jsonString = response.getBody();
                                             if (jsonString != null) {
                                                 ObjectMapper mapper = new ObjectMapper();
                                                 JsonNode actualObj = mapper.readTree(jsonString);
 
-                                                ingred._basisOfStrengthSubstanceUuid = actualObj.path("uuid").textValue();
-                                                ingred._basisOfStrengthApprovalID = actualObj.path("approvalID").textValue();
-                                                ingred._basisOfStrengthName = actualObj.path("_name").textValue();
+                                          //      ingred._basisOfStrengthSubstanceUuid = actualObj.path("uuid").textValue();
+                                           //     ingred._basisOfStrengthApprovalID = actualObj.path("approvalID").textValue();
+                                          //      ingred._basisOfStrengthName = actualObj.path("_name").textValue();
                                             }
                                         }
+
+
 
                                     }
                                 }
@@ -161,7 +164,7 @@ public class ApplicationAllController extends EtagLegacySearchEntityController<A
                     }
                 }
             }
-             */
+            */
         } catch (Exception ex) {
             ex.printStackTrace();
         }

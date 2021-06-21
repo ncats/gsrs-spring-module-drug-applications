@@ -1,6 +1,10 @@
 package gov.nih.ncats.application.application.exporters;
 
+import gov.nih.ncats.application.application.controllers.ApplicationController;
+import gov.nih.ncats.application.application.services.SubstanceModuleService;
+import gsrs.springUtils.AutowireHelper;
 import ix.ginas.exporters.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -9,6 +13,12 @@ import java.io.OutputStreamWriter;;
 import java.util.*;
 
 public class ApplicationExporterFactory implements ExporterFactory {
+
+	@Autowired
+	public ApplicationController applicationController;
+
+	@Autowired
+	public SubstanceModuleService substanceModuleService;
 
 	private static final Set<OutputFormat> FORMATS;
 
@@ -34,13 +44,22 @@ public class ApplicationExporterFactory implements ExporterFactory {
 	@Override
 	public ApplicationExporter createNewExporter(OutputStream out, Parameters params) throws IOException {
 
+		if(applicationController==null) {
+			System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+			AutowireHelper.getInstance().autowire(this);
+		}
+
+		if(applicationController != null) {
+			System.out.println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+		}
+
 		SpreadsheetFormat format = SpreadsheetFormat.XLSX;
 		Spreadsheet spreadsheet = format.createSpeadsheet(out);
 
 		ApplicationExporter.Builder builder = new ApplicationExporter.Builder(spreadsheet);
 		configure(builder, params);
 		
-		return builder.build();
+		return builder.build(applicationController);
 	}
 
 	protected void configure(ApplicationExporter.Builder builder, Parameters params) {

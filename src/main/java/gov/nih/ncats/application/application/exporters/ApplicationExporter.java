@@ -1,7 +1,16 @@
 package gov.nih.ncats.application.application.exporters;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import gov.nih.ncats.application.application.controllers.ApplicationController;
 import gov.nih.ncats.application.application.models.*;
+import gov.nih.ncats.application.application.services.SubstanceModuleService;
+
+import gsrs.module.substance.repository.SubstanceRepository;
 import ix.ginas.exporters.*;
+import gsrs.springUtils.AutowireHelper;
+import ix.ginas.models.v1.Substance;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,8 +27,8 @@ enum AppDefaultColumns implements Column {
     INDICATION,
     PRODUCT_NAME,
     PROVENANCE,
-    BDNUM,
-    UNII,
+    SUBSTANCE_KEY,
+    APPROVAL_ID,
     SUBSTANCE_NAME,
     ACTIVE_MOIETY,
     INGREDIENT_TYPE
@@ -33,7 +42,14 @@ public class ApplicationExporter implements Exporter<Application> {
 
     private final List<ColumnValueRecipe<Application>> recipeMap;
 
-    private ApplicationExporter(Builder builder){
+    private static ApplicationController applicationController;
+
+    private static StringBuilder substanceApprovalId;
+
+    private ApplicationExporter(Builder builder, ApplicationController applicationController){
+
+        this.applicationController = applicationController;
+        substanceApprovalId = new StringBuilder();
 
         this.spreadsheet = builder.spreadsheet;
         this.recipeMap = builder.columns;
@@ -66,6 +82,7 @@ public class ApplicationExporter implements Exporter<Application> {
 
         DEFAULT_RECIPE_MAP = new LinkedHashMap<>();
 
+        /*
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.SUBSTANCE_NAME, SingleColumnValueRecipe.create( AppDefaultColumns.SUBSTANCE_NAME ,(s, cell) ->{
         	StringBuilder sb = getIngredientDetails(s, AppDefaultColumns.SUBSTANCE_NAME);
             cell.writeString(sb.toString());
@@ -75,9 +92,20 @@ public class ApplicationExporter implements Exporter<Application> {
             StringBuilder sb = getIngredientDetails(s, AppDefaultColumns.UNII);
             cell.writeString(sb.toString());
         }));
+        */
 
-        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.BDNUM, SingleColumnValueRecipe.create( AppDefaultColumns.BDNUM ,(s, cell) ->{
-            StringBuilder sb = getIngredientDetails(s, AppDefaultColumns.BDNUM);
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.SUBSTANCE_NAME, SingleColumnValueRecipe.create(AppDefaultColumns.SUBSTANCE_NAME ,(s, cell) ->{
+            StringBuilder sb = getIngredientName(s);
+      //      StringBuilder sb1 = getIngredientName((Application) s);
+            cell.writeString(sb.toString());
+        }));
+
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.APPROVAL_ID, SingleColumnValueRecipe.create(AppDefaultColumns.APPROVAL_ID ,(s, cell) ->{
+         cell.writeString(substanceApprovalId.toString());
+       }));
+
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.SUBSTANCE_KEY, SingleColumnValueRecipe.create( AppDefaultColumns.SUBSTANCE_KEY ,(s, cell) ->{
+            StringBuilder sb = getIngredientDetails(s, AppDefaultColumns.SUBSTANCE_KEY);
             cell.writeString(sb.toString());
         }));
 
@@ -129,11 +157,13 @@ public class ApplicationExporter implements Exporter<Application> {
         return sb;
     }
 
-    private static StringBuilder getIngredientDetails(Application s, AppDefaultColumns fieldName) {
+    private static StringBuilder getIngredientName(Application s) {
         StringBuilder sb = new StringBuilder();
+        substanceApprovalId.setLength(0);
+        String substanceName = null;
+        String approvalId = null;
 
         try {
-
             if (s.applicationProductList.size() > 0) {
                 List<ApplicationProduct> prodList = s.applicationProductList;
 
@@ -144,24 +174,107 @@ public class ApplicationExporter implements Exporter<Application> {
                             sb.append("|");
                         }
 
+                        if (substanceApprovalId.length() != 0) {
+                            substanceApprovalId.append("|");
+                        }
+
+                        // Get Substance Details
+                        if (ingred.substanceKey != null) {
+                            if (applicationController != null) {
+                                JsonNode obj = applicationController.injectSubstanceBySubstanceKey(ingred.substanceKey);
+
+                                substanceName = obj.path("_name").textValue();
+                                approvalId = obj.path("approvalID").textValue();
+
+                                // Storing in static variable so do not have to call the same Substance API twice just to get
+                                // approval Id.
+
+                                sb.append((ingred.substanceKey != null) ? substanceName : "(No Ingredient Name)");
+
+
+                                substanceApprovalId.append((ingred.substanceKey != null) ? approvalId : "(No Approval ID)");
+
+                                //String sa = applicationController.injectSubstanceDetailsBySubstanceKey(ingred.substanceKey);
+
+                                //   DEFAULT_RECIPE_MAP.put(AppDefaultColumns.SUBSTANCE_NAME, SingleColumnValueRecipe.create(AppDefaultColumns.SUBSTANCE_NAME ,(s1, cell) ->{
+                             //       cell.writeString(sb.toString());
+                             //   }));
+                            }
+                        } else {
+                            sb.append("(No Ingredient Name)");
+                            substanceApprovalId.append("No Approval ID");
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return sb;
+    }
+
+    private static StringBuilder getIngredientDetails(Application s, AppDefaultColumns fieldName) {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            if (s.applicationProductList.size() > 0) {
+                List<ApplicationProduct> prodList = s.applicationProductList;
+
+                for (ApplicationProduct prod : prodList) {
+
+                    for (ApplicationIngredient ingred : prod.applicationIngredientList) {
+                        if (sb.length() != 0) {
+                            sb.append("|");
+                        }
+
+                        // Get Substance Details
+                   //     if (ingred.substanceKey != null) {
+                   //         if (applicationController != null) {
+                    //            System.out.println(("**************************************************"));
+                            //    Object obj = applicationController.injectSubstanceDetailsBySubstanceKey(ingred.substanceKey);
+
+                            //String sa = applicationController.injectSubstanceDetailsBySubstanceKey(ingred.substanceKey);
+                           // if (sa != null) {
+                                    //     System.out.println("************************GGGGGGGGGGGGGGGGGGG" + sa);
+                                    // }
+                    //            }
+                    //    }
+
                         try {
                             switch (fieldName) {
+                             /*
                                 case SUBSTANCE_NAME:
                                     if (ingred.substanceKey != null) {
-                                   //     sb.append((ingred._name != null) ? ingred._name : "(No Ingredient Name)");
+                                        if (ingred.substanceKey != null) {
+
+                                            System.out.println("GGGGGG " + ingred.substanceKey);
+
+                                            if (applicationController != null) {
+                                                System.out.println(("**************************************************" + ingred.substanceKey));
+                                                sb.append((ingred.substanceKey != null) ? "WORKING" + ingred.substanceKey : "(No Ingredient Name)");
+                                                //String sa = applicationController.injectSubstanceDetailsBySubstanceKey(ingred.substanceKey);
+                                                // if (sa != null) {
+                                                //     System.out.println("************************GGGGGGGGGGGGGGGGGGG" + sa);
+                                                // }
+                                            }
+                                        }
+
+                                        //     sb.append((ingred._name != null) ? ingred._name : "(No Ingredient Name)");
                                     } else {
                                         sb.append("(No Ingredient Name)");
                                     }
                                     break;
-                                case UNII:
+                                case APPROVAL_ID:
                                     if (ingred.substanceKey != null) {
-                                   //     sb.append((ingred._approvalID != null) ? ingred._approvalID : "(No Unii)");
+                                     //   sb.append((ingred._approvalID != null) ? ingred._approvalID : "(No Approval ID)");
                                     } else {
                                         sb.append("(No Unii)");
                                     }
                                     break;
-                                case BDNUM:
-                                    sb.append((ingred.substanceKey != null) ? ingred.substanceKey : "(No Bdnum)");
+
+                              */
+                                case SUBSTANCE_KEY:S:
+                                    sb.append((ingred.substanceKey != null) ? ingred.substanceKey : "(No Substance Key)");
                                     break;
                                 case INGREDIENT_TYPE:
                                     sb.append((ingred.ingredientType != null) ? ingred.ingredientType : "(No Ingredient Type)");
@@ -255,8 +368,8 @@ public class ApplicationExporter implements Exporter<Application> {
             return this;
         }
 
-        public ApplicationExporter build(){
-            return new ApplicationExporter(this);
+        public ApplicationExporter build(ApplicationController applicationController){
+            return new ApplicationExporter(this, applicationController);
         }
 
         public Builder includePublicDataOnly(boolean publicOnly){

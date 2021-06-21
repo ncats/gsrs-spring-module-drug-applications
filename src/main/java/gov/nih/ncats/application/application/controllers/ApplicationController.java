@@ -146,10 +146,26 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
         return new ResponseEntity(provenanceList, HttpStatus.OK);
     }
 
-    public Optional<Application> injectSubstanceDetails(Optional<Application> application) {
+    public JsonNode injectSubstanceBySubstanceKey(String substanceKey) {
 
+        JsonNode actualObj = null;
         try {
-            if (application.isPresent()) {
+
+            if (substanceKey != null) {
+
+                ResponseEntity<String> response = this.substanceModuleService.getSubstanceDetailsFromSubstanceKey(substanceKey);
+
+                System.out.println("GGGGGGGGGGGGGGGGGGGGGG");
+                String jsonString = response.getBody();
+                if (jsonString != null) {
+                    System.out.println("INSIDE INSIDE INSIDE INSIDE");
+                    ObjectMapper mapper = new ObjectMapper();
+                    actualObj = mapper.readTree(jsonString);
+
+                 //   name = actualObj.path("_name").textValue();
+                   // ingred._approvalID = actualObj.path("approvalID").textValue();
+                   // ingred._name = actualObj.path("_name").textValue();
+                }
 
                 /*
                 if (application.get().applicationProductList.size() > 0) {
@@ -206,6 +222,77 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
 
                  */
             }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return actualObj;
+    }
+
+
+    public Optional<Application> injectSubstanceDetails(Optional<Application> application) {
+
+        try {
+            if (application.isPresent()) {
+
+                // Optional<Substance> objSub = this.substanceModuleService.getSubstanceDetails("0017298AA");
+
+                /*
+                if (application.get().applicationProductList.size() > 0) {
+                    for (int j = 0; j < application.get().applicationProductList.size(); j++) {
+                        ApplicationProduct prod = application.get().applicationProductList.get(j);
+                        if (prod != null) {
+
+                            if (prod.applicationIngredientList.size() > 0) {
+                                for (int i = 0; i < prod.applicationIngredientList.size(); i++) {
+                                    ApplicationIngredient ingred = prod.applicationIngredientList.get(i);
+                                    if (ingred != null) {
+                                        if (ingred.substanceKey != null) {
+
+                                            // ********* Get Substance Module/Details by Substance Code ***********
+                                            // Using this for local Substance Module:  0017298AA
+                                            // Use this for NCAT FDA URL API:   0126085AB
+                                            ResponseEntity<String> response = this.substanceModuleService.getSubstanceDetailsFromSubstanceKey(ingred.substanceKey);
+
+                                            String jsonString = response.getBody();
+                                            if (jsonString != null) {
+                                                ObjectMapper mapper = new ObjectMapper();
+                                                JsonNode actualObj = mapper.readTree(jsonString);
+
+                                                ingred._substanceUuid = actualObj.path("uuid").textValue();
+                                                ingred._approvalID = actualObj.path("approvalID").textValue();
+                                                ingred._name = actualObj.path("_name").textValue();
+                                            }
+                                        }
+
+                                        if (ingred.basisOfStrengthSubstanceKey != null) {
+
+                                            // ********** Get Substance Module/Details by Basis of Strength by Substance Code **********
+                                            // Optional<Substance> objSub = this.substanceModuleService.getSubstanceDetails("0017298AA");
+
+                                            ResponseEntity<String> response = this.substanceModuleService.getSubstanceDetailsFromSubstanceKey(ingred.basisOfStrengthSubstanceKey);
+
+                                            String jsonString = response.getBody();
+                                            if (jsonString != null) {
+                                                ObjectMapper mapper = new ObjectMapper();
+                                                JsonNode actualObj = mapper.readTree(jsonString);
+
+                                                ingred._basisOfStrengthSubstanceUuid = actualObj.path("uuid").textValue();
+                                                ingred._basisOfStrengthApprovalID = actualObj.path("approvalID").textValue();
+                                                ingred._basisOfStrengthName = actualObj.path("_name").textValue();
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                 */
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
