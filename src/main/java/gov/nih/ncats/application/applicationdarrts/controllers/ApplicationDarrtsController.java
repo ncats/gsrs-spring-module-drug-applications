@@ -96,7 +96,6 @@ public class ApplicationDarrtsController extends EtagLegacySearchEntityControlle
 
     @GetGsrsRestApiMapping("/substanceparentconcept/{substanceKey}")
     public ResponseEntity<String> getSubstanceKeyParentConcept(@PathVariable("substanceKey") String substanceKey) throws Exception {
-        System.out.println("******************* " + substanceKey + "     " + substanceKey);
         Optional<SubstanceKeyParentConcept> concept = applicationDarrtsEntityService.getSubstanceKeyParentConcept(substanceKey);
         if (concept == null) {
             throw new IllegalArgumentException("There is no SubstanceKey provided");

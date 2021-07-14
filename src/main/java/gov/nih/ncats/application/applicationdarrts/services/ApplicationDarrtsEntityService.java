@@ -157,7 +157,6 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
 
     @Override
     public Optional<ApplicationDarrts> get(String id) {
-        System.out.println("****************************** " + id);
         return getIdByApptypeAndAppnumber(id);
     }
 
