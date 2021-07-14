@@ -1,6 +1,7 @@
 package gov.nih.ncats.application.applicationdarrts.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import gov.nih.ncats.application.application.models.ApplicationProduct;
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
@@ -37,14 +38,16 @@ import java.util.Optional;
 
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_MV")
+@IdClass(ApplicationDarrtsCompositePrimaryKeyId.class)
+@Table(name="SRSCID_APPLICATION_MV", schema = "srscid")
 public class ApplicationDarrts extends AbstractGsrsEntity {
 
     @Id
-    @Column(name="APP_TYPE")
+   // @Column(name="APP_TYPE")
     public String appType;
 
-    @Column(name="APP_NUMBER")
+    @Id
+   // @Column(name="APP_NUMBER")
     public String appNumber;
 
     @Column(name="APP_SUB_TYPE")
@@ -74,9 +77,25 @@ public class ApplicationDarrts extends AbstractGsrsEntity {
     @Column(name="APP_STATUS_DATE")
     public String statusDate;
 
+    @Column(name="ROUTE_OF_ADMIN")
+    public String routeOfAdmin;
 
-  //  public List<String> indicationList = new ArrayList<>();
-  //  public List<ApplicationDarrtsIngredient> ingredientList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumns({
+            @JoinColumn(name="APP_TYPE", referencedColumnName = "APP_TYPE", insertable = false, updatable = false ),
+            @JoinColumn(name="APP_NUMBER", referencedColumnName = "APP_NUMBER", insertable = false, updatable = false)
+    })
+    public List<ApplicationDarrtsIngredient> ingredientList = new ArrayList<ApplicationDarrtsIngredient>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumns({
+            @JoinColumn(name="APP_TYPE", referencedColumnName = "APP_TYPE", insertable = false, updatable = false ),
+            @JoinColumn(name="APP_NUMBER", referencedColumnName = "APP_NUMBER", insertable = false, updatable = false)
+    })
+    public List<ApplicationIndicationDarrts> indicationList = new ArrayList<ApplicationIndicationDarrts>();
+
+    //  public List<String> indicationList = new ArrayList<>();
+    //  public List<ApplicationDarrtsIngredient> ingredientList = new ArrayList<>();
 
     public ApplicationDarrts () {}
 

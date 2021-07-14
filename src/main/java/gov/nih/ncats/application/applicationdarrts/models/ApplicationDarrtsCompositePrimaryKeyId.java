@@ -1,22 +1,22 @@
-package gov.nih.ncats.product.productelist.models;
+package gov.nih.ncats.application.applicationdarrts.models;
 
 import javax.persistence.Column;
 import java.io.Serializable;
 
-public class ProductRouteCompositePrimaryKeyId implements Serializable {
+public class ApplicationDarrtsCompositePrimaryKeyId implements Serializable {
 
-    @Column(name="PRODUCTID")
-    private String productId;
+    @Column(name="APP_TYPE")
+    private String appType;
 
-    @Column(name="ROUTE_CODE")
-    public String routeCode;
+    @Column(name="APP_NUMBER")
+    public String appNumber;
 
-    public ProductRouteCompositePrimaryKeyId() {};
+    public ApplicationDarrtsCompositePrimaryKeyId() {};
 
     // default constructor
-    public ProductRouteCompositePrimaryKeyId(String productId, String routeCode) {
-        this.productId = productId;
-        this.routeCode = routeCode;
+    public ApplicationDarrtsCompositePrimaryKeyId(String appType, String appNumber) {
+        this.appType = appType;
+        this.appNumber = appNumber;
     }
 
     // equals() and hashCode()
@@ -25,16 +25,16 @@ public class ProductRouteCompositePrimaryKeyId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProductRouteCompositePrimaryKeyId that = (ProductRouteCompositePrimaryKeyId) o;
+        ApplicationDarrtsCompositePrimaryKeyId that = (ApplicationDarrtsCompositePrimaryKeyId) o;
 
-        if (!productId.equals(that.productId)) return false;
-        return (routeCode.equals(that.routeCode));
+        if (!appType.equals(that.appType)) return false;
+        return (appNumber.equals(that.appNumber));
     }
 
     @Override
     public int hashCode() {
-        int result =  productId.hashCode();
-        result = 31 * result + (routeCode != null ? routeCode.hashCode() : 0);
+        int result =  appType.hashCode();
+        result = 31 * result + (appNumber != null ? appNumber.hashCode() : 0);
         return (int) result;
     }
 

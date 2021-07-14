@@ -37,10 +37,13 @@ import java.util.Optional;
 
 @Data
 @Entity
-@Table(name="SRSCID_APP_INDICATION_MV")
+@Table(name="SRSCID_APP_INDICATION_MV", schema = "srscid")
 public class ApplicationIndicationDarrts extends AbstractGsrsEntity {
 
     @Id
+    @Column(name="INDICATION_PK")
+    public Integer indicationPk;
+
     @Column(name="APP_TYPE")
     public String appType;
 
@@ -49,9 +52,6 @@ public class ApplicationIndicationDarrts extends AbstractGsrsEntity {
 
     @Column(name="INDICATION")
     public String indication;
-
-    @Column(name="INDICATION_PK")
-    public Integer indicationPk;
 
     public ApplicationIndicationDarrts () {}
 }

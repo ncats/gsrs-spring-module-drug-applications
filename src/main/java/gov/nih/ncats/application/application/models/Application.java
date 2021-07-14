@@ -1,9 +1,12 @@
 package gov.nih.ncats.application.application.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import gsrs.BackupEntityProcessorListener;
+import gsrs.GsrsEntityProcessorListener;
+import gsrs.indexer.IndexerEntityListener;
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
+import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import ix.core.models.IxModel;
 import ix.core.search.text.TextIndexerEntityListener;
@@ -21,6 +24,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -35,10 +39,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 
+@EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
+@Backup
 @Data
 @Entity
-// @SequenceGenerator(name = "appSeq", sequenceName = "SRSCID.SRSCID_SQ_APPLICATION_ID", allocationSize = 1)
-// @AttributeOverride(name = "id", column = @Column(name = "APPLICATION_ID"))
 @Table(name="SRSCID_APPLICATION_SRS", schema = "srscid")
 public class Application extends ApplicationCommanData {
 
@@ -150,7 +154,7 @@ public class Application extends ApplicationCommanData {
     public List<ApplicationProduct> applicationProductList = new ArrayList<>();
 
     @JoinColumn(name = "APPLICATION_ID_FK", referencedColumnName = "APPLICATION_ID")
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     public List<ApplicationIndication> applicationIndicationList = new ArrayList<>();
 
     public String getCenter() {

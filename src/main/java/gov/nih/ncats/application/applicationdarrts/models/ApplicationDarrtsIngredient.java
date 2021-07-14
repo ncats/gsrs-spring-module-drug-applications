@@ -1,6 +1,7 @@
 package gov.nih.ncats.application.applicationdarrts.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import gov.nih.ncats.application.application.models.ApplicationProduct;
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
@@ -37,18 +38,24 @@ import java.util.Optional;
 
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_TYPE_MV")
+@IdClass(ApplicationDarrtsIngredCompositePrimaryKeyId.class)
+@Table(name="SRSCID_APPLICATION_TYPE_MV", schema = "srscid")
 public class ApplicationDarrtsIngredient extends AbstractGsrsEntity {
 
     @Id
-    @Column(name="APP_TYPE")
     public String appType;
 
-    @Column(name="APP_NUMBER")
+    @Id
     public String appNumber;
 
-    @Column(name="BDNUM")
-    public String bdnum;
+    @Id
+    public String substanceKey;
+
+    @Id
+    public String productNo;
+
+    @Column(name="SUBSTANCE_KEY_TYPE")
+    public String substanceKeyType;
 
     @Column(name="ACTIVITY")
     public String activity;
@@ -56,12 +63,10 @@ public class ApplicationDarrtsIngredient extends AbstractGsrsEntity {
     @Column(name="POTENCY")
     public String potency;
 
-    @Column(name="PRODUCT_NO")
-    public String productNo;
-
     @Column(name="PART_NO")
     public String partNo;
 
+    /*
     @Transient
     public String substanceId;
 
@@ -76,6 +81,14 @@ public class ApplicationDarrtsIngredient extends AbstractGsrsEntity {
 
     @Transient
     public String parentDisplayTerm;
+    */
+
+    /*
+    @JoinColumn(name = "SUBSTANCE_KEY", referencedColumnName = "SUBSTANCE_KEY")
+   // @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    public List<SubstanceKeyParentConcept> substanceKeyParentConceptList = new ArrayList<>();
+    */
 
     public ApplicationDarrtsIngredient () {}
 }

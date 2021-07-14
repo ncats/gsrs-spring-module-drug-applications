@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Repository;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.*;
@@ -28,6 +29,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.util.Arrays;
+
 
 /* June 4, 2021 */
 @SpringBootApplication
@@ -42,6 +45,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableJpaRepositories(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
 @EnableGsrsScheduler
 @EnableGsrsBackup
+@EnableAsync
 
 public class GsrsSpringAppApplication {
 
@@ -54,7 +58,11 @@ public class GsrsSpringAppApplication {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**");
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200")
+                        .allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS")
+                        .allowedHeaders("origin", "Content-Type", "Authorization", "Accept", "Accept-Language", "X-Authorization", "X-Requested-With", "auth-username", "auth-password", "auth-token", "auth-key", "auth-token")
+                        .allowCredentials(false).maxAge(300);
             }
         };
     }

@@ -15,8 +15,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public interface ApplicationDarrtsRepository extends GsrsVersionedRepository<ApplicationDarrts, String> {
+public interface ApplicationDarrtsRepository extends GsrsVersionedRepository<ApplicationDarrts, ApplicationDarrtsCompositePrimaryKeyId> {
 
-    Optional<ApplicationDarrts> findById(String id);
+   // Optional<ApplicationDarrts> findById(String appType, String appNumber);
+
+    @Query("SELECT a FROM ApplicationDarrts a WHERE a.appType = ?1 and a.appNumber = ?2")
+    List<ApplicationDarrts> getApplicationByApptypeAndAppnumber(String appType, String appNumber);
+
+    @Query("SELECT a FROM SubstanceKeyParentConcept a WHERE a.substanceKey = ?1")
+    List<SubstanceKeyParentConcept> getSubstanceKeyParentConcept(String substanceKey);
 
 }

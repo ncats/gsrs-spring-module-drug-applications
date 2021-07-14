@@ -28,21 +28,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.EntityManager;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ix.utils.Util;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<ApplicationDarrts, String> {
-    public static final String  CONTEXT = "applicationdarrts";
+    public static final String CONTEXT = "applicationdarrts";
 
     public ApplicationDarrtsEntityService() {
-        super(CONTEXT,  IdHelpers.STRING_NO_WHITESPACE, null, null, null);
+        super(CONTEXT, IdHelpers.STRING_NO_WHITESPACE, null, null, null);
     }
 
     @Autowired
@@ -78,7 +82,7 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
     protected ApplicationDarrts create(ApplicationDarrts application) {
         try {
             return repository.saveAndFlush(application);
-        }catch(Throwable t){
+        } catch (Throwable t) {
             t.printStackTrace();
             throw t;
         }
@@ -92,7 +96,7 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
 
     @Override
     public void delete(String id) {
-        repository.deleteById(id);
+        // repository.deleteById(id);
     }
 
     @Override
@@ -153,25 +157,96 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
 
     @Override
     public Optional<ApplicationDarrts> get(String id) {
-        return repository.findById(id);
+        System.out.println("****************************** " + id);
+        return getIdByApptypeAndAppnumber(id);
     }
 
     @Override
     public Optional<ApplicationDarrts> flexLookup(String someKindOfId) {
-        if (someKindOfId == null){
+        if (someKindOfId == null) {
             return Optional.empty();
         }
-        return repository.findById(someKindOfId);
+        //   return repository.findById(someKindOfId);
+        return getIdByApptypeAndAppnumber(someKindOfId);
     }
 
     @Override
     protected Optional<String> flexLookupIdOnly(String someKindOfId) {
         //easiest way to avoid deduping data is to just do a full flex lookup and then return id
         Optional<ApplicationDarrts> found = flexLookup(someKindOfId);
-        if(found.isPresent()){
+        if (found.isPresent()) {
             return Optional.of(found.get().getAppType());
         }
         return Optional.empty();
+    }
+
+    public  Optional<ApplicationDarrts> getIdByApptypeAndAppnumber(String appTypeNumber) {
+        String appType = "";
+        String appNumber = "";
+        String newAppNumber = "";
+
+        if (appTypeNumber != null) {
+            for (int i = 0; i < appTypeNumber.length(); i++) {
+                // Check for non-digit character, check if it is a character
+                if (!Character.isDigit(appTypeNumber.charAt(i))) {
+                    appType = appType + appTypeNumber.charAt(i);
+                } else { // check for digits
+                    appNumber = appNumber + appTypeNumber.charAt(i);
+                }
+            } // for
+
+            if (appNumber != null) {
+                if (appNumber.length() < 6) {
+                    newAppNumber = StringUtils.leftPad(appNumber, 6, "0");
+                }
+            }
+        } // appNumber is not null
+
+        return getApplicationByApptypeAndAppnumber(appType, newAppNumber);
+    }
+
+    public Optional<ApplicationDarrts> getApplicationByApptypeAndAppnumber(String appType, String appNumber) {
+        ApplicationDarrts appFirst = null;
+        StringBuilder routeOfAdmin = new StringBuilder();
+
+        List<ApplicationDarrts> applicationList = repository.getApplicationByApptypeAndAppnumber(appType, appNumber);
+        if (applicationList.size() > 0) {
+            for (int i = 0; i < applicationList.size(); i++) {
+                ApplicationDarrts app = applicationList.get(i);
+                if (routeOfAdmin.length() != 0) {
+                    routeOfAdmin.append("|");
+                }
+                routeOfAdmin.append((app.routeOfAdmin != null) ? app.routeOfAdmin : "");
+            }
+            // Store all the combined data of each row in the first row.
+            appFirst = applicationList.get(0);
+            appFirst.routeOfAdmin = routeOfAdmin.toString();
+            applicationList.set(0, appFirst);
+        }
+        return Optional.ofNullable(appFirst);
+    }
+
+    public Optional<SubstanceKeyParentConcept> getSubstanceKeyParentConcept(String substanceKey) {
+        SubstanceKeyParentConcept appFirst = null;
+        //StringBuilder routeOfAdmin = new StringBuilder();
+
+        List<SubstanceKeyParentConcept> list = repository.getSubstanceKeyParentConcept(substanceKey);
+        if (list.size() > 0) {
+            /*
+            for (int i = 0; i < list.size(); i++) {
+                SubstanceKeyParentConcept app = list.get(i);
+                if (routeOfAdmin.length() != 0) {
+                    routeOfAdmin.append("|");
+                }
+              //  routeOfAdmin.append((app.routeOfAdmin != null) ? app.routeOfAdmin : "");
+            }
+             */
+            // Store all the combined data of each row in the first row.
+            appFirst = list.get(0);
+         //   appFirst.routeOfAdmin = routeOfAdmin.toString();
+         //   applicationList.set(0, appFirst);
+        }
+        return Optional.ofNullable(appFirst);
     }
 
 }

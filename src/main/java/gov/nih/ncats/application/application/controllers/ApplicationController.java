@@ -52,7 +52,6 @@ import javax.persistence.EntityManager;
 @GsrsRestApiController(context = ApplicationEntityService.CONTEXT, idHelper = IdHelpers.NUMBER)
 public class ApplicationController extends EtagLegacySearchEntityController<ApplicationController, Application, Long> {
 
-
     @Autowired
     private ETagRepository eTagRepository;
     @Autowired
@@ -110,7 +109,6 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
 
             if (fileName != null) {
                 emd.setDisplayFilename(fileName);
-                System.out.println("FILE NAME: " + fileName);
             }
 
             ExportProcess<Application> p = this.exportService.createExport(emd, () -> {
@@ -138,7 +136,6 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
 
     @GetGsrsRestApiMapping("/distcenter/{substanceKey}")
     public ResponseEntity<String> findCenterBySubstanceKey(@PathVariable("substanceKey") String substanceKey) throws Exception {
-        System.out.println("*********** INSIDE CENTER ");
         List<String> provenanceList = applicationEntityService.findCenterBySubstanceKey(substanceKey);
         if (substanceKey == null) {
             throw new IllegalArgumentException("There is no Substance Key provided");
@@ -155,10 +152,8 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
 
                 ResponseEntity<String> response = this.substanceModuleService.getSubstanceDetailsFromSubstanceKey(substanceKey);
 
-                System.out.println("GGGGGGGGGGGGGGGGGGGGGG");
                 String jsonString = response.getBody();
                 if (jsonString != null) {
-                    System.out.println("INSIDE INSIDE INSIDE INSIDE");
                     ObjectMapper mapper = new ObjectMapper();
                     actualObj = mapper.readTree(jsonString);
 

@@ -45,12 +45,10 @@ public class ApplicationExporterFactory implements ExporterFactory {
 	public ApplicationExporter createNewExporter(OutputStream out, Parameters params) throws IOException {
 
 		if(applicationController==null) {
-			System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 			AutowireHelper.getInstance().autowire(this);
 		}
 
 		if(applicationController != null) {
-			System.out.println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
 		}
 
 		SpreadsheetFormat format = SpreadsheetFormat.XLSX;

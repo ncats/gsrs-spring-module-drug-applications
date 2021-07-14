@@ -1,10 +1,13 @@
 package gov.nih.ncats.application.application.models;
 
+import gsrs.security.GsrsSecurityUtils;
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.models.Indexable;
 import ix.core.models.IxModel;
+import ix.core.models.Principal;
+import ix.core.models.UserProfile;
 import ix.core.search.text.TextIndexerEntityListener;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
@@ -62,104 +65,51 @@ public class ApplicationCommanData extends AbstractGsrsEntity {
 
     @PrePersist
     public void prePersist() {
-      //  Date currentDate = TimeUtil.getCurrentDate();
-     /*
-        Principal p1=UserFetcher.getActingUser();
-        if (p1 != null) {
-            this.createdBy = p1.username;
+        try {
+            UserProfile profile = (UserProfile) GsrsSecurityUtils.getCurrentUser();
+            if (profile != null) {
+                Principal p = profile.user;
+                if (p != null) {
+                    this.createdBy = p.username;
+                    this.modifiedBy = p.username;
+                }
+            }
+        }catch (Exception ex) {
+            ex.printStackTrace();
         }
-
-        this.createDate = currentDate;
-      */
-        this.createdBy = "ADMIN";
     }
-
 
     @PreUpdate
     public void preUpdate() {
-        /*
-        Date currentDate = TimeUtil.getCurrentDate();
-        Principal p1=UserFetcher.getActingUser();
-        if (p1 != null) {
-            this.modifiedBy = p1.username;
+        try {
+            UserProfile profile = (UserProfile) GsrsSecurityUtils.getCurrentUser();
+            if (profile != null) {
+                Principal p = profile.user;
+                if (p != null) {
+                    this.modifiedBy = p.username;
+                }
+            }
+        }catch (Exception ex) {
+            ex.printStackTrace();
         }
-
-        this.modifyDate = currentDate;
-         */
-        this.modifiedBy = "ADMIN";
     }
 
-    /*
     public String getCreatedBy () {
-        //Get from Database
         return this.createdBy;
     }
-
-    /*
-    public void setCreatedBy (String createdBy) {
-        //Store to Database
-        if (createdBy == null) {
-            Principal p1 = UserFetcher.getActingUser();
-            if (p1 != null) {
-                this.createdBy = p1.username;
-            }
-        }
-        else {
-            this.createdBy = createdBy;
-        }
-    }
-    */
 
     public Date getCreationDate() {
         //Get from Database
         return this.creationDate;
     }
 
-    /*
-    public void setCreateDate(Date createDate) {
-
-        if (createDate == null) {
-            this.createDate = TimeUtil.getCurrentDate();
-        }
-        else {
-            this.createDate = createDate;
-        }
-    }
-    */
-
     public String getModifiedBy () {
         return this.modifiedBy;
     }
-    /*
-    public void setModifiedBy (String modifiedBy) {
-        //Store to Database
-        Principal p1 = UserFetcher.getActingUser();
-        if (p1 != null) {
-            this.modifiedBy = p1.username;
-        }
-    }
-    */
 
     public Date getLastModifiedDate() {
         return this.lastModifiedDate;
     }
-
-    /*
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = TimeUtil.getCurrentDate();
-    }
-    */
-
-
-    /*
-    public Date getCreated() {
-        return createDate;
-    }
-
-    public void setCreated(Date created) {
-        this.createDate = created;
-    }
-    */
 
     public String convertDateToString(Date dtDate) {
 

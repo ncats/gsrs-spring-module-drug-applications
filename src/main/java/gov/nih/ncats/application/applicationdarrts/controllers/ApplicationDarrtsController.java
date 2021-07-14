@@ -94,46 +94,16 @@ public class ApplicationDarrtsController extends EtagLegacySearchEntityControlle
         return stream;
     }
 
-    /*
-    public ResponseEntity<Object> createExport(@PathVariable("etagId") String etagId, @PathVariable("format") String format, @RequestParam(value = "publicOnly", required = false) Boolean publicOnlyObj, @RequestParam(value = "filename", required = false) String fileName, Principal prof, @RequestParam Map<String, String> parameters) throws Exception {
-
-        Optional<ETag> etagObj = this.eTagRepository.findByEtag(etagId);
-        boolean publicOnly = publicOnlyObj == null ? true : publicOnlyObj;
-        if (!etagObj.isPresent()) {
-            return new ResponseEntity("could not find etag with Id " + etagId, this.gsrsControllerConfiguration.getHttpStatusFor(HttpStatus.BAD_REQUEST, parameters));
-        } else {
-            ExportMetaData emd = new ExportMetaData(etagId, ((ETag) etagObj.get()).uri, "admin", publicOnly, format);
-            Stream<ApplicationDarrts> mstream = (Stream) (new EtagExportGenerator(this.entityManager)).generateExportFrom("application", (ETag) etagObj.get()).get();
-            Stream<ApplicationDarrts> effectivelyFinalStream = this.filterStream(mstream, publicOnly, parameters);
-
-            if (fileName != null) {
-                emd.setDisplayFilename(fileName);
-                System.out.println("FILE NAME: " + fileName);
-            }
-
-            ExportProcess<ApplicationDarrts> p = this.exportService.createExport(emd, () -> {
-                return effectivelyFinalStream;
-            });
-            p.run(this.taskExecutor, (out) -> {
-                return (Exporter) Unchecked.uncheck(() -> {
-
-                    return this.getExporterFor(format, out, publicOnly, parameters);
-                });
-            });
-            return new ResponseEntity(p.getMetaData(), HttpStatus.OK);
+    @GetGsrsRestApiMapping("/substanceparentconcept/{substanceKey}")
+    public ResponseEntity<String> getSubstanceKeyParentConcept(@PathVariable("substanceKey") String substanceKey) throws Exception {
+        System.out.println("******************* " + substanceKey + "     " + substanceKey);
+        Optional<SubstanceKeyParentConcept> concept = applicationDarrtsEntityService.getSubstanceKeyParentConcept(substanceKey);
+        if (concept == null) {
+            throw new IllegalArgumentException("There is no SubstanceKey provided");
         }
+        return new ResponseEntity(concept.get(), HttpStatus.OK);
     }
 
-    private Exporter<ApplicationDarrts> getExporterFor(String extension, OutputStream pos, boolean publicOnly, Map<String, String> parameters) throws IOException {
-        ExporterFactory.Parameters params = this.createParamters(extension, publicOnly, parameters);
-        ExporterFactory<ApplicationDarrts> factory = this.gsrsExportConfiguration.getExporterFor(this.getEntityService().getContext(), params);
-        if (factory == null) {
-            throw new IllegalArgumentException("could not find suitable factory for " + params);
-        } else {
-            return factory.createNewExporter(pos, params);
-        }
-    }
-    */
     public Optional<ApplicationDarrts> injectSubstanceDetails(Optional<ApplicationDarrts> application) {
 
         try {
