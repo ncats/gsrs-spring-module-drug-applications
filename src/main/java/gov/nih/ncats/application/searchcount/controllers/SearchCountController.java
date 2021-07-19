@@ -1,8 +1,8 @@
-package gov.nih.ncats.application.applicationall.controllers;
+package gov.nih.ncats.application.searchcount.controllers;
 
-import gov.nih.ncats.application.applicationall.models.*;
-import gov.nih.ncats.application.applicationall.services.*;
-import gov.nih.ncats.application.applicationall.searcher.LegacyApplicationAllSearcher;
+import gov.nih.ncats.application.searchcount.models.*;
+import gov.nih.ncats.application.searchcount.services.*;
+import gov.nih.ncats.application.searchcount.searcher.LegacySearchCountSearcher;
 
 import gov.nih.ncats.common.util.Unchecked;
 import gsrs.autoconfigure.GsrsExportConfiguration;
@@ -48,9 +48,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
 
-@ExposesResourceFor(ApplicationAll.class)
-@GsrsRestApiController(context = ApplicationAllEntityService.CONTEXT, idHelper = IdHelpers.STRING_NO_WHITESPACE)
-public class ApplicationAllController extends EtagLegacySearchEntityController<ApplicationAllController, ApplicationAll, String> {
+@ExposesResourceFor(SubstanceSearchCount.class)
+@GsrsRestApiController(context = SearchCountEntityService.CONTEXT, idHelper = IdHelpers.STRING_NO_WHITESPACE)
+public class SearchCountController extends EtagLegacySearchEntityController<SearchCountController, SubstanceSearchCount, String> {
 
 
     @Autowired
@@ -70,36 +70,36 @@ public class ApplicationAllController extends EtagLegacySearchEntityController<A
 
 
     @Autowired
-    private ApplicationAllEntityService applicationEntityService;
+    private SearchCountEntityService searchCountEntityService;
 
     @Autowired
-    private LegacyApplicationAllSearcher legacyApplicationSearcher;
+    private LegacySearchCountSearcher legacySearchCountSearcher;
 
     @Autowired
     private ObjectMapper objectMapper;
 
 
     @Override
-    public GsrsEntityService<ApplicationAll, String> getEntityService() {
-        return applicationEntityService;
+    public GsrsEntityService<SubstanceSearchCount, String> getEntityService() {
+        return searchCountEntityService;
     }
 
     @Override
-    protected LegacyGsrsSearchService<ApplicationAll> getlegacyGsrsSearchService() {
-        return legacyApplicationSearcher;
+    protected LegacyGsrsSearchService<SubstanceSearchCount> getlegacyGsrsSearchService() {
+        return legacySearchCountSearcher;
     }
 
     @Override
-    protected Stream<ApplicationAll> filterStream(Stream<ApplicationAll> stream, boolean publicOnly, Map<String, String> parameters) {
+    protected Stream<SubstanceSearchCount> filterStream(Stream<SubstanceSearchCount> stream, boolean publicOnly, Map<String, String> parameters) {
         return stream;
     }
 
-    @GetGsrsRestApiMapping("/distcenter/{substanceKey}")
-    public ResponseEntity<String> findCenterBySubstanceKey(@PathVariable("substanceKey") String substanceKey) throws Exception {
-        List<String> provenanceList = applicationEntityService.findCenterBySubstanceKey(substanceKey);
-        if (substanceKey == null) {
+    @GetGsrsRestApiMapping("/searchcount/{substanceUuid}")
+    public ResponseEntity<String> findSearchCountBySubstanceUuid(@PathVariable("substanceKey") String substanceUuid) throws Exception {
+        SubstanceSearchCount searchCount = searchCountEntityService.findSearchCountBySubstanceUuid(substanceUuid);
+        if (substanceUuid == null) {
             throw new IllegalArgumentException("There is no Substance Key provided");
         }
-        return new ResponseEntity(provenanceList, HttpStatus.OK);
+        return new ResponseEntity(searchCount, HttpStatus.OK);
     }
 }

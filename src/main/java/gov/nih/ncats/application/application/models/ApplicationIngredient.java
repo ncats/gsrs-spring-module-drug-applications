@@ -1,12 +1,14 @@
 package gov.nih.ncats.application.application.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import gsrs.security.GsrsSecurityUtils;
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import ix.core.models.Indexable;
 import ix.core.models.IxModel;
+import ix.core.models.Principal;
+import ix.core.models.UserProfile;
 import ix.core.search.text.TextIndexerEntityListener;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
@@ -19,6 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -125,6 +128,37 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Indexable( name = "Ingredient Last Modified Date", sortable=true)
     @Column(name = "MODIFY_DATE")
     private Date lastModifiedDate;
+
+    @PrePersist
+    public void prePersist() {
+        try {
+            UserProfile profile = (UserProfile) GsrsSecurityUtils.getCurrentUser();
+            if (profile != null) {
+                Principal p = profile.user;
+                if (p != null) {
+                    this.createdBy = p.username;
+                    this.modifiedBy = p.username;
+                }
+            }
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        try {
+            UserProfile profile = (UserProfile) GsrsSecurityUtils.getCurrentUser();
+            if (profile != null) {
+                Principal p = profile.user;
+                if (p != null) {
+                    this.modifiedBy = p.username;
+                }
+            }
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     /*
     @Transient
