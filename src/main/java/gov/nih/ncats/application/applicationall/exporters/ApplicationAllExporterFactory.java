@@ -1,6 +1,10 @@
 package gov.nih.ncats.application.applicationall.exporters;
 
+import gov.nih.ncats.application.applicationall.controllers.ApplicationAllController;
+import gov.nih.ncats.application.SubstanceModuleService;
 import ix.ginas.exporters.*;
+import gsrs.springUtils.AutowireHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -9,6 +13,11 @@ import java.io.OutputStreamWriter;;
 import java.util.*;
 
 public class ApplicationAllExporterFactory implements ExporterFactory {
+	@Autowired
+	public ApplicationAllController applicationController;
+
+	@Autowired
+	public SubstanceModuleService substanceModuleService;
 
 	private static final Set<OutputFormat> FORMATS;
 
@@ -34,13 +43,17 @@ public class ApplicationAllExporterFactory implements ExporterFactory {
 	@Override
 	public ApplicationAllExporter createNewExporter(OutputStream out, Parameters params) throws IOException {
 
+		if (applicationController == null) {
+			AutowireHelper.getInstance().autowire(this);
+		}
+
 		SpreadsheetFormat format = SpreadsheetFormat.XLSX;
 		Spreadsheet spreadsheet = format.createSpeadsheet(out);
 
 		ApplicationAllExporter.Builder builder = new ApplicationAllExporter.Builder(spreadsheet);
 		configure(builder, params);
 		
-		return builder.build();
+		return builder.build(applicationController);
 	}
 
 	protected void configure(ApplicationAllExporter.Builder builder, Parameters params) {

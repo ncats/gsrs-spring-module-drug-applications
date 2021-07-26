@@ -336,5 +336,4 @@ public class Application extends ApplicationCommanData {
     public String getDeprecated(){
         return "Not Deprecated";
     }
-
 }

@@ -157,7 +157,12 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
 
     @Override
     public Optional<ApplicationDarrts> get(String id) {
-        return getIdByApptypeAndAppnumber(id);
+        try {
+            return getIdByApptypeAndAppnumber(id);
+        } catch (Exception ex) {
+           ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -166,7 +171,12 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
             return Optional.empty();
         }
         //   return repository.findById(someKindOfId);
-        return getIdByApptypeAndAppnumber(someKindOfId);
+        try {
+            return getIdByApptypeAndAppnumber(someKindOfId);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -179,7 +189,7 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
         return Optional.empty();
     }
 
-    public  Optional<ApplicationDarrts> getIdByApptypeAndAppnumber(String appTypeNumber) {
+    public  Optional<ApplicationDarrts> getIdByApptypeAndAppnumber(String appTypeNumber) throws Exception {
         String appType = "";
         String appNumber = "";
         String newAppNumber = "";
@@ -188,6 +198,7 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
             for (int i = 0; i < appTypeNumber.length(); i++) {
                 // Check for non-digit character, check if it is a character
                 if (!Character.isDigit(appTypeNumber.charAt(i))) {
+
                     appType = appType + appTypeNumber.charAt(i);
                 } else { // check for digits
                     appNumber = appNumber + appTypeNumber.charAt(i);
@@ -197,19 +208,30 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
             if (appNumber != null) {
                 if (appNumber.length() < 6) {
                     newAppNumber = StringUtils.leftPad(appNumber, 6, "0");
+                    appNumber = newAppNumber;
                 }
             }
+
         } // appNumber is not null
 
-        return getApplicationByApptypeAndAppnumber(appType, newAppNumber);
+        if (appType == null) {
+            throw new IllegalArgumentException("No Application Type found " + appTypeNumber);
+        }
+        if (appNumber == null) {
+            throw new IllegalArgumentException("No Application Number found " + appTypeNumber);
+        }
+
+        return getApplicationByApptypeAndAppnumber(appType, appNumber);
     }
 
-    public Optional<ApplicationDarrts> getApplicationByApptypeAndAppnumber(String appType, String appNumber) {
+    public Optional<ApplicationDarrts> getApplicationByApptypeAndAppnumber(String appType, String appNumber)  {
         ApplicationDarrts appFirst = null;
         StringBuilder routeOfAdmin = new StringBuilder();
 
         List<ApplicationDarrts> applicationList = repository.getApplicationByApptypeAndAppnumber(appType, appNumber);
+
         if (applicationList.size() > 0) {
+
             for (int i = 0; i < applicationList.size(); i++) {
                 ApplicationDarrts app = applicationList.get(i);
                 if (routeOfAdmin.length() != 0) {

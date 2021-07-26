@@ -1,8 +1,10 @@
 package gov.nih.ncats.application.application.controllers;
 
 import gov.nih.ncats.application.application.models.*;
+import gov.nih.ncats.application.application.models.additional.*;
 import gov.nih.ncats.application.application.services.*;
 import gov.nih.ncats.application.application.searcher.LegacyApplicationSearcher;
+import gov.nih.ncats.application.SubstanceModuleService;
 
 import gov.nih.ncats.common.util.Unchecked;
 import gsrs.autoconfigure.GsrsExportConfiguration;
@@ -21,14 +23,15 @@ import ix.ginas.exporters.ExportProcess;
 import ix.ginas.exporters.Exporter;
 import ix.ginas.exporters.ExporterFactory;
 import ix.ginas.models.v1.Substance;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +40,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManager;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
@@ -44,9 +51,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
-import javax.servlet.http.HttpServletRequest;
-import javax.persistence.PersistenceContext;
-import javax.persistence.EntityManager;
 
 @ExposesResourceFor(Application.class)
 @GsrsRestApiController(context = ApplicationEntityService.CONTEXT, idHelper = IdHelpers.NUMBER)
@@ -96,6 +100,45 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
         return stream;
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetGsrsRestApiMapping("/export/{etagId}/{format}")
+    public ResponseEntity<Object> createExport(@PathVariable("etagId") String etagId, @PathVariable("format") String format,
+                                               @RequestParam(value = "publicOnly", required = false) Boolean publicOnlyObj, @RequestParam(value ="filename", required= false) String fileName,
+                                               Principal prof,
+                                               @RequestParam Map<String, String> parameters) throws Exception {
+        Optional<ETag> etagObj = eTagRepository.findByEtag(etagId);
+
+        boolean publicOnly = publicOnlyObj==null? true: publicOnlyObj;
+
+        if (!etagObj.isPresent()) {
+            return new ResponseEntity<>("could not find etag with Id " + etagId,gsrsControllerConfiguration.getHttpStatusFor(HttpStatus.BAD_REQUEST, parameters));
+        }
+
+        ExportMetaData emd=new ExportMetaData(etagId, etagObj.get().uri, prof.getName(), publicOnly, format);
+
+        //Not ideal, but gets around user problem
+        Stream<Application> mstream = new EtagExportGenerator<Application>(entityManager, transactionManager).generateExportFrom(getEntityService().getContext(), etagObj.get()).get();
+
+        //GSRS-699 REALLY filter out anything that isn't public unless we are looking at private data
+//        if(publicOnly){
+//            mstream = mstream.filter(s-> s.getAccess().isEmpty());
+//        }
+
+        Stream<Application> effectivelyFinalStream = filterStream(mstream, publicOnly, parameters);
+
+        if(fileName!=null){
+            emd.setDisplayFilename(fileName);
+        }
+
+        ExportProcess<Application> p = exportService.createExport(emd,
+                () -> effectivelyFinalStream);
+
+        p.run(taskExecutor, out -> Unchecked.uncheck(() -> getExporterFor(format, out, publicOnly, parameters)));
+
+        return new ResponseEntity<>(GsrsControllerUtil.enhanceWithView(p.getMetaData(), parameters), HttpStatus.OK);
+    }
+
+    /*
     public ResponseEntity<Object> createExport(@PathVariable("etagId") String etagId, @PathVariable("format") String format, @RequestParam(value = "publicOnly", required = false) Boolean publicOnlyObj, @RequestParam(value = "filename", required = false) String fileName, Principal prof, @RequestParam Map<String, String> parameters) throws Exception {
 
         Optional<ETag> etagObj = this.eTagRepository.findByEtag(etagId);
@@ -123,6 +166,7 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
             return new ResponseEntity(p.getMetaData(), HttpStatus.OK);
         }
     }
+    */
 
     private Exporter<Application> getExporterFor(String extension, OutputStream pos, boolean publicOnly, Map<String, String> parameters) throws IOException {
         ExporterFactory.Parameters params = this.createParamters(extension, publicOnly, parameters);
@@ -134,6 +178,43 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
         }
     }
 
+    @GetGsrsRestApiMapping("/applicationhistory/{applicationId}")
+    public ResponseEntity<String> findApplicationHistoryByApplicationId(@PathVariable("applicationId") String applicationId) throws Exception {
+        List<ApplicationHistory> list = applicationEntityService.findApplicationHistoryByApplicationId(applicationId);
+        if (applicationId == null) {
+            throw new IllegalArgumentException("There is no Application Id provided");
+        }
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
+
+    @GetGsrsRestApiMapping("/prodtechnicaleffect/{applicationId}")
+    public ResponseEntity<String> findProductTechnicalEffectByApplicationId(@PathVariable("applicationId") String applicationId) throws Exception {
+        List<ProductTechnicalEffect> list = applicationEntityService.findProductTechnicalEffectByApplicationId(applicationId);
+        if (applicationId == null) {
+            throw new IllegalArgumentException("There is no Application Id provided");
+        }
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
+
+    @GetGsrsRestApiMapping("/prodeffected/{applicationId}")
+    public ResponseEntity<String> findProductEffectedByApplicationId(@PathVariable("applicationId") String applicationId) throws Exception {
+        List<ProductEffected> list = applicationEntityService.findProductEffectedByApplicationId(applicationId);
+        if (applicationId == null) {
+            throw new IllegalArgumentException("There is no Application Id provided");
+        }
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
+
+    @GetGsrsRestApiMapping("/appclinicaltrial/{applicationId}")
+    public ResponseEntity<String> findClinicalTrialByApplicationId(@PathVariable("applicationId") String applicationId) throws Exception {
+        List<ClinicalTrial> list = applicationEntityService.findClinicalTrialByApplicationId(applicationId);
+        if (applicationId == null) {
+            throw new IllegalArgumentException("There is no Application Id provided");
+        }
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
+
+    /*
     @GetGsrsRestApiMapping("/distcenter/{substanceKey}")
     public ResponseEntity<String> findCenterBySubstanceKey(@PathVariable("substanceKey") String substanceKey) throws Exception {
         List<String> provenanceList = applicationEntityService.findCenterBySubstanceKey(substanceKey);
@@ -142,6 +223,7 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
         }
         return new ResponseEntity(provenanceList, HttpStatus.OK);
     }
+    */
 
     public JsonNode injectSubstanceBySubstanceKey(String substanceKey) {
 

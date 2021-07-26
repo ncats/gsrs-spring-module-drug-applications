@@ -1,6 +1,7 @@
 package gov.nih.ncats.application.application.services;
 
 import gov.nih.ncats.application.application.models.*;
+import gov.nih.ncats.application.application.models.additional.*;
 import gov.nih.ncats.application.application.repositories.*;
 
 import gsrs.controller.IdHelpers;
@@ -174,9 +175,24 @@ public class ApplicationEntityService extends AbstractGsrsEntityService<Applicat
         return Optional.empty();
     }
 
-    public List<String> findCenterBySubstanceKey(String substanceKey) {
-        List<String> centerList = repository.findCenterBySubstanceKey(substanceKey);
-        return centerList;
+    public List<ApplicationHistory> findApplicationHistoryByApplicationId(String applicationId) {
+        List<ApplicationHistory> list = repository.findApplicationHistoryByApplicationId(applicationId);
+        return list;
+    }
+
+    public List<ProductTechnicalEffect> findProductTechnicalEffectByApplicationId(String applicationId) {
+        List<ProductTechnicalEffect> list = repository.findProductTechnicalEffectByApplicationId(applicationId);
+        return list;
+    }
+
+    public List<ProductEffected> findProductEffectedByApplicationId(String applicationId) {
+        List<ProductEffected> list = repository.findProductEffectedByApplicationId(applicationId);
+        return list;
+    }
+
+    public List<ClinicalTrial> findClinicalTrialByApplicationId(String applicationId) {
+        List<ClinicalTrial> list = repository.findClinicalTrialByApplicationId(applicationId);
+        return list;
     }
 
 }

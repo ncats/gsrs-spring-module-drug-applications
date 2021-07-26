@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ix.utils.Util;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +78,8 @@ public class ApplicationAllEntityService extends AbstractGsrsEntityService<Appli
     @Override
     protected ApplicationAll create(ApplicationAll application) {
         try {
-            return repository.saveAndFlush(application);
+            return null;
+         //   return repository.saveAndFlush(application);
         }catch(Throwable t){
             t.printStackTrace();
             throw t;
@@ -87,7 +89,8 @@ public class ApplicationAllEntityService extends AbstractGsrsEntityService<Appli
     @Override
     @Transactional
     protected ApplicationAll update(ApplicationAll application) {
-        return repository.saveAndFlush(application);
+        return null;
+        // return repository.saveAndFlush(application);
     }
 
     @Override
@@ -175,7 +178,32 @@ public class ApplicationAllEntityService extends AbstractGsrsEntityService<Appli
     }
 
     public List<String> findCenterBySubstanceKey(String substanceKey) {
-        List<String> centerList = repository.findCenterBySubstanceKey(substanceKey);
+        List<String> centerList = new ArrayList<>();
+        try {
+            centerList = repository.findCenterBySubstanceKey(substanceKey);
+        } catch (Exception ex) {
+           ex.printStackTrace();
+        }
+        /*
+        for (String cent : centerList) {
+            if (cent != null) {
+                myStr.indexOf("planet")a
+                if (cent)
+                    String replaceString=s1.replace('a','e');
+                if (app.fromTable.equalsIgnoreCase("SRS")) {
+                            app.fromTable = "GSRS";
+                        } else if (app.fromTable.equalsIgnoreCase("Darrts")) {
+                            app.fromTable = "Integrity";
+                        }
+                    } else {
+                        app.fromTable = "GSRS";
+                    }
+
+                }
+            }
+        }
+
+         */
         return centerList;
     }
 }

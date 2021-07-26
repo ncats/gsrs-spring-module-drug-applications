@@ -20,6 +20,6 @@ public interface ApplicationAllRepository extends GsrsVersionedRepository<Applic
 
     Optional<ApplicationAll> findById(String id);
 
-    @Query("SELECT DISTINCT a.center || a.fromTable FROM ApplicationAll a WHERE a.id in (SELECT p.applicationId FROM ProductSrsAll p LEFT JOIN AppIngredientAll i on p.id = i.productId where i.substanceKey = ?1)")
+    @Query("SELECT DISTINCT a.center || ' ' || a.fromTable FROM ApplicationAll a WHERE a.id in (SELECT p.applicationId FROM ProductSrsAll p LEFT JOIN AppIngredientAll i on p.id = i.productId where i.substanceKey = ?1)")
     List<String> findCenterBySubstanceKey(String substanceKey);
 }

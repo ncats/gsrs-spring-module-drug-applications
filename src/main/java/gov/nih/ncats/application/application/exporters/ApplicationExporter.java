@@ -1,15 +1,12 @@
 package gov.nih.ncats.application.application.exporters;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import gov.nih.ncats.application.application.controllers.ApplicationController;
 import gov.nih.ncats.application.application.models.*;
-import gov.nih.ncats.application.application.services.SubstanceModuleService;
-
-import gsrs.module.substance.repository.SubstanceRepository;
-import ix.ginas.exporters.*;
 import gsrs.springUtils.AutowireHelper;
+import ix.ginas.exporters.*;
 import ix.ginas.models.v1.Substance;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -98,7 +95,6 @@ public class ApplicationExporter implements Exporter<Application> {
 
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.SUBSTANCE_NAME, SingleColumnValueRecipe.create(AppDefaultColumns.SUBSTANCE_NAME ,(s, cell) ->{
             StringBuilder sb = getIngredientName(s);
-      //      StringBuilder sb1 = getIngredientName((Application) s);
             cell.writeString(sb.toString());
         }));
 
@@ -194,16 +190,16 @@ public class ApplicationExporter implements Exporter<Application> {
                                     approvalId = subJson.path("approvalID").textValue();
 
                                     // Get Substance Name
-                                    sb.append((ingred.substanceKey != null) ? substanceName : "(No Ingredient Name)");
+                                    sb.append((substanceName != null) ? substanceName : "(No Ingredient Name)");
 
                                     // Storing in static variable so do not have to call the same Substance API twice just to get
                                     // approval Id.
-                                    substanceApprovalIdSB.append((ingred.substanceKey != null) ? approvalId : "(No Approval ID)");
+                                    substanceApprovalIdSB.append((approvalId != null) ? approvalId : "(No Approval ID)");
                                 }
                             }
                         } else {
                             sb.append("(No Ingredient Name)");
-                            substanceApprovalIdSB.append("No Approval ID");
+                            substanceApprovalIdSB.append("(No Approval ID)");
                         }
                     }
                 }
@@ -262,7 +258,7 @@ public class ApplicationExporter implements Exporter<Application> {
                 if(sb.length()!=0){
                     sb.append("|");
                 }
-                sb.append((ind.indication != null) ? ind.indication : "RRRRRRRRRRRRRRRRRRRR");
+                sb.append((ind.indication != null) ? ind.indication : "");
             }
         }
         return sb;

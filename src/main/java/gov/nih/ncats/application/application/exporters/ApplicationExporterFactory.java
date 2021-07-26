@@ -1,9 +1,9 @@
 package gov.nih.ncats.application.application.exporters;
 
 import gov.nih.ncats.application.application.controllers.ApplicationController;
-import gov.nih.ncats.application.application.services.SubstanceModuleService;
-import gsrs.springUtils.AutowireHelper;
+import gov.nih.ncats.application.SubstanceModuleService;
 import ix.ginas.exporters.*;
+import gsrs.springUtils.AutowireHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedWriter;
@@ -44,11 +44,8 @@ public class ApplicationExporterFactory implements ExporterFactory {
 	@Override
 	public ApplicationExporter createNewExporter(OutputStream out, Parameters params) throws IOException {
 
-		if(applicationController==null) {
+		if (applicationController == null) {
 			AutowireHelper.getInstance().autowire(this);
-		}
-
-		if(applicationController != null) {
 		}
 
 		SpreadsheetFormat format = SpreadsheetFormat.XLSX;

@@ -1,4 +1,4 @@
-package gov.nih.ncats.application.application.services;
+package gov.nih.ncats.application;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
