@@ -1,5 +1,6 @@
 package gov.nih.ncats.application.applicationdarrts;
 
+import gov.nih.ncats.application.applicationdarrts.controllers.ApplicationDarrtsController;
 import gov.nih.ncats.application.applicationdarrts.searcher.LegacyApplicationDarrtsSearcher;
 import gov.nih.ncats.application.applicationdarrts.services.ApplicationDarrtsEntityService;
 import org.springframework.context.annotation.ImportSelector;
@@ -11,7 +12,7 @@ public class DarrtsSelector implements ImportSelector {
         return new String[]{
                 ApplicationDarrtsEntityService.class.getName(),
                 LegacyApplicationDarrtsSearcher.class.getName(),
-
+                ApplicationDarrtsController.class.getName()
         };
     }
 }
