@@ -12,8 +12,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-;
-
 public class ApplicationExporterFactory implements ExporterFactory {
 
 	@Autowired

@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-
         <module>gsrs-applications-spring-boot-starter</module>
         <module>gsrs-applications-spring-boot-autoconfigure</module>
     </modules>
