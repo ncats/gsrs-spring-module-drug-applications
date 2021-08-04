@@ -4,21 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>gov.nih.ncats</groupId>
-    <artifactId>gsrs-application-starter</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>gsrs-applications-spring-boot-starter</module>
-        <module>gsrs-applications-spring-boot-autoconfigure</module>
+        <module>gsrs-module-applications-spring-boot-starter</module>
+        <module>gsrs-module-applications-spring-boot-autoconfigure</module>
     </modules>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <gsrs.applications.version>1.0-SNAPSHOT</gsrs.applications.version>
-    </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -26,5 +17,49 @@
         <version>2.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <groupId>gov.nih.ncats</groupId>
+    <artifactId>gsrs-module-applications</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <name>GSRS Application Module</name>
+    <description>GSRS Application Module for Spring Boot</description>
+
+    <scm>
+        <url>https://github.com/ncats/gsrs-spring-module-drug-applications.git</url>
+    </scm>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+        <lucene.version>4.10.0</lucene.version>
+        <gsrs.version>0.7.5-SNAPSHOT</gsrs.version>
+        <gsrs.application.version>0.1.0-SNAPSHOT</gsrs.application.version>
+        <!-- TO BE REMOVE -->
+        <gsrs.substance.version>0.6.8-SNAPSHOT</gsrs.substance.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>oss.sonatype.org-snapshot</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
 </project>
