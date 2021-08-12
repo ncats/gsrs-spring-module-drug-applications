@@ -10,6 +10,8 @@ import gsrs.legacy.LegacyGsrsSearchService;
 import gsrs.repository.ETagRepository;
 import gsrs.service.ExportService;
 import gsrs.service.GsrsEntityService;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.hateoas.server.ExposesResourceFor;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.persistence.EntityManager;
 import java.util.Map;
 import java.util.stream.Stream;
+
 
 @ExposesResourceFor(SubstanceSearchCount.class)
 @GsrsRestApiController(context = SearchCountEntityService.CONTEXT, idHelper = IdHelpers.STRING_NO_WHITESPACE)

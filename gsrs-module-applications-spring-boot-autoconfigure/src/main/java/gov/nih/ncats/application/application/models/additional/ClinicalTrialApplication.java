@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name="SRSCID_CLINICAL_APPLICATION", schema = "srscid")
+@Table(name="SRSCID_CLINICAL_APPLICATION")
 public class ClinicalTrialApplication extends AbstractGsrsEntity {
 
     @Id

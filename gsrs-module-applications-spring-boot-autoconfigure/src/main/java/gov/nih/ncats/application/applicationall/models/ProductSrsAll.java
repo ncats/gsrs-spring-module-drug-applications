@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="SRSCID_PRODUCT_SRS_ALL_MV", schema = "srscid")
+@Table(name="SRSCID_PRODUCT_SRS_ALL_MV")
 public class ProductSrsAll extends AbstractGsrsEntity {
 
     @Id

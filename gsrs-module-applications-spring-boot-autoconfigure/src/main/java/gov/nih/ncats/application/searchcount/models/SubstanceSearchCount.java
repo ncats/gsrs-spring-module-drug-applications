@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @IdClass(SearchCountCompositePrimaryKeyId.class)
-@Table(name="SRSCID_SEARCH_COUNT_MV", schema = "srscid")
+@Table(name="SRSCID_SEARCH_COUNT_MV")
 public class SubstanceSearchCount extends AbstractGsrsEntity {
 
     @Id

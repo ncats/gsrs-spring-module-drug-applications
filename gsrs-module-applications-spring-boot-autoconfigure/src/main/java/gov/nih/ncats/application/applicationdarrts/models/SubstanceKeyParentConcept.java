@@ -5,7 +5,7 @@ import gsrs.model.AbstractGsrsEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="SRSCID_SUBSTKEY_NAME_CONCEPT_V", schema = "srscid")
+@Table(name="SRSCID_SUBSTKEY_NAME_CONCEPT_V")
 public class SubstanceKeyParentConcept extends AbstractGsrsEntity {
 
     @Id

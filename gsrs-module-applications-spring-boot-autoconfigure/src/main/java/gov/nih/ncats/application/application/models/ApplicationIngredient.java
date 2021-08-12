@@ -20,7 +20,7 @@ import java.util.Date;
 @SingleParent
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_TYPE_SRS", schema = "srscid")
+@Table(name="SRSCID_APPLICATION_TYPE_SRS")
 public class ApplicationIngredient extends AbstractGsrsEntity {
 
     @Id

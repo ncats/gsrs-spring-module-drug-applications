@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_ALL_MV", schema = "srscid")
+@Table(name="SRSCID_APPLICATION_ALL_MV")
 public class ApplicationAll extends AbstractGsrsEntity {
 
     @Id

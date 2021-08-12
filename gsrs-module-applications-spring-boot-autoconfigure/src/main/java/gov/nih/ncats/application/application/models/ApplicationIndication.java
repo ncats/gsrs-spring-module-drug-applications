@@ -9,7 +9,7 @@ import javax.persistence.*;
 @SingleParent
 @Data
 @Entity
-@Table(name="SRSCID_APP_INDICATION_SRS", schema = "srscid")
+@Table(name="SRSCID_APP_INDICATION_SRS")
 public class ApplicationIndication extends ApplicationCommanData {
 
     @Id

@@ -24,7 +24,7 @@ import java.util.List;
 @Backup
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_SRS", schema = "srscid")
+@Table(name="SRSCID_APPLICATION_SRS")
 public class Application extends ApplicationCommanData {
 
     public static final String HAS_INGREDIENT = "Has Ingredients";
