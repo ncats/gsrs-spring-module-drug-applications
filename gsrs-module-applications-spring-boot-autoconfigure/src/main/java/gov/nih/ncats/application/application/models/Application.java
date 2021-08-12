@@ -57,8 +57,8 @@ public class Application extends ApplicationCommanData {
     static final LocalDate todayDate =  LocalDate.now();
 
     @Id
-    @SequenceGenerator(name = "appSeq", sequenceName = "SRSCID.SRSCID_SQ_APPLICATION_ID", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appSeq")
+    @SequenceGenerator(name = "appSeq", sequenceName = "SRSCID_SQ_APPLICATION_ID", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "appSeq")
     @Column(name = "APPLICATION_ID")
     public Long id;
 

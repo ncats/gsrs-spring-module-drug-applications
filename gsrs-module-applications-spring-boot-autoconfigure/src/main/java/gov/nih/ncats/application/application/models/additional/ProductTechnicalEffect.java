@@ -13,7 +13,7 @@ public class ProductTechnicalEffect extends AbstractGsrsEntity {
 
     @Id
     @SequenceGenerator(name="prodtecheffectSeq", sequenceName="SRSCID_SQ_PROD_TECH_EFFECT_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodtecheffectSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prodtecheffectSeq")
     @Column(name="ID")
     public int id;
 

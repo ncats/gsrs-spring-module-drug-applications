@@ -16,8 +16,8 @@ import java.util.List;
 public class ApplicationProduct extends ApplicationCommanData {
 
     @Id
-    @SequenceGenerator(name="prodsrsSeq", sequenceName="SRSCID.SRSCID_SQ_PRODUCT_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodsrsSeq")
+    @SequenceGenerator(name="prodsrsSeq", sequenceName="SRSCID_SQ_PRODUCT_ID",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prodsrsSeq")
     @Column(name = "PRODUCT_ID")
     public Long id;
 

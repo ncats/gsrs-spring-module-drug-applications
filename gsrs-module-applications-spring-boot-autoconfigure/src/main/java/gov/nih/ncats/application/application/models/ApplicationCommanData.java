@@ -21,7 +21,7 @@ import java.util.Date;
 public class ApplicationCommanData extends AbstractGsrsEntity {
 
   //  @Id
-  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appSeq")
+  //  @GeneratedValue(strategy = GenerationType.AUTO, generator = "appSeq")
   //  public Long id;
 
     @Column(name = "CREATED_BY")
