@@ -1,10 +1,13 @@
 package gov.nih.ncats.application.applicationall.models;
 
 import gsrs.model.AbstractGsrsEntity;
+import ix.core.models.IndexableRoot;
+
 import lombok.Data;
 
 import javax.persistence.*;
 
+@IndexableRoot
 @Data
 @Entity
 @Table(name="SRSCID_APP_INDICATION_ALL_MV", schema = "srscid")

@@ -6,6 +6,8 @@ import gsrs.GsrsEntityProcessorListener;
 import gsrs.indexer.IndexerEntityListener;
 import ix.core.models.Backup;
 import ix.core.models.Indexable;
+import ix.core.models.IndexableRoot;
+
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -21,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 @EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
+@IndexableRoot
 @Backup
 @Data
 @Entity
