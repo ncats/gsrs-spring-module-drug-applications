@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Entity
 @IdClass(ApplicationDarrtsCompositePrimaryKeyId.class)
-@Table(name="SRSCID_APPLICATION_MV", schema = "srscid")
+@Table(name="SRSCID_APPLICATION_MV")
 public class ApplicationDarrts extends AbstractGsrsEntity {
 
     @Id

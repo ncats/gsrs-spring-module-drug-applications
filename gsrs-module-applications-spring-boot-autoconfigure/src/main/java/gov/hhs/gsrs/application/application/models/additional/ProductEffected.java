@@ -8,12 +8,12 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name="SRSCID_PRODUCT_EFFECTED", schema = "srscid")
+@Table(name="SRSCID_PRODUCT_EFFECTED")
 public class ProductEffected extends AbstractGsrsEntity {
 
     @Id
     @SequenceGenerator(name="prodeffectedSeq", sequenceName="SRSCID_SQ_PRODUCT_EFFECTED_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodeffectedSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prodeffectedSeq")
     @Column(name="ID")
     public int id;
 

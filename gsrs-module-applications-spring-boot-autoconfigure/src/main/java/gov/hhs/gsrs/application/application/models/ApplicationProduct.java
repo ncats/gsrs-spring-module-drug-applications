@@ -12,12 +12,12 @@ import java.util.List;
 @SingleParent
 @Data
 @Entity
-@Table(name="SRSCID_PRODUCT_SRS", schema = "srscid")
+@Table(name="SRSCID_PRODUCT_SRS")
 public class ApplicationProduct extends ApplicationCommanData {
 
     @Id
     @SequenceGenerator(name="prodsrsSeq", sequenceName="SRSCID.SRSCID_SQ_PRODUCT_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodsrsSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prodsrsSeq")
     @Column(name = "PRODUCT_ID")
     public Long id;
 

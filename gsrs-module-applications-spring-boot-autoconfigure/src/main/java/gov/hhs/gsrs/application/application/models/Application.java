@@ -27,7 +27,7 @@ import java.util.List;
 @Backup
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_SRS", schema = "srscid")
+@Table(name="SRSCID_APPLICATION_SRS")
 public class Application extends ApplicationCommanData {
 
     public static final String HAS_INGREDIENT = "Has Ingredients";
@@ -61,7 +61,7 @@ public class Application extends ApplicationCommanData {
 
     @Id
     @SequenceGenerator(name = "appSeq", sequenceName = "SRSCID.SRSCID_SQ_APPLICATION_ID", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "appSeq")
     @Column(name = "APPLICATION_ID")
     public Long id;
 

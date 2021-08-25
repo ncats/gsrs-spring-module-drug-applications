@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_SRS_HISTORY", schema = "srscid")
+@Table(name="SRSCID_APPLICATION_SRS_HISTORY")
 public class ApplicationHistory extends AbstractGsrsEntity {
 
     @Id

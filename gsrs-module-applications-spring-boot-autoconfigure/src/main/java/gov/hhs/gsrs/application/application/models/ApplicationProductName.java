@@ -10,12 +10,12 @@ import javax.persistence.*;
 @SingleParent
 @Data
 @Entity
-@Table(name="SRSCID_PRODUCT_NAME_SRS", schema = "srscid")
+@Table(name="SRSCID_PRODUCT_NAME_SRS")
 public class ApplicationProductName extends ApplicationCommanData {
 
     @Id
     @SequenceGenerator(name="prodNameSrsSeq", sequenceName="SRSCID.SRSCID_SQ_PRODUCT_NAME_SRS_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodNameSrsSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prodNameSrsSeq")
     @Column(name="ID")
     public Long id;
 

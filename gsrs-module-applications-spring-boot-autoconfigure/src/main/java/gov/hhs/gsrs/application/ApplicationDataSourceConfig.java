@@ -64,8 +64,8 @@ public class ApplicationDataSourceConfig {
 
 
     @Bean(name = NAME_ENTITY_MANAGER)
-    @Primary
-    public LocalContainerEntityManagerFactoryBean getDefaultEntityManager(EntityManagerFactoryBuilder builder,
+   // @Primary
+    public LocalContainerEntityManagerFactoryBean getApplicationEntityManager(EntityManagerFactoryBuilder builder,
                                                                           @Qualifier(NAME_DATA_SOURCE) DataSource defaultDataSource){
 
 

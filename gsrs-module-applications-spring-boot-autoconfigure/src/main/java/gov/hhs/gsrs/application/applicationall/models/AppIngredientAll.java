@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_TYPE_ALL_MV", schema = "srscid")
+@Table(name="SRSCID_APPLICATION_TYPE_ALL_MV")
 public class AppIngredientAll extends AbstractGsrsEntity {
 
     @Id

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @IdClass(ApplicationDarrtsIngredCompositePrimaryKeyId.class)
-@Table(name="SRSCID_APPLICATION_TYPE_MV", schema = "srscid")
+@Table(name="SRSCID_APPLICATION_TYPE_MV")
 public class ApplicationDarrtsIngredient extends AbstractGsrsEntity {
 
     @Id

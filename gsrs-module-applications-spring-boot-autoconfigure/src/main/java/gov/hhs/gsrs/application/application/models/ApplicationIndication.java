@@ -9,12 +9,12 @@ import javax.persistence.*;
 @SingleParent
 @Data
 @Entity
-@Table(name="SRSCID_APP_INDICATION_SRS", schema = "srscid")
+@Table(name="SRSCID_APP_INDICATION_SRS")
 public class ApplicationIndication extends ApplicationCommanData {
 
     @Id
     @SequenceGenerator(name="appIndSeq", sequenceName="SRSCID.SRSCID_SQ_APP_INDICATION_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appIndSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "appIndSeq")
     @Column(name="APP_INDICATION_ID")
     public Long id;
 

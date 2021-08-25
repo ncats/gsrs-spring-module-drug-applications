@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name="SRSCID_PRODUCT_TECH_EFFECT", schema = "srscid")
+@Table(name="SRSCID_PRODUCT_TECH_EFFECT")
 public class ProductTechnicalEffect extends AbstractGsrsEntity {
 
     @Id

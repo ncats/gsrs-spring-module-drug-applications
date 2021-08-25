@@ -20,12 +20,12 @@ import java.util.Date;
 @SingleParent
 @Data
 @Entity
-@Table(name="SRSCID_APPLICATION_TYPE_SRS", schema = "srscid")
+@Table(name="SRSCID_APPLICATION_TYPE_SRS")
 public class ApplicationIngredient extends AbstractGsrsEntity {
 
     @Id
     @SequenceGenerator(name="appingSeq", sequenceName="SRSCID.SRSCID_SQ_APPLICATION_TYPE_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appingSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "appingSeq")
     @Column(name="APPLICATION_TYPE_ID")
     public Long id;
 
