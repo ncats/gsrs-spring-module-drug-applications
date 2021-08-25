@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=gov.nih.ncats.application.autoconfigure.GsrsApplicationsAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=gov.hhs.gsrs.application.autoconfigure.GsrsApplicationsAutoConfiguration
