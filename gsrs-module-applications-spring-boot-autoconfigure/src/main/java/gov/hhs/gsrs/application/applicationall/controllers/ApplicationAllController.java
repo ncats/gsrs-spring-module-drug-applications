@@ -1,5 +1,6 @@
 package gov.hhs.gsrs.application.applicationall.controllers;
 
+import gov.hhs.gsrs.application.ApplicationDataSourceConfig;
 import gov.hhs.gsrs.application.SubstanceModuleService;
 import gov.hhs.gsrs.application.applicationall.models.ApplicationAll;
 import gov.hhs.gsrs.application.applicationall.searcher.LegacyApplicationAllSearcher;
@@ -32,6 +33,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
@@ -47,7 +50,8 @@ public class ApplicationAllController extends EtagLegacySearchEntityController<A
 
     @Autowired
     private ETagRepository eTagRepository;
-    @Autowired
+
+    @PersistenceContext(unitName =  ApplicationDataSourceConfig.NAME_ENTITY_MANAGER)
     private EntityManager entityManager;
     @Autowired
     private GsrsControllerConfiguration gsrsControllerConfiguration;

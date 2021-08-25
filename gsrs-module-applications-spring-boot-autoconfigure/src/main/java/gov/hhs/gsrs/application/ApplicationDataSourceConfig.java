@@ -138,7 +138,7 @@ public class ApplicationDataSourceConfig {
     // TP 08-20-2021 By setting this to be "spring.datasource"
     // it honors the default syntax
     @Bean(NAME_DATA_SOURCE_PROPERTIES)
-    @Primary
+//    @Primary
     @ConfigurationProperties(DATASOURCE_PROPERTY_PATH_FULL)
     public DataSourceProperties defaultDataSourceProperties(){
         return new DataSourceProperties();
@@ -147,14 +147,14 @@ public class ApplicationDataSourceConfig {
 
 
     @Bean(NAME_DATA_SOURCE)
-    @Primary
+//    @Primary
     @ConfigurationProperties(DATASOURCE_PROPERTY_PATH_FULL)
     public DataSource defaultDataSource(@Qualifier(NAME_DATA_SOURCE_PROPERTIES) DataSourceProperties defaultDataSourceProperties) {
         return defaultDataSourceProperties().initializeDataSourceBuilder().build();
     }
 
     @Bean(name = NAME_TRANSACTION_MANAGER)
-    @Primary
+//    @Primary
     public JpaTransactionManager transactionManager(@Qualifier(NAME_ENTITY_MANAGER) EntityManagerFactory defaultEntityManager){
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(defaultEntityManager);

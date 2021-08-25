@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ApplicationProductName extends ApplicationCommanData {
 
     @Id
-    @SequenceGenerator(name="prodNameSrsSeq", sequenceName="SRSCID.SRSCID_SQ_PRODUCT_NAME_SRS_ID",allocationSize=1)
+    @SequenceGenerator(name="prodNameSrsSeq", sequenceName="SRSCID_SQ_PRODUCT_NAME_SRS_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prodNameSrsSeq")
     @Column(name="ID")
     public Long id;

@@ -1,5 +1,6 @@
 package gov.hhs.gsrs.application.applicationdarrts.controllers;
 
+import gov.hhs.gsrs.application.ApplicationDataSourceConfig;
 import gov.hhs.gsrs.application.applicationdarrts.models.ApplicationDarrts;
 import gov.hhs.gsrs.application.applicationdarrts.models.SubstanceKeyParentConcept;
 import gov.hhs.gsrs.application.applicationdarrts.searcher.LegacyApplicationDarrtsSearcher;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -31,8 +34,10 @@ public class ApplicationDarrtsController extends EtagLegacySearchEntityControlle
 
  //   @Autowired
  //   private ETagRepository eTagRepository;
-    @Autowired
+
+    @PersistenceContext(unitName =  ApplicationDataSourceConfig.NAME_ENTITY_MANAGER)
     private EntityManager entityManager;
+    
     @Autowired
     private GsrsControllerConfiguration gsrsControllerConfiguration;
     @Autowired

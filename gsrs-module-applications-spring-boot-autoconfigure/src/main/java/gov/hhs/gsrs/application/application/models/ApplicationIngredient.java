@@ -24,7 +24,7 @@ import java.util.Date;
 public class ApplicationIngredient extends AbstractGsrsEntity {
 
     @Id
-    @SequenceGenerator(name="appingSeq", sequenceName="SRSCID.SRSCID_SQ_APPLICATION_TYPE_ID",allocationSize=1)
+    @SequenceGenerator(name="appingSeq", sequenceName="SRSCID_SQ_APPLICATION_TYPE_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "appingSeq")
     @Column(name="APPLICATION_TYPE_ID")
     public Long id;

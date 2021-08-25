@@ -1,5 +1,6 @@
 package gov.hhs.gsrs.application.application.controllers;
 
+import gov.hhs.gsrs.application.ApplicationDataSourceConfig;
 import gov.hhs.gsrs.application.SubstanceModuleService;
 import gov.hhs.gsrs.application.application.models.Application;
 import gov.hhs.gsrs.application.application.models.additional.ApplicationHistory;
@@ -10,6 +11,7 @@ import gov.hhs.gsrs.application.application.searcher.LegacyApplicationSearcher;
 import gov.hhs.gsrs.application.application.services.ApplicationEntityService;
 
 import gov.nih.ncats.common.util.Unchecked;
+import gsrs.DefaultDataSourceConfig;
 import gsrs.autoconfigure.GsrsExportConfiguration;
 import gsrs.controller.*;
 import gsrs.legacy.LegacyGsrsSearchService;
@@ -36,6 +38,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
@@ -50,7 +54,9 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
 
     @Autowired
     private ETagRepository eTagRepository;
-    @Autowired
+    
+
+    @PersistenceContext(unitName =  ApplicationDataSourceConfig.NAME_ENTITY_MANAGER)
     private EntityManager entityManager;
     @Autowired
     private GsrsControllerConfiguration gsrsControllerConfiguration;

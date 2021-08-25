@@ -1,5 +1,6 @@
 package gov.hhs.gsrs.application.searchcount.controllers;
 
+import gov.hhs.gsrs.application.ApplicationDataSourceConfig;
 import gov.hhs.gsrs.application.searchcount.models.SubstanceSearchCount;
 import gov.hhs.gsrs.application.searchcount.searcher.LegacySearchCountSearcher;
 import gov.hhs.gsrs.application.searchcount.services.SearchCountEntityService;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -31,7 +34,8 @@ public class SearchCountController extends EtagLegacySearchEntityController<Sear
 
     @Autowired
     private ETagRepository eTagRepository;
-    @Autowired
+
+    @PersistenceContext(unitName =  ApplicationDataSourceConfig.NAME_ENTITY_MANAGER)
     private EntityManager entityManager;
     @Autowired
     private GsrsControllerConfiguration gsrsControllerConfiguration;

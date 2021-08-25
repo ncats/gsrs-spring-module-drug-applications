@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class ApplicationIndication extends ApplicationCommanData {
 
     @Id
-    @SequenceGenerator(name="appIndSeq", sequenceName="SRSCID.SRSCID_SQ_APP_INDICATION_ID",allocationSize=1)
+    @SequenceGenerator(name="appIndSeq", sequenceName="SRSCID_SQ_APP_INDICATION_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "appIndSeq")
     @Column(name="APP_INDICATION_ID")
     public Long id;
