@@ -80,7 +80,7 @@ public class ApplicationProduct extends ApplicationCommanData {
     public Application application;
     */
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ApplicationProductName> applicationProductNameList = new ArrayList<>();
 
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")

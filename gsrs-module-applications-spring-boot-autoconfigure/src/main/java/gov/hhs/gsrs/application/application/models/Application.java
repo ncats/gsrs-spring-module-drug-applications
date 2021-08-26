@@ -134,7 +134,7 @@ public class Application extends ApplicationCommanData {
     */
 
     @JoinColumn(name = "APPLICATION_ID", referencedColumnName = "APPLICATION_ID")
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ApplicationProduct> applicationProductList = new ArrayList<>();
 
     @JoinColumn(name = "APPLICATION_ID_FK", referencedColumnName = "APPLICATION_ID")
