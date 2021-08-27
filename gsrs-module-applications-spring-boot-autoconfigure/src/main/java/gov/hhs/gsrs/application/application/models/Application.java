@@ -9,6 +9,8 @@ import ix.core.models.IndexableRoot;
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -137,6 +139,7 @@ public class Application extends ApplicationCommanData {
     @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ApplicationProduct> applicationProductList = new ArrayList<>();
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "APPLICATION_ID_FK", referencedColumnName = "APPLICATION_ID")
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     public List<ApplicationIndication> applicationIndicationList = new ArrayList<>();

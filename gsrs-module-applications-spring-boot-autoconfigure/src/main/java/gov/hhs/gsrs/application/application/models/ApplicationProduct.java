@@ -3,6 +3,8 @@ package gov.hhs.gsrs.application.application.models;
 import ix.core.SingleParent;
 import ix.core.models.Indexable;
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -83,8 +85,9 @@ public class ApplicationProduct extends ApplicationCommanData {
     @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ApplicationProductName> applicationProductNameList = new ArrayList<>();
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     public List<ApplicationIngredient> applicationIngredientList = new ArrayList<>();
 
 }
