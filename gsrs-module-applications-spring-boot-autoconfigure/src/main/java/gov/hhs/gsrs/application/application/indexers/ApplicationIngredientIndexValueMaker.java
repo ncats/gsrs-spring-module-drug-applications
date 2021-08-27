@@ -1,9 +1,11 @@
 package gov.hhs.gsrs.application.application.indexers;
 
+import gov.hhs.gsrs.application.ApplicationDataSourceConfig;
 import gov.hhs.gsrs.application.application.models.Application;
 import gov.hhs.gsrs.application.application.models.ApplicationIngredient;
 import gov.hhs.gsrs.application.application.models.ApplicationProduct;
 
+import gsrs.DefaultDataSourceConfig;
 import ix.core.search.text.IndexValueMaker;
 import ix.core.search.text.IndexableValue;
 import ix.ginas.models.v1.Substance;
@@ -15,7 +17,7 @@ import java.util.function.Consumer;
 
 public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<Application> {
 
-	@Autowired
+	@PersistenceContext(unitName =  DefaultDataSourceConfig.NAME_ENTITY_MANAGER)
 	public EntityManager entityManager;
 
 	@Override
