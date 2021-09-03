@@ -6,7 +6,7 @@
     <parent>
         <artifactId>gsrs-module-applications</artifactId>
         <groupId>gov.hhs.gsrs</groupId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.1.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
