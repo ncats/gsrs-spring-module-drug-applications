@@ -7,7 +7,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@IndexableRoot
 @Data
 @Entity
 @Table(name="SRSCID_APP_INDICATION_ALL_MV")

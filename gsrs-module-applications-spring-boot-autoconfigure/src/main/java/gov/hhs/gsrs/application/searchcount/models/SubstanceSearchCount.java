@@ -2,10 +2,14 @@ package gov.hhs.gsrs.application.searchcount.models;
 
 import gsrs.model.AbstractGsrsEntity;
 
+import ix.core.models.Backup;
+import ix.core.models.IndexableRoot;
 import lombok.Data;
 
 import javax.persistence.*;
 
+@IndexableRoot
+@Backup
 @Data
 @Entity
 @IdClass(SearchCountCompositePrimaryKeyId.class)

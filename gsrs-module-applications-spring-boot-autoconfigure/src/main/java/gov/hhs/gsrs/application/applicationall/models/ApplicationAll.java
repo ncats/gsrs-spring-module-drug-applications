@@ -2,13 +2,17 @@ package gov.hhs.gsrs.application.applicationall.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import gsrs.model.AbstractGsrsEntity;
+import ix.core.models.Backup;
 import ix.core.models.Indexable;
+import ix.core.models.IndexableRoot;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@IndexableRoot
+@Backup
 @Data
 @Entity
 @Table(name="SRSCID_APPLICATION_ALL_MV")

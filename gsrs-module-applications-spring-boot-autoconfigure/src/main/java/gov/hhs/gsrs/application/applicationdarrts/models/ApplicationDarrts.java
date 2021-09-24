@@ -1,12 +1,16 @@
 package gov.hhs.gsrs.application.applicationdarrts.models;
 
 import gsrs.model.AbstractGsrsEntity;
+import ix.core.models.Backup;
+import ix.core.models.IndexableRoot;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@IndexableRoot
+@Backup
 @Data
 @Entity
 @IdClass(ApplicationDarrtsCompositePrimaryKeyId.class)
