@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Service
 public class SearchCountEntityService extends AbstractGsrsEntityService<SubstanceSearchCount, String> {
-    public static final String  CONTEXT = "searchcount";
+    public static final String  CONTEXT = "searchcounts";
 
     public SearchCountEntityService() {
         super(CONTEXT,  IdHelpers.STRING_NO_WHITESPACE, null, null, null);

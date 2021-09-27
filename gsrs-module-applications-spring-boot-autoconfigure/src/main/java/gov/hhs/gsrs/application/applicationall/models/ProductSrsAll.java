@@ -2,6 +2,8 @@ package gov.hhs.gsrs.application.applicationall.models;
 
 import gsrs.model.AbstractGsrsEntity;
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,13 +24,14 @@ public class ProductSrsAll extends AbstractGsrsEntity {
     @Column(name="DOSAGE_FORM")
     public String dosageForm;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<AppIngredientAll> applicationIngredientList = new ArrayList<>();
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    public List<ProductNameSrsAll> applicationProductNameList = new ArrayList<>();
 
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<ProductNameSrsAll> applicationProductNameList = new ArrayList<>();
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    public List<AppIngredientAll> applicationIngredientList = new ArrayList<>();
 
     public ProductSrsAll () {}
 

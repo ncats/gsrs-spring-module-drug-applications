@@ -25,23 +25,25 @@ public class ApplicationCommanData extends AbstractGsrsEntity {
   //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appSeq")
   //  public Long id;
 
+    @Indexable(facet = true, name = "Record Created By")
     @Column(name = "CREATED_BY")
     private String createdBy;
 
+    @Indexable(name = "Record Last Edited By")
     @Column(name = "MODIFIED_BY")
     private String modifiedBy;
 
     @JsonSerialize(using = GsrsDateSerializer.class)
     @JsonDeserialize(using = GsrsDateDeserializer.class)
     @CreatedDate
-    @Indexable( name = "Create Date", sortable=true)
+    @Indexable( name = "Record Create Date", sortable=true)
     @Column(name = "CREATE_DATE")
     private Date creationDate;
 
     @JsonSerialize(using = GsrsDateSerializer.class)
     @JsonDeserialize(using = GsrsDateDeserializer.class)
     @LastModifiedDate
-    @Indexable( name = "Last Modified Date", sortable=true)
+    @Indexable( name = "Record Last Edited", sortable=true)
     @Column(name = "MODIFY_DATE")
     private Date lastModifiedDate;
 
