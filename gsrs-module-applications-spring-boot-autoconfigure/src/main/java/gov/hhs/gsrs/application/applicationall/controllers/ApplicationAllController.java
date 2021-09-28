@@ -55,17 +55,21 @@ public class ApplicationAllController extends EtagLegacySearchEntityController<A
 
     @PersistenceContext(unitName =  ApplicationDataSourceConfig.NAME_ENTITY_MANAGER)
     private EntityManager entityManager;
+
     @Autowired
     private GsrsControllerConfiguration gsrsControllerConfiguration;
+
     @Autowired
     private PlatformTransactionManager transactionManager;
+
     @Autowired
     private ExportService exportService;
+
     @Autowired
     private TaskExecutor taskExecutor;
+
     @Autowired
     private GsrsExportConfiguration gsrsExportConfiguration;
-
 
     @Autowired
     private ApplicationAllEntityService applicationEntityService;

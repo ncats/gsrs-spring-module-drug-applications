@@ -24,14 +24,14 @@ public class ProductSrsAll extends AbstractGsrsEntity {
     @Column(name="DOSAGE_FORM")
     public String dosageForm;
 
+    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    public List<AppIngredientAll> applicationIngredientList = new ArrayList<>();
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     public List<ProductNameSrsAll> applicationProductNameList = new ArrayList<>();
-
-    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    public List<AppIngredientAll> applicationIngredientList = new ArrayList<>();
 
     public ProductSrsAll () {}
 
