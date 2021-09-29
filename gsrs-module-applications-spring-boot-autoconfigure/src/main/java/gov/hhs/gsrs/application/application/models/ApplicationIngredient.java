@@ -99,7 +99,7 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Column(name = "CREATED_BY")
     public String createdBy;
 
-    @Indexable(facet = true, name = "Ingredient Last Modified By")
+    @Indexable(facet = true, name = "Ingredient Last Edited By")
     @Column(name = "MODIFIED_BY")
     public String modifiedBy;
 
@@ -113,7 +113,7 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @JsonSerialize(using = GsrsDateSerializer.class)
     @JsonDeserialize(using = GsrsDateDeserializer.class)
     @LastModifiedDate
-    @Indexable( name = "Ingredient Last Modified Date", sortable=true)
+    @Indexable( name = "Ingredient Last Edited", sortable=true)
     @Column(name = "MODIFY_DATE")
     private Date lastModifiedDate;
 

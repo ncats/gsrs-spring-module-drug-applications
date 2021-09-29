@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @Service
 public class ApplicationAllEntityService extends AbstractGsrsEntityService<ApplicationAll, String> {
-    public static final String  CONTEXT = "applicationall";
+    public static final String  CONTEXT = "applicationsall";
 
     public ApplicationAllEntityService() {
         super(CONTEXT,  IdHelpers.STRING_NO_WHITESPACE, null, null, null);
