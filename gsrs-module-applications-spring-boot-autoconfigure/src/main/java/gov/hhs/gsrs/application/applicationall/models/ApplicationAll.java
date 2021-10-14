@@ -42,7 +42,7 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Column(name="APP_SUB_TYPE")
     public String appSubType;
 
-    @Indexable(facet=true, name = "Center")
+    @Indexable(facet=true, suggest=true, name = "Center")
     @Column(name="CENTER")
     public String center;
 

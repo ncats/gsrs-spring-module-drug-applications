@@ -18,7 +18,7 @@ public class ApplicationIndication extends ApplicationCommanData {
     @Column(name="APP_INDICATION_ID")
     public Long id;
 
-    @Indexable(facet = true, name = "Indication")
+    @Indexable(suggest = true, facet = true, name = "Indication")
     @Column(name="INDICATION")
     public String indication;
 

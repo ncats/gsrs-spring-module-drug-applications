@@ -19,7 +19,7 @@ public class ApplicationProductName extends ApplicationCommanData {
     @Column(name="ID")
     public Long id;
 
-    @Indexable(facet=true, name = "Product Name", sortable = true)
+    @Indexable(suggest = true, facet=true, name = "Product Name", sortable = true)
     @Column(name="PRODUCT_NAME")
     public String productName;
 

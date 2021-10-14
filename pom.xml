@@ -9,6 +9,7 @@
     <modules>
         <module>gsrs-module-applications-spring-boot-starter</module>
         <module>gsrs-module-applications-spring-boot-autoconfigure</module>
+        <module>applications-api</module>
     </modules>
 
     <parent>
@@ -32,10 +33,10 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <lucene.version>4.10.0</lucene.version>
-        <gsrs.version>0.8.2-SNAPSHOT</gsrs.version>
+        <gsrs.version>0.8.3-SNAPSHOT</gsrs.version>
         <gsrs.application.version>0.1.1-SNAPSHOT</gsrs.application.version>
         <!-- TO BE REMOVE -->
-        <gsrs.substance.version>0.7.2-SNAPSHOT</gsrs.substance.version>
+        <gsrs.substance.version>0.7.3-SNAPSHOT</gsrs.substance.version>
     </properties>
 
     <repositories>

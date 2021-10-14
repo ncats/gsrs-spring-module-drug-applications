@@ -74,15 +74,15 @@ public class Application extends ApplicationCommanData {
     @Column(name = "APP_TYPE")
     public String appType;
 
-    @Indexable(facet = true, name = "Application Number", sortable = true)
+    @Indexable(suggest = true, facet = true, name = "Application Number", sortable = true)
     @Column(name = "APP_NUMBER")
     public String appNumber;
 
-    @Indexable(facet = true, name = "Title")
+    @Indexable(suggest = true, facet = true, name = "Title")
     @Column(name = "APPLICATION_TITLE")
     public String title;
 
-    @Indexable(facet = true, name = "Sponsor Name")
+    @Indexable(suggest = true, facet = true, name = "Sponsor Name")
     @Column(name = "SPONSOR_NAME")
     public String sponsorName;
 
@@ -97,7 +97,7 @@ public class Application extends ApplicationCommanData {
     @Column(name = "APP_SUB_TYPE")
     public String appSubType;
 
-    @Indexable(facet = true, name = "Division Class Description")
+    @Indexable(suggest = true, facet = true, name = "Division Class Description")
     @Column(name = "DIVISION_CLASS_DESC")
     public String divisionClassDesc;
 
@@ -115,7 +115,7 @@ public class Application extends ApplicationCommanData {
     @Column(name = "PUBLIC_DOMAIN")
     public String publicDomain;
 
-    @Indexable(facet = true, name = "Provenance (GSRS)")
+    @Indexable(suggest = true, facet = true, name = "Provenance (GSRS)")
     @Column(name = "PROVENANCE")
     public String provenance;
 
