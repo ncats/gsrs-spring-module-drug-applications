@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,16 +17,24 @@ import java.util.List;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApplicationAllDTO {
+
     private String id;
+    private String center;
     private String appType;
     private String appNumber;
+    private String title;
     private String sponsorName;
-    private String appStatus;
     private String appSubType;
-    private String center;
-    private String fromTable;
+    private String appStatus;
+    private String divisionClassDesc;
     private String provenance;
+    private String fromTable;
 
+    private List<ProductSrsAllDTO> applicationProductList = new ArrayList<>();
+    private List<AppIndicationAllDTO> indicationList = new ArrayList<>();
+}
+
+    /*
     public String getId() {
         return id;
     }
@@ -97,16 +106,4 @@ public class ApplicationAllDTO {
     public void setProvenance(String provenance) {
         this.provenance = provenance;
     }
-/*
-    "id": "1127995",
-            "appType": "IND",
-            "": "147700",
-            "": "ABBVIE INC",
-            "": "ACTIVE",
-            "": "COMM",
-            "": "CDER",
-            "": "SRS",
-            "": "DARRTS",
-
-     */
-}
+    */
