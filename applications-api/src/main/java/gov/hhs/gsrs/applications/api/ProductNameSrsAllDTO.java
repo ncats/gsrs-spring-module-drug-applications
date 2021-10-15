@@ -1,6 +1,5 @@
 package gov.hhs.gsrs.applications.api;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
