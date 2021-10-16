@@ -21,7 +21,7 @@
 
     <groupId>gov.hhs.gsrs</groupId>
     <artifactId>gsrs-module-applications</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.2-SNAPSHOT</version>
     <name>GSRS Application Module</name>
     <description>GSRS Application Module for Spring Boot</description>
 
@@ -34,7 +34,7 @@
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <lucene.version>4.10.0</lucene.version>
         <gsrs.version>0.8.3-SNAPSHOT</gsrs.version>
-        <gsrs.application.version>0.1.1-SNAPSHOT</gsrs.application.version>
+        <gsrs.application.version>0.1.2-SNAPSHOT</gsrs.application.version>
         <!-- TO BE REMOVE -->
         <gsrs.substance.version>0.7.3-SNAPSHOT</gsrs.substance.version>
     </properties>
