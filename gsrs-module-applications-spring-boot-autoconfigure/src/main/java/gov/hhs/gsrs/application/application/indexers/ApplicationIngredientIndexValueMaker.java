@@ -44,7 +44,7 @@ public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<App
 							}
 						}
 					}
-					consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name", result));
+					consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name", result).suggestable());
 				}
 			}
 
