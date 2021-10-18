@@ -73,7 +73,7 @@ public class ApplicationsApiTest {
     }
     @Test
 
-    public void countError() throws IOException {
+    public void countError(){
         this.mockRestServiceServer
                 .expect(requestTo("/api/v1/applicationsall/@count"))
                 .andRespond(withServerError());
@@ -81,6 +81,8 @@ public class ApplicationsApiTest {
         assertThrows(IOException.class,()-> api.count());
     }
 
+    //TODO add json responses for applications here follow examples of vocab tests below
+/*
     @Test
     public void getSingleRecord() throws IOException {
         String json = "{\"id\":1795,\"version\":1,\"created\":1473443705000,\"modified\":1612668776000,\"deprecated\":false,\"domain\":\"ACCESS_GROUP\",\"vocabularyTermType\":\"ix.ginas.models.v1.ControlledVocabulary\",\"fields\":[\"ACCESS\"],\"editable\":false,\"filterable\":false,\"terms\":[{\"id\":43473,\"version\":1,\"created\":1473443705000,\"modified\":1612668776000,\"deprecated\":false,\"value\":\"protected\",\"display\":\"PROTECTED\",\"filters\":[],\"hidden\":false,\"selected\":false},{\"id\":43474,\"version\":1,\"created\":1473443705000,\"modified\":1612668776000,\"deprecated\":false,\"value\":\"admin\",\"display\":\"admin\",\"filters\":[],\"hidden\":false,\"selected\":false}]}";
@@ -125,4 +127,6 @@ public class ApplicationsApiTest {
 
         assertEquals("http://localhost:8080/api/v1/substances(8798e4b8-223c-4d24-aeeb-1f3ca2914328)?view=full", existsCheckResult.getFound().get("7X1DH96Q9D").getUrl());
     }
+
+ */
 }
