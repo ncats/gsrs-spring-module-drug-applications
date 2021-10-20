@@ -5,7 +5,7 @@ import gsrs.security.GsrsSecurityUtils;
 import ix.core.models.Indexable;
 import ix.core.models.Principal;
 import ix.core.models.UserProfile;
-import ix.core.models.ForceUpdateDirtyMixin;
+import gsrs.ForceUpdateDirtyMakerMixin;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 
@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @MappedSuperclass
-public class ApplicationCommanData extends AbstractGsrsEntity implements ForceUpdateDirtyMixin{
+public class ApplicationCommanData extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin{
 
   //  @Id
   //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appSeq")
