@@ -40,11 +40,15 @@ public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<App
 							Substance s = (Substance) query.getSingleResult();
 
 							if (s != null) {
-								result = s.getName();
+								s.names.forEach(nameObj -> {
+									if (nameObj.name != null) {
+										consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name", nameObj.name).suggestable().setSortable());
+									}
+								});
 							}
 						}
 					}
-					consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name", result).suggestable());
+
 				}
 			}
 
