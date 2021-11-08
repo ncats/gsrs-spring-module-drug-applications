@@ -15,6 +15,7 @@ enum AppDefaultColumns implements Column {
     APP_TYPE,
     APP_NUMBER,
     CENTER,
+    TITLE,
     SPONSOR_NAME,
     APP_STATUS,
     APP_SUB_TYPE,
@@ -113,6 +114,7 @@ public class ApplicationExporter implements Exporter<Application> {
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.CENTER, SingleColumnValueRecipe.create( AppDefaultColumns.CENTER ,(s, cell) -> cell.writeString(s.center)));
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.APP_TYPE, SingleColumnValueRecipe.create( AppDefaultColumns.APP_TYPE ,(s, cell) -> cell.writeString(s.appType)));
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.APP_NUMBER, SingleColumnValueRecipe.create( AppDefaultColumns.APP_NUMBER ,(s, cell) -> cell.writeString(s.appNumber)));
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.TITLE, SingleColumnValueRecipe.create( AppDefaultColumns.TITLE ,(s, cell) -> cell.writeString(s.title)));
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.PRODUCT_NAME, SingleColumnValueRecipe.create( AppDefaultColumns.PRODUCT_NAME ,(s, cell) ->{
             StringBuilder sb = getProductDetails(s, AppDefaultColumns.PRODUCT_NAME);
             cell.writeString(sb.toString());
