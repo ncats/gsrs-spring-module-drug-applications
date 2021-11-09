@@ -3,10 +3,17 @@ package gov.hhs.gsrs.application.application.exporters;
 import gov.hhs.gsrs.application.application.controllers.ApplicationController;
 import gov.hhs.gsrs.application.application.models.*;
 
+import gsrs.DefaultDataSourceConfig;
+import ix.core.EntityFetcher;
 import ix.ginas.exporters.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import ix.ginas.models.v1.Substance;
+import org.springframework.transaction.support.TransactionTemplate;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.io.IOException;
 import java.util.*;
 
@@ -39,13 +46,15 @@ public class ApplicationExporter implements Exporter<Application> {
     private final List<ColumnValueRecipe<Application>> recipeMap;
 
     private static ApplicationController applicationController;
+    private static EntityManager entityManager;
 
     private static StringBuilder substanceApprovalIdSB;
     private static StringBuilder substanceActiveMoietySB;
 
-    private ApplicationExporter(Builder builder, ApplicationController applicationController){
+    private ApplicationExporter(Builder builder, ApplicationController applicationController, EntityManager entityManager){
 
         this.applicationController = applicationController;
+        this.entityManager = entityManager;
         substanceApprovalIdSB = new StringBuilder();
         substanceActiveMoietySB = new StringBuilder();
 
@@ -179,15 +188,25 @@ public class ApplicationExporter implements Exporter<Application> {
                             substanceActiveMoietySB.append("|");
                         }
 
-
                         // Get Substance Details
                         if (ingred.substanceKey != null) {
-                            if (applicationController != null) {
-                                JsonNode subJson = applicationController.injectSubstanceBySubstanceKey(ingred.substanceKey);
 
-                                if (subJson != null) {
-                                    substanceName = subJson.path("_name").textValue();
-                                    approvalId = subJson.path("approvalID").textValue();
+                            //TODO: replace with SubstanceKeyResolver for this later
+                            //Get Substance Object by Substance Key
+                            Query query = entityManager.createQuery("SELECT s FROM Substance s JOIN s.codes c WHERE c.type = 'PRIMARY' and c.code=:subKey");
+                            query.setParameter("subKey", ingred.substanceKey);
+                            Substance sub = (Substance) query.getSingleResult();
+
+                            if (sub != null) {
+                           // if (applicationController != null) {
+                           //     JsonNode subJson = applicationController.injectSubstanceBySubstanceKey(ingred.substanceKey);
+
+                           //     if (subJson != null) {
+                            //        substanceName = subJson.path("_name").textValue();
+                           //         approvalId = subJson.path("approvalID").textValue();
+
+                                     substanceName = ((Substance) EntityFetcher.of(sub.fetchKey()).call()).getName();
+                                     approvalId = sub.approvalID;
 
                                     // Get Substance Name
                                     sb.append((substanceName != null) ? substanceName : "(No Ingredient Name)");
@@ -196,7 +215,7 @@ public class ApplicationExporter implements Exporter<Application> {
                                     // approval Id.
                                     substanceApprovalIdSB.append((approvalId != null) ? approvalId : "(No Approval ID)");
                                 }
-                            }
+                          //  }
                         } else {
                             sb.append("(No Ingredient Name)");
                             substanceApprovalIdSB.append("(No Approval ID)");
@@ -320,8 +339,8 @@ public class ApplicationExporter implements Exporter<Application> {
             return this;
         }
 
-        public ApplicationExporter build(ApplicationController applicationController){
-            return new ApplicationExporter(this, applicationController);
+        public ApplicationExporter build(ApplicationController applicationController, EntityManager entityManager){
+            return new ApplicationExporter(this, applicationController, entityManager);
         }
 
         public Builder includePublicDataOnly(boolean publicOnly){

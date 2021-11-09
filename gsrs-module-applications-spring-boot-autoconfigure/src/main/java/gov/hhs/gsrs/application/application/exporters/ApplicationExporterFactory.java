@@ -3,11 +3,14 @@ package gov.hhs.gsrs.application.application.exporters;
 import gov.hhs.gsrs.application.SubstanceModuleService;
 import gov.hhs.gsrs.application.application.controllers.ApplicationController;
 
+import gsrs.DefaultDataSourceConfig;
 import gsrs.springUtils.AutowireHelper;
 import ix.ginas.exporters.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
@@ -15,6 +18,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ApplicationExporterFactory implements ExporterFactory {
+
+	@PersistenceContext(unitName =  DefaultDataSourceConfig.NAME_ENTITY_MANAGER)
+	public EntityManager entityManager;
 
 	@Autowired
 	public ApplicationController applicationController;
@@ -56,7 +62,7 @@ public class ApplicationExporterFactory implements ExporterFactory {
 		ApplicationExporter.Builder builder = new ApplicationExporter.Builder(spreadsheet);
 		configure(builder, params);
 		
-		return builder.build(applicationController);
+		return builder.build(applicationController, entityManager);
 	}
 
 	protected void configure(ApplicationExporter.Builder builder, Parameters params) {
