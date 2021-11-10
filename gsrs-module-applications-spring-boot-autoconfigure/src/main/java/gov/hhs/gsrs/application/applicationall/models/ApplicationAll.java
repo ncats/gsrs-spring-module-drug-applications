@@ -30,6 +30,9 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Column(name="APP_NUMBER")
     public String appNumber;
 
+    @Column(name="APPLICATION_TITLE")
+    public String title;
+
     @Column(name="SPONSOR_NAME")
     public String sponsorName;
 
