@@ -1,9 +1,12 @@
 package gov.hhs.gsrs.application.application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ix.core.SingleParent;
 import ix.core.models.Indexable;
 
+import ix.core.models.ParentReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -32,6 +35,18 @@ public class ApplicationProductName extends ApplicationCommanData {
     @Indexable(facet=true, name = "Product Name Deprecated")
     @Column(name="DEPRECATED")
     public String deprecated;
+
+    @Indexable(indexed=false)
+    @ParentReference
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="PRODUCT_ID")
+    public ApplicationProduct owner;
+
+    public void setOwner(ApplicationProduct applicationProduct) {
+        this.owner = applicationProduct;
+    }
 
     /*
     @Version

@@ -1,8 +1,12 @@
 package gov.hhs.gsrs.application.application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ix.core.SingleParent;
 import ix.core.models.Indexable;
+import ix.core.models.ParentReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -23,8 +27,8 @@ public class ApplicationProduct extends ApplicationCommanData {
     @Column(name = "PRODUCT_ID")
     public Long id;
 
-    @Column(name="APPLICATION_ID")
-    public String applicationId;
+  //  @Column(name="APPLICATION_ID")
+  //  public String applicationId;
 
     @Indexable(facet = true, name = "Dosage Form")
     @Column(name="DOSAGE_FORM")
@@ -48,46 +52,45 @@ public class ApplicationProduct extends ApplicationCommanData {
     @Column(name="REVIEW_DATE")
     public Date reviewDate;
 
-    /*
-    @Version
-    @Column(name = "INTERNAL_VERSION")
-    public Long internalVersion;
-
-    @Column(name = "CREATED_BY")
-    public String createdBy;
-
-    @Column(name = "MODIFIED_BY")
-    public String modifiedBy;
-
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @CreatedDate
-    @Indexable( name = "Create Date", sortable=true)
-    @Column(name = "CREATE_DATE")
-    private Date creationDate;
-
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @LastModifiedDate
-    @Indexable( name = "Last Modified Date", sortable=true)
-    @Column(name = "MODIFY_DATE")
-    private Date lastModifiedDate;
-    */
-
-    /*
     @Indexable(indexed=false)
+    @ParentReference
+    @EqualsAndHashCode.Exclude
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName="APPLICATION_ID")
-    public Application application;
-    */
-    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="APPLICATION_ID")
+    public Application owner;
+
+    @ToString.Exclude
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="owner")
     public List<ApplicationProductName> applicationProductNameList = new ArrayList<>();
 
+    @ToString.Exclude
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="owner")
     public List<ApplicationIngredient> applicationIngredientList = new ArrayList<>();
 
+    public void setApplicationProductNameList(List<ApplicationProductName> applicationProductNameList) {
+        this.applicationProductNameList = applicationProductNameList;
+        if(applicationProductNameList !=null) {
+            for (ApplicationProductName appProdNme : applicationProductNameList)
+            {
+                appProdNme.setOwner(this);
+            }
+        }
+    }
+
+    public void setApplicationIngredientList(List<ApplicationIngredient> applicationIngredientList) {
+        this.applicationIngredientList = applicationIngredientList;
+        if(applicationIngredientList !=null) {
+            for (ApplicationIngredient appProdIngred : applicationIngredientList)
+            {
+                appProdIngred.setOwner(this);
+            }
+        }
+    }
+
+    public void setOwner(Application application) {
+        this.owner = application;
+    }
 }
