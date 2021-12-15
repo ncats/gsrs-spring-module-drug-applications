@@ -9,6 +9,7 @@ import ix.core.models.IndexableRoot;
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -125,23 +126,35 @@ public class Application extends ApplicationCommanData {
     @Column(name = "STATUS_DATE")
     public Date statusDate;
 
-    // @Column(name = "VERSION")
-    // public int version = 0;
-
-    /*
-    @Version
-    @Column(name = "INTERNAL_VERSION")
-    public Long internalVersion;
-    */
-
-    @JoinColumn(name = "APPLICATION_ID", referencedColumnName = "APPLICATION_ID")
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "owner")
     public List<ApplicationProduct> applicationProductList = new ArrayList<>();
 
+    @ToString.Exclude
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "APPLICATION_ID_FK", referencedColumnName = "APPLICATION_ID")
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "owner")
     public List<ApplicationIndication> applicationIndicationList = new ArrayList<>();
+
+    public void setApplicationIndicationList(List<ApplicationIndication> applicationIndicationList) {
+        this.applicationIndicationList = applicationIndicationList;
+        if(applicationIndicationList !=null) {
+            for (ApplicationIndication appInd : applicationIndicationList)
+            {
+                appInd.setOwner(this);
+            }
+        }
+    }
+
+    public void setApplicationProductList(List<ApplicationProduct> applicationProductList) {
+        this.applicationProductList = applicationProductList;
+        if(applicationProductList !=null) {
+            for (ApplicationProduct appProd : applicationProductList)
+            {
+                appProd.setOwner(this);
+            }
+        }
+    }
 
     public String getCenter() {
         return this.center;

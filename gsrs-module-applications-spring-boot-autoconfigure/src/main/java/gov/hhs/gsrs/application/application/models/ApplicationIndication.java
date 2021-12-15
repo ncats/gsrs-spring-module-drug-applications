@@ -1,8 +1,11 @@
 package gov.hhs.gsrs.application.application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ix.core.SingleParent;
 import ix.core.models.Indexable;
+import ix.core.models.ParentReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -21,6 +24,14 @@ public class ApplicationIndication extends ApplicationCommanData {
     @Indexable(suggest = true, facet = true, name = "Indication")
     @Column(name="INDICATION")
     public String indication;
+
+    @Indexable(indexed=false)
+    @ParentReference
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="APPLICATION_ID_FK")
+    public Application owner;
 
     /*
     @Column(name = "CREATED_BY")
@@ -45,4 +56,8 @@ public class ApplicationIndication extends ApplicationCommanData {
     */
 
     public ApplicationIndication () {}
+
+    public void setOwner(Application application) {
+        this.owner = application;
+    }
 }

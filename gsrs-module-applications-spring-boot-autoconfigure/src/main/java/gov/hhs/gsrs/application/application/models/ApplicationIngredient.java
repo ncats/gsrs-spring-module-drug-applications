@@ -1,16 +1,19 @@
 package gov.hhs.gsrs.application.application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.security.GsrsSecurityUtils;
 import ix.core.SingleParent;
 import ix.core.models.Indexable;
+import ix.core.models.ParentReference;
 import ix.core.models.Principal;
 import ix.core.models.UserProfile;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -29,8 +32,8 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Column(name="APPLICATION_TYPE_ID")
     public Long id;
 
-    @Column(name="PRODUCT_ID")
-    public String productId;
+   // @Column(name="PRODUCT_ID")
+   // public String productId;
 
     @Column(name="APPLICANT_INGRED_NAME")
     public String applicantIngredName;
@@ -116,6 +119,18 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Indexable( name = "Ingredient Last Edited", sortable=true)
     @Column(name = "MODIFY_DATE")
     private Date lastModifiedDate;
+
+    @Indexable(indexed=false)
+    @ParentReference
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="PRODUCT_ID")
+    public ApplicationProduct owner;
+
+    public void setOwner(ApplicationProduct applicationProduct) {
+        this.owner = applicationProduct;
+    }
 
     @PrePersist
     public void prePersist() {
