@@ -27,11 +27,17 @@ enum AppDefaultColumns implements Column {
     APP_STATUS,
     APP_SUB_TYPE,
     DIVISION_CLASS_DESC,
-    PRODUCT_NAME,
+    STATUS_DATE,
+    SUBMIT_DATE,
+    NONPROPRIETARY_NAME,
+    DOSAGE_FORM,
+    ROUTE_OF_ADMINISTRATION,
     PROVENANCE,
+    PRODUCT_NAME,
+    APPLICANT_INGREDIENT_NAME,
     SUBSTANCE_KEY,
-    APPROVAL_ID,
     SUBSTANCE_NAME,
+    APPROVAL_ID,
     ACTIVE_MOIETY,
     INGREDIENT_TYPE,
     INDICATION
@@ -124,12 +130,25 @@ public class ApplicationExporter implements Exporter<Application> {
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.APP_TYPE, SingleColumnValueRecipe.create( AppDefaultColumns.APP_TYPE ,(s, cell) -> cell.writeString(s.appType)));
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.APP_NUMBER, SingleColumnValueRecipe.create( AppDefaultColumns.APP_NUMBER ,(s, cell) -> cell.writeString(s.appNumber)));
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.TITLE, SingleColumnValueRecipe.create( AppDefaultColumns.TITLE ,(s, cell) -> cell.writeString(s.title)));
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.SPONSOR_NAME, SingleColumnValueRecipe.create( AppDefaultColumns.SPONSOR_NAME ,(s, cell) -> cell.writeString(s.sponsorName)));
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.APP_STATUS, SingleColumnValueRecipe.create( AppDefaultColumns.APP_STATUS ,(s, cell) -> cell.writeString(s.status)));
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.STATUS_DATE, SingleColumnValueRecipe.create( AppDefaultColumns.STATUS_DATE ,(s, cell) -> cell.writeString(s.getStatusDate())));
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.SUBMIT_DATE, SingleColumnValueRecipe.create( AppDefaultColumns.SUBMIT_DATE ,(s, cell) -> cell.writeString(s.getSubmitDate())));
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.NONPROPRIETARY_NAME, SingleColumnValueRecipe.create( AppDefaultColumns.NONPROPRIETARY_NAME ,(s, cell) -> cell.writeString(s.nonProprietaryName)));
+
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.PRODUCT_NAME, SingleColumnValueRecipe.create( AppDefaultColumns.PRODUCT_NAME ,(s, cell) ->{
             StringBuilder sb = getProductDetails(s, AppDefaultColumns.PRODUCT_NAME);
             cell.writeString(sb.toString());
         }));
-        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.SPONSOR_NAME, SingleColumnValueRecipe.create( AppDefaultColumns.SPONSOR_NAME ,(s, cell) -> cell.writeString(s.sponsorName)));
-        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.APP_STATUS, SingleColumnValueRecipe.create( AppDefaultColumns.APP_STATUS ,(s, cell) -> cell.writeString(s.status)));
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.DOSAGE_FORM, SingleColumnValueRecipe.create( AppDefaultColumns.DOSAGE_FORM ,(s, cell) ->{
+            StringBuilder sb = getProductDetails(s, AppDefaultColumns.DOSAGE_FORM);
+            cell.writeString(sb.toString());
+        }));
+        DEFAULT_RECIPE_MAP.put(AppDefaultColumns.ROUTE_OF_ADMINISTRATION, SingleColumnValueRecipe.create( AppDefaultColumns.ROUTE_OF_ADMINISTRATION ,(s, cell) ->{
+            StringBuilder sb = getProductDetails(s, AppDefaultColumns.ROUTE_OF_ADMINISTRATION);
+            cell.writeString(sb.toString());
+        }));
+
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.APP_SUB_TYPE, SingleColumnValueRecipe.create( AppDefaultColumns.APP_SUB_TYPE ,(s, cell) -> cell.writeString(s.appSubType)));
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.DIVISION_CLASS_DESC, SingleColumnValueRecipe.create( AppDefaultColumns.DIVISION_CLASS_DESC ,(s, cell) -> cell.writeString(s.divisionClassDesc)));
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.PROVENANCE, SingleColumnValueRecipe.create( AppDefaultColumns.PROVENANCE ,(s, cell) -> cell.writeString(s.provenance)));
@@ -146,7 +165,9 @@ public class ApplicationExporter implements Exporter<Application> {
             List<ApplicationProduct> prodList = s.applicationProductList;
 
             for(ApplicationProduct prod : prodList){
-
+                if(sb.length()!=0){
+                    sb.append("|");
+                }
                 for (ApplicationProductName prodName : prod.applicationProductNameList) {
                     if(sb.length()!=0){
                         sb.append("|");
@@ -157,9 +178,20 @@ public class ApplicationExporter implements Exporter<Application> {
                             break;
                         default:
                             break;
-                    }
-                }
-            }
+                    } // Product Name switch
+                } // Product Name for loop
+
+                switch (fieldName) {
+                    case DOSAGE_FORM:
+                        sb.append((prod.dosageForm != null) ? prod.dosageForm : "(No Dosage Form)");
+                        break;
+                    case ROUTE_OF_ADMINISTRATION:
+                        sb.append((prod.routeAdmin != null) ? prod.routeAdmin : "(No Route of Admin)");
+                        break;
+                    default:
+                        break;
+                } // Product switch
+            } // Product for loop
         }
         return sb;
     }
@@ -245,6 +277,9 @@ public class ApplicationExporter implements Exporter<Application> {
 
                         try {
                             switch (fieldName) {
+                                case APPLICANT_INGREDIENT_NAME:
+                                    sb.append((ingred.applicantIngredName != null) ? ingred.applicantIngredName : "");
+                                    break;
                                 case SUBSTANCE_KEY:
                                     sb.append((ingred.substanceKey != null) ? ingred.substanceKey : "(No Substance Key)");
                                     break;

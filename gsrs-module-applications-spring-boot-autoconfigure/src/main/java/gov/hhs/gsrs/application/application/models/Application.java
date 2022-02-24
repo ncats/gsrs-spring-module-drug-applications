@@ -94,6 +94,9 @@ public class Application extends ApplicationCommanData {
     @Column(name = "SUBMIT_DATE")
     public Date submitDate;
 
+    @Column(name = "STATUS_DATE")
+    public Date statusDate;
+
     @Indexable(facet = true, name = "Application Sub Type")
     @Column(name = "APP_SUB_TYPE")
     public String appSubType;
@@ -123,8 +126,6 @@ public class Application extends ApplicationCommanData {
     @Column(name = "EXTERNAL_TITLE")
     public String externalTitle;
 
-    @Column(name = "STATUS_DATE")
-    public Date statusDate;
 
     @ToString.Exclude
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -165,7 +166,7 @@ public class Application extends ApplicationCommanData {
     }
 
     public String getSubmitDate() {
-        //Convert Date to String
+        //Convert Date to String, get value from database
         return convertDateToString(this.submitDate);
     }
 
