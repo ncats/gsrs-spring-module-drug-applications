@@ -10,7 +10,10 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @IndexableRoot
@@ -39,11 +42,20 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Column(name="STATUS")
     public String appStatus;
 
+    @Column(name = "SUBMIT_DATE")
+    public Date submitDate;
+
+    @Column(name = "STATUS_DATE")
+    public Date statusDate;
+
     @Column(name="DIVISION_CLASS_DESC")
     public String divisionClassDesc;
 
     @Column(name="APP_SUB_TYPE")
     public String appSubType;
+
+    @Column(name="NONPROPRIETARY_NAME")
+    public String nonProprietaryName;
 
     @Indexable(facet=true, suggest=true, name = "Center")
     @Column(name="CENTER")
@@ -80,6 +92,58 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Indexable(facet=true, name="Deprecated")
     public String getDeprecated(){
         return "Not Deprecated";
+    }
+
+    public String getSubmitDate() {
+        //Convert Date to String, get value from database
+        return convertDateToString(this.submitDate);
+    }
+
+    public void setSubmitDate(String submitDate) {
+        //Convert String to Date
+        this.submitDate = convertStringToDate(submitDate);
+    }
+
+    public String getStatusDate() {
+        //Get value from Database
+        //Convert Date to String
+        return convertDateToString(this.statusDate);
+    }
+
+    public void setStatusDate(String statusDate) {
+        //Set or Store value into Database
+        //Convert String to Date
+        this.statusDate = convertStringToDate(statusDate);
+    }
+
+    public String convertDateToString(Date dtDate) {
+
+        String strDate = null;
+        try {
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            if (dtDate != null) {
+                strDate = df.format(dtDate);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return strDate;
+    }
+
+    public Date convertStringToDate(String strDate) {
+
+        Date dtDate = null;
+        try {
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            if ((strDate != null) && (strDate.length() > 0)) {
+                dtDate = df.parse(strDate);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return dtDate;
     }
 
     /*

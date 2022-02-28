@@ -24,6 +24,9 @@ public class ProductSrsAll extends AbstractGsrsEntity {
     @Column(name="DOSAGE_FORM")
     public String dosageForm;
 
+    @Column(name="ROUTE_OF_ADMINISTRATION")
+    public String routeAdmin;
+
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
     @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ProductNameSrsAll> applicationProductNameList = new ArrayList<>();
@@ -32,7 +35,6 @@ public class ProductSrsAll extends AbstractGsrsEntity {
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     public List<AppIngredientAll> applicationIngredientList = new ArrayList<>();
-
 
     public ProductSrsAll () {}
 

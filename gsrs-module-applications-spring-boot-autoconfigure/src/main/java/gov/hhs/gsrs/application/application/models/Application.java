@@ -187,19 +187,6 @@ public class Application extends ApplicationCommanData {
         this.statusDate = convertStringToDate(statusDate);
     }
 
-    /*
-    @PrePersist
-    public void prePersist() {
-        Date currentDate = TimeUtil.getCurrentDate();
-        Principal p1=UserFetcher.getActingUser();
-        if (p1 != null) {
-            this.createdBy = p1.username;
-        }
-
-        this.createDate = currentDate;
-    }
-    */
-
     @JsonIgnore
     @Indexable(facet=true, name="Has Products")
     public String getHasProducts(){
@@ -257,24 +244,6 @@ public class Application extends ApplicationCommanData {
         }
         return result;
     }
-
-    /*
-    @JsonIgnore
-    @Indexable(facet=true, name="Ingredient Name", sortable = true)
-    public String getIngredientName(){
-        String result = HAS_NO_INGREDIENT;
-        for(ApplicationProduct r: this.applicationProductList){
-            for(ApplicationIngredient ing: r.applicationIngredientList){
-                if (ing != null) {
-                    if (ing._name != null) {
-                        result =  ing._name;
-                    }
-                }
-            }
-        }
-        return result;
-    }
-    */
 
     @JsonIgnore
     @Indexable(facet=true, name="Submit Date")

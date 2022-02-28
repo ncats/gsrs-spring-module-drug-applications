@@ -18,6 +18,8 @@ public class ProductSrsAllDTO {
 
     private String id;
     private String applicationId;
+    private String dosageForm;
+    private String routeAdmin;
     private List<ProductNameSrsAllDTO> applicationProductNameList = new ArrayList<>();
     private List<AppIngredientAllDTO> applicationIngredientList = new ArrayList<>();
 }

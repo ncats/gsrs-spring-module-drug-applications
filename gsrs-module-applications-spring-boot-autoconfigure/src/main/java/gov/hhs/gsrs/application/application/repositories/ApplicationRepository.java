@@ -30,7 +30,7 @@ public interface ApplicationRepository extends GsrsVersionedRepository<Applicati
     List<ProductEffected> findProductEffectedByApplicationId(String applicationId);
 
     @Query("SELECT a FROM ClinicalTrial a WHERE a.nctn in (select b.nctNumber from ClinicalTrialApplication b WHERE b.applicationId = ?1)")
-    List<ClinicalTrial> findClinicalTrialByApplicationId(String applicationId);
+    List<ClinicalTrial> findClinicalTrialByApplicationId(Long applicationId);
 
 
 }

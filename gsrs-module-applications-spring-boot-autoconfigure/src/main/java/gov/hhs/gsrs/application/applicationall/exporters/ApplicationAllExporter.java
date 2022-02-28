@@ -15,22 +15,30 @@ import java.io.IOException;
 import java.util.*;
 
 enum AppAllDefaultColumns implements Column {
+
     ID,
     APP_TYPE,
     APP_NUMBER,
     CENTER,
+    TITLE,
     SPONSOR_NAME,
     APP_STATUS,
     APP_SUB_TYPE,
     DIVISION_CLASS_DESC,
-    INDICATION,
-    PRODUCT_NAME,
+    STATUS_DATE,
+    SUBMIT_DATE,
+    NONPROPRIETARY_NAME,
+    DOSAGE_FORM,
+    ROUTE_OF_ADMINISTRATION,
     PROVENANCE,
+    PRODUCT_NAME,
+    APPLICANT_INGREDIENT_NAME,
     SUBSTANCE_KEY,
-    APPROVAL_ID,
     SUBSTANCE_NAME,
+    APPROVAL_ID,
     ACTIVE_MOIETY,
     INGREDIENT_TYPE,
+    INDICATION,
     FROM_TABLE
 }
 
@@ -87,6 +95,11 @@ public class ApplicationAllExporter implements Exporter<ApplicationAll> {
 
         DEFAULT_RECIPE_MAP = new LinkedHashMap<>();
 
+        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APPLICANT_INGREDIENT_NAME, SingleColumnValueRecipe.create(AppAllDefaultColumns.APPLICANT_INGREDIENT_NAME ,(s, cell) ->{
+            StringBuilder sb = getIngredientDetails(s, AppAllDefaultColumns.APPLICANT_INGREDIENT_NAME);
+            cell.writeString(sb.toString());
+        }));
+
         DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.SUBSTANCE_NAME, SingleColumnValueRecipe.create(AppAllDefaultColumns.SUBSTANCE_NAME ,(s, cell) ->{
             StringBuilder sb = getIngredientName(s);
             cell.writeString(sb.toString());
@@ -109,62 +122,38 @@ public class ApplicationAllExporter implements Exporter<ApplicationAll> {
         DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.CENTER, SingleColumnValueRecipe.create( AppAllDefaultColumns.CENTER ,(s, cell) -> cell.writeString(s.center)));
         DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APP_TYPE, SingleColumnValueRecipe.create( AppAllDefaultColumns.APP_TYPE ,(s, cell) -> cell.writeString(s.appType)));
         DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APP_NUMBER, SingleColumnValueRecipe.create( AppAllDefaultColumns.APP_NUMBER ,(s, cell) -> cell.writeString(s.appNumber)));
+        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.TITLE, SingleColumnValueRecipe.create( AppAllDefaultColumns.TITLE ,(s, cell) -> cell.writeString(s.title)));
+        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.SPONSOR_NAME, SingleColumnValueRecipe.create( AppAllDefaultColumns.SPONSOR_NAME ,(s, cell) -> cell.writeString(s.sponsorName)));
+        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APP_STATUS, SingleColumnValueRecipe.create( AppAllDefaultColumns.APP_STATUS ,(s, cell) -> cell.writeString(s.appStatus)));
+        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.STATUS_DATE, SingleColumnValueRecipe.create( AppAllDefaultColumns.STATUS_DATE ,(s, cell) -> cell.writeString(s.getStatusDate())));
+        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.SUBMIT_DATE, SingleColumnValueRecipe.create( AppAllDefaultColumns.SUBMIT_DATE ,(s, cell) -> cell.writeString(s.getSubmitDate())));
+        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.NONPROPRIETARY_NAME, SingleColumnValueRecipe.create( AppAllDefaultColumns.NONPROPRIETARY_NAME ,(s, cell) -> cell.writeString(s.nonProprietaryName)));
+
         DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.PRODUCT_NAME, SingleColumnValueRecipe.create( AppAllDefaultColumns.PRODUCT_NAME ,(s, cell) ->{
             StringBuilder sb = getProductDetails(s, AppAllDefaultColumns.PRODUCT_NAME);
             cell.writeString(sb.toString());
         }));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.SPONSOR_NAME, SingleColumnValueRecipe.create( AppAllDefaultColumns.SPONSOR_NAME ,(s, cell) -> cell.writeString(s.sponsorName)));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APP_STATUS, SingleColumnValueRecipe.create( AppAllDefaultColumns.APP_STATUS ,(s, cell) -> cell.writeString(s.appStatus)));
+        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.DOSAGE_FORM, SingleColumnValueRecipe.create( AppAllDefaultColumns.DOSAGE_FORM ,(s, cell) ->{
+            StringBuilder sb = getProductDetails(s, AppAllDefaultColumns.DOSAGE_FORM);
+            cell.writeString(sb.toString());
+        }));
+        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.ROUTE_OF_ADMINISTRATION, SingleColumnValueRecipe.create( AppAllDefaultColumns.ROUTE_OF_ADMINISTRATION ,(s, cell) ->{
+            StringBuilder sb = getProductDetails(s, AppAllDefaultColumns.ROUTE_OF_ADMINISTRATION);
+            cell.writeString(sb.toString());
+        }));
+
         DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APP_SUB_TYPE, SingleColumnValueRecipe.create( AppAllDefaultColumns.APP_SUB_TYPE ,(s, cell) -> cell.writeString(s.appSubType)));
         DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.DIVISION_CLASS_DESC, SingleColumnValueRecipe.create( AppAllDefaultColumns.DIVISION_CLASS_DESC ,(s, cell) -> cell.writeString(s.divisionClassDesc)));
         DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.PROVENANCE, SingleColumnValueRecipe.create( AppAllDefaultColumns.PROVENANCE ,(s, cell) -> cell.writeString(s.provenance)));
-
-
-        /*
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.SUBSTANCE_NAME, SingleColumnValueRecipe.create( AppAllDefaultColumns.SUBSTANCE_NAME ,(s, cell) ->{
-        	StringBuilder sb = getIngredientDetails(s, AppAllDefaultColumns.SUBSTANCE_NAME);
-            cell.writeString(sb.toString());
-        }));
-
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.UNII, SingleColumnValueRecipe.create( AppAllDefaultColumns.UNII ,(s, cell) ->{
-            StringBuilder sb = getIngredientDetails(s, AppAllDefaultColumns.UNII);
-            cell.writeString(sb.toString());
-        }));
-
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.BDNUM, SingleColumnValueRecipe.create( AppAllDefaultColumns.BDNUM ,(s, cell) ->{
-            StringBuilder sb = getIngredientDetails(s, AppAllDefaultColumns.BDNUM);
-            cell.writeString(sb.toString());
-        }));
-
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.INGREDIENT_TYPE, SingleColumnValueRecipe.create( AppAllDefaultColumns.INGREDIENT_TYPE ,(s, cell) ->{
-            StringBuilder sb = getIngredientDetails(s, AppAllDefaultColumns.INGREDIENT_TYPE);
-            cell.writeString(sb.toString());
-        }));
-
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.CENTER, SingleColumnValueRecipe.create( AppAllDefaultColumns.CENTER ,(s, cell) -> cell.writeString(s.center)));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APP_TYPE, SingleColumnValueRecipe.create( AppAllDefaultColumns.APP_TYPE ,(s, cell) -> cell.writeString(s.appType)));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APP_NUMBER, SingleColumnValueRecipe.create( AppAllDefaultColumns.APP_NUMBER ,(s, cell) -> cell.writeString(s.appNumber)));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.PRODUCT_NAME, SingleColumnValueRecipe.create( AppAllDefaultColumns.PRODUCT_NAME ,(s, cell) ->{
-            StringBuilder sb = getProductDetails(s, AppAllDefaultColumns.PRODUCT_NAME);
-            cell.writeString(sb.toString());
-        }));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.SPONSOR_NAME, SingleColumnValueRecipe.create( AppAllDefaultColumns.SPONSOR_NAME ,(s, cell) -> cell.writeString(s.sponsorName)));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APP_STATUS, SingleColumnValueRecipe.create( AppAllDefaultColumns.APP_STATUS ,(s, cell) -> cell.writeString(s.appStatus)));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.APP_SUB_TYPE, SingleColumnValueRecipe.create( AppAllDefaultColumns.APP_SUB_TYPE ,(s, cell) -> cell.writeString(s.appSubType)));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.DIVISION_CLASS_DESC, SingleColumnValueRecipe.create( AppAllDefaultColumns.DIVISION_CLASS_DESC ,(s, cell) -> cell.writeString(s.divisionClassDesc)));
-        DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.PROVENANCE, SingleColumnValueRecipe.create( AppAllDefaultColumns.PROVENANCE ,(s, cell) -> cell.writeString(s.provenance)));
-        */
-
         DEFAULT_RECIPE_MAP.put(AppAllDefaultColumns.FROM_TABLE, SingleColumnValueRecipe.create( AppAllDefaultColumns.FROM_TABLE ,(s, cell) -> {
             String fromTable = null;
             if (s.fromTable != null) {
-                if (s.fromTable.equalsIgnoreCase("SRS")) {
-                    fromTable = "GSRS";
-                } else if (s.fromTable.equalsIgnoreCase("Darrts")) {
+                if (s.fromTable.equalsIgnoreCase("Integrity")) {
                     fromTable = "Integrity/DARRTS";
                 }
-            }else {
-                fromTable = "GSRS";
+                else {
+                    fromTable = s.fromTable;
+                }
             }
             cell.writeString(fromTable);
         }));
@@ -196,8 +185,19 @@ public class ApplicationAllExporter implements Exporter<ApplicationAll> {
                         default:
                             break;
                     }
-                }
-            }
+                } // for ProductNameSrsAll
+
+                switch (fieldName) {
+                    case DOSAGE_FORM:
+                        sb.append((prod.dosageForm != null) ? prod.dosageForm : "(No Dosage Form)");
+                        break;
+                    case ROUTE_OF_ADMINISTRATION:
+                        sb.append((prod.routeAdmin != null) ? prod.routeAdmin : "(No Route of Admin)");
+                        break;
+                    default:
+                        break;
+                } // Product switch
+            } // for ProductSrsAll
         }
         return sb;
     }
@@ -226,16 +226,8 @@ public class ApplicationAllExporter implements Exporter<ApplicationAll> {
                             substanceActiveMoietySB.append("|");
                         }
 
-
                         // Get Substance Details
                         if (ingred.substanceKey != null) {
-
-                           // if (applicationController != null) {
-                           //     JsonNode subJson = applicationController.injectSubstanceBySubstanceKey(ingred.substanceKey);
-
-                          //      if (subJson != null) {
-                          //          substanceName = subJson.path("_name").textValue();
-                          //          approvalId = subJson.path("approvalID").textValue();
 
                             //TODO: replace with SubstanceKeyResolver for this later
                             //Get Substance Object by Substance Key
@@ -244,13 +236,6 @@ public class ApplicationAllExporter implements Exporter<ApplicationAll> {
                             Substance sub = (Substance) query.getSingleResult();
 
                             if (sub != null) {
-                                // if (applicationController != null) {
-                                //     JsonNode subJson = applicationController.injectSubstanceBySubstanceKey(ingred.substanceKey);
-
-                                //     if (subJson != null) {
-                                //        substanceName = subJson.path("_name").textValue();
-                                //         approvalId = subJson.path("approvalID").textValue();
-
                                 substanceName = ((Substance) EntityFetcher.of(sub.fetchKey()).call()).getName();
                                 approvalId = sub.approvalID;
 
@@ -291,6 +276,9 @@ public class ApplicationAllExporter implements Exporter<ApplicationAll> {
 
                         try {
                             switch (fieldName) {
+                                case APPLICANT_INGREDIENT_NAME:
+                                    sb.append((ingred.applicantIngredName != null) ? ingred.applicantIngredName : "");
+                                    break;
                                 case SUBSTANCE_KEY:
                                     sb.append((ingred.substanceKey != null) ? ingred.substanceKey : "(No Substance Key)");
                                     break;
@@ -313,64 +301,6 @@ public class ApplicationAllExporter implements Exporter<ApplicationAll> {
         }
         return sb;
     }
-
-    /*
-    private static StringBuilder getIngredientDetails(ApplicationAll s, AppAllDefaultColumns fieldName) {
-        StringBuilder sb = new StringBuilder();
-        substanceApprovalIdSB.setLength(0);
-        String substanceName = null;
-        String approvalId = null;
-
-        try {
-            if (s.applicationProductList.size() > 0) {
-                List<ProductSrsAll> prodList = s.applicationProductList;
-
-                for (ProductSrsAll prod : prodList) {
-
-                    for (AppIngredientAll ingred : prod.applicationIngredientList) {
-                        if (sb.length() != 0) {
-                            sb.append("|");
-                        }
-
-                        if (substanceApprovalIdSB.length() != 0) {
-                            substanceApprovalIdSB.append("|");
-                        }
-                        if (substanceActiveMoietySB.length() != 0) {
-                            substanceActiveMoietySB.append("|");
-                        }
-
-
-                        // Get Substance Details
-                        if (ingred.substanceKey != null) {
-                            if (applicationController != null) {
-                                JsonNode subJson = applicationController.injectSubstanceBySubstanceKey(ingred.substanceKey);
-
-                                if (subJson != null) {
-                                    substanceName = subJson.path("_name").textValue();
-                                    approvalId = subJson.path("approvalID").textValue();
-
-                                    // Get Substance Name
-                                    sb.append((substanceName != null) ? substanceName : "(No Ingredient Name)");
-
-                                    // Storing in static variable so do not have to call the same Substance API twice just to get
-                                    // approval Id.
-                                    substanceApprovalIdSB.append((approvalId != null) ? approvalId : "(No Approval ID)");
-                                }
-                            }
-                        } else {
-                            sb.append("(No Ingredient Name)");
-                            substanceApprovalIdSB.append("(No Approval ID)");
-                        }
-
-                    } // for
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return sb;
-    }
-    */
 
     private static StringBuilder getIndicationDetails(ApplicationAll s) {
         StringBuilder sb = new StringBuilder();

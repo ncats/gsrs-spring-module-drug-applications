@@ -24,8 +24,11 @@ public class ApplicationAllDTO {
     private String appNumber;
     private String title;
     private String sponsorName;
+    private String nonProprietaryName;
     private String appSubType;
     private String appStatus;
+    private String statusDate;
+    private String submitDate;
     private String divisionClassDesc;
     private String provenance;
     private String fromTable;

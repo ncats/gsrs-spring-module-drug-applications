@@ -178,7 +178,10 @@ public class ApplicationEntityService extends AbstractGsrsEntityService<Applicat
     }
 
     public List<ClinicalTrial> findClinicalTrialByApplicationId(String applicationId) {
-        List<ClinicalTrial> list = repository.findClinicalTrialByApplicationId(applicationId);
+        List<ClinicalTrial> list = null;
+        if (applicationId != null) {
+            list = repository.findClinicalTrialByApplicationId(Long.parseLong(applicationId));
+        }
         return list;
     }
 

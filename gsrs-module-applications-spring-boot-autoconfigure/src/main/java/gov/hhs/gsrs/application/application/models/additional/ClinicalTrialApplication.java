@@ -16,7 +16,7 @@ public class ClinicalTrialApplication extends AbstractGsrsEntity {
     public int id;
 
     @Column(name="APPLICATION_ID")
-    public String applicationId;
+    public Long applicationId;
 
     @Column(name="NCT_NUMBER")
     public String nctNumber;
