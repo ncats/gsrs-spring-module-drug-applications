@@ -67,7 +67,7 @@ public class ApplicationProduct extends ApplicationCommanData {
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="APPLICATION_ID",referencedColumnName="id")
+    @JoinColumn(name="APPLICATION_ID",referencedColumnName="APPLICATION_ID")
     public Application owner;
 
     @ToString.Exclude
