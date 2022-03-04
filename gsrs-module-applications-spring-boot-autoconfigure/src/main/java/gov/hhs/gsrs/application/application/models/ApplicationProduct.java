@@ -52,12 +52,22 @@ public class ApplicationProduct extends ApplicationCommanData {
     @Column(name="REVIEW_DATE")
     public Date reviewDate;
 
+    /*
     @Indexable(indexed=false)
     @ParentReference
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="APPLICATION_ID")
+    public Application owner;
+    */
+
+    @Indexable(indexed=false)
+    @ParentReference
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="APPLICATION_ID",referencedColumnName="id")
     public Application owner;
 
     @ToString.Exclude
