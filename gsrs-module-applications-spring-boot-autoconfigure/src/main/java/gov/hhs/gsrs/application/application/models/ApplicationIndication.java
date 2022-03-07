@@ -30,9 +30,7 @@ public class ApplicationIndication extends ApplicationCommanData {
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="APPLICATION_ID_FK",
-referencedColumnName="APPLICATION_ID_FK"
-)
+    @JoinColumn(name="APPLICATION_ID_FK", referencedColumnName="APPLICATION_ID")
     public Application owner;
 
     /*
