@@ -22,6 +22,9 @@ public class SubstanceSearchCount extends AbstractGsrsEntity {
     @Id
     public String provenance;
 
+    @Id
+    public String fromTable;
+
     @Column(name="UNII")
     public String unii;
 

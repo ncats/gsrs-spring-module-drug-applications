@@ -179,7 +179,7 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
                     if (appCountConcat != null && appCountConcat.length() > 0) {
                         appCountConcat = appCountConcat + "<br>";
                     }
-                    appCountConcat = appCountConcat + searchCount.center + " " + provenance + ": "
+                    appCountConcat = appCountConcat + searchCount.center + " " + searchCount.fromTable + ": "
                             + searchCount.appCount;
                 } else {
                     appCountConcat = "0";

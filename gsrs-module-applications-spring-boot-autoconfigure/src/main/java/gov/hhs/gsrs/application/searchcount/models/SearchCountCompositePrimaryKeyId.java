@@ -11,12 +11,16 @@ public class SearchCountCompositePrimaryKeyId implements Serializable {
     @Column(name="PROVENANCE")
     public String provenance;
 
+    @Column(name="FROMTABLE")
+    public String fromTable;
+
     public SearchCountCompositePrimaryKeyId() {};
 
     // default constructor
-    public SearchCountCompositePrimaryKeyId(String substanceId, String provenance) {
+    public SearchCountCompositePrimaryKeyId(String substanceId, String provenance, String fromTable) {
         this.substanceId = substanceId;
         this.provenance = provenance;
+        this.fromTable = fromTable;
     }
 
     // equals() and hashCode()
@@ -28,6 +32,7 @@ public class SearchCountCompositePrimaryKeyId implements Serializable {
         SearchCountCompositePrimaryKeyId that = (SearchCountCompositePrimaryKeyId) o;
 
         if (!substanceId.equals(that.substanceId)) return false;
+        if (!fromTable.equals(that.fromTable)) return false;
         return (provenance.equals(that.provenance));
     }
 
@@ -35,6 +40,7 @@ public class SearchCountCompositePrimaryKeyId implements Serializable {
     public int hashCode() {
         int result =  substanceId.hashCode();
         result = 31 * result + (provenance != null ? provenance.hashCode() : 0);
+        result = 31 * result + (fromTable != null ? fromTable.hashCode() : 0);
         return (int) result;
     }
 
