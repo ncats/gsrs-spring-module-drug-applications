@@ -18,15 +18,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SearchCountEntityService extends AbstractGsrsEntityService<SubstanceSearchCount, String> {
-    public static final String  CONTEXT = "searchcounts";
+    public static final String CONTEXT = "searchcounts";
 
     public SearchCountEntityService() {
-        super(CONTEXT,  IdHelpers.STRING_NO_WHITESPACE, null, null, null);
+        super(CONTEXT, IdHelpers.STRING_NO_WHITESPACE, null, null, null);
     }
 
     @Autowired
@@ -62,7 +66,7 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
     protected SubstanceSearchCount create(SubstanceSearchCount count) {
         try {
             return repository.saveAndFlush(count);
-        }catch(Throwable t){
+        } catch (Throwable t) {
             t.printStackTrace();
             throw t;
         }
@@ -76,7 +80,7 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
 
     @Override
     public void delete(String id) {
-       // repository.deleteById(id);
+        // repository.deleteById(id);
     }
 
     @Override
@@ -139,24 +143,24 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
     public Optional<SubstanceSearchCount> get(String id) {
         SubstanceSearchCount searchCount = findSearchCountBySubstanceUuid(id);
         return Optional.ofNullable(searchCount);
-       // return repository.findById(id);
+        // return repository.findById(id);
     }
 
     @Override
     public Optional<SubstanceSearchCount> flexLookup(String someKindOfId) {
-        if (someKindOfId == null){
+        if (someKindOfId == null) {
             return Optional.empty();
         }
         SubstanceSearchCount searchCount = findSearchCountBySubstanceUuid(someKindOfId);
         return Optional.ofNullable(searchCount);
-       // return repository.findById(someKindOfId);
+        // return repository.findById(someKindOfId);
     }
 
     @Override
     protected Optional<String> flexLookupIdOnly(String someKindOfId) {
         //easiest way to avoid deduping data is to just do a full flex lookup and then return id
         Optional<SubstanceSearchCount> found = flexLookup(someKindOfId);
-        if(found.isPresent()){
+        if (found.isPresent()) {
             return Optional.of(found.get().substanceId);
         }
         return Optional.empty();
@@ -165,37 +169,73 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
     public SubstanceSearchCount findSearchCountBySubstanceUuid(String substanceUuid) {
         SubstanceSearchCount searchCount = new SubstanceSearchCount();
         List<SubstanceSearchCount> list = repository.findSearchCountBySubstanceUuid(substanceUuid);
-
-        String appCountConcat = "";
-        String provenance = "GSRS";
+        List<String> sortList = new ArrayList<>();
+        List<String> prodCountConcatList = new ArrayList<>();
 
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 searchCount = list.get(i);
-                if ((searchCount.provenance != null) && (searchCount.provenance.equalsIgnoreCase("Integrity"))) {
-                    provenance = "Integrity";
-                }
                 if (searchCount.appCount > 0) {
-                    if (appCountConcat != null && appCountConcat.length() > 0) {
-                        appCountConcat = appCountConcat + "<br>";
-                    }
-                    appCountConcat = appCountConcat + searchCount.center + " " + searchCount.fromTable + ": "
-                            + searchCount.appCount;
+                    // APPLICATION COUNT.  Add in the List for sorting purpose
+                    String appConcat = searchCount.center + " " + searchCount.fromTable + ": " + searchCount.appCount + "<br>";
+                    sortList.add(appConcat);
                 } else {
-                    appCountConcat = "0";
+                    // Set to "0"
+                    String appConcat = "0";
+                    sortList.add(appConcat);
+                }
+
+                String prodConcat = "";
+                if (searchCount.prodCount > 0) {
+                    // PRODUCT COUNT. Add in the List for sorting purpose
+                    if ((searchCount.prodProvenance != null) && searchCount.prodProvenance.equalsIgnoreCase("SPL")) {
+                        prodConcat = searchCount.prodProvenance + " (" + searchCount.prodIngredientType + ") : " + searchCount.prodCount + "<br>";
+                    } else {
+                        prodConcat = searchCount.prodProvenance + ": " + searchCount.prodCount + "<br>";
+                    }
+                    prodCountConcatList.add(prodConcat);
+                } else {
+                    prodConcat = "0";
+                    prodCountConcatList.add(prodConcat);
                 }
             }
-
-            if (list.size() > 0) {
-                searchCount = list.get(0);
-                searchCount.appCountConcat = appCountConcat;
-            }
-        }
-        // If list size is 0, set count to "0"
-        if (list.size() == 0) {
+        } else if (list.size() == 0) {
+            // If list size is 0, set count to "0"
             searchCount.appCountConcat = "0";
+            searchCount.prodCountConcat = "0";
         }
 
+        // Remove the duplicate from the Application Count list
+        if (sortList.size() > 0) {
+            StringBuilder appStr = new StringBuilder();
+            searchCount = list.get(0);
+            Object[] arrApp = sortList
+                    .stream()
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.toList()).toArray();
+
+            for (int j = 0; j < arrApp.length; j++) {
+                appStr.append(arrApp[j]);
+            }
+            searchCount.appCountConcat = appStr.toString();
+        }
+
+        // Remove the duplicate from the Product Count list
+        if (prodCountConcatList.size() > 0) {
+            StringBuilder prodStr = new StringBuilder();
+            searchCount = list.get(0);
+            Object[] arrProd = prodCountConcatList
+                    .stream()
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.toList()).toArray();
+
+            for (int k = 0; k < arrProd.length; k++) {
+                prodStr.append(arrProd[k]);
+            }
+            searchCount.prodCountConcat = prodStr.toString();
+        }
         return searchCount;
     }
 }
