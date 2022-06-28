@@ -17,43 +17,63 @@ import java.util.function.Consumer;
 
 public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<Application> {
 
-	@PersistenceContext(unitName =  DefaultDataSourceConfig.NAME_ENTITY_MANAGER)
-	public EntityManager entityManager;
+    @PersistenceContext(unitName = DefaultDataSourceConfig.NAME_ENTITY_MANAGER)
+    public EntityManager entityManager;
 
-	@Override
-	public Class<Application> getIndexedEntityClass() {
-		return Application.class;
-	}
+    @Override
+    public Class<Application> getIndexedEntityClass() {
+        return Application.class;
+    }
 
     @Override
     public void createIndexableValues(Application application, Consumer<IndexableValue> consumer) {
-		try {
-			String result = "HAS_NO_INGREDIENT";
-			for (ApplicationProduct p : application.applicationProductList) {
-				for (ApplicationIngredient ing : p.applicationIngredientList) {
-					if (ing != null) {
-						if (ing.substanceKey != null) {
-							String subKey = ing.substanceKey;
-							//Get Substance Object
-							Query query = entityManager.createQuery("SELECT s FROM Substance s JOIN s.codes c WHERE c.type = 'PRIMARY' and c.code=:subKey");
-							query.setParameter("subKey", subKey);
-							Substance s = (Substance) query.getSingleResult();
+        try {
+            String result = "HAS_NO_INGREDIENT";
+            for (ApplicationProduct p : application.applicationProductList) {
+                for (ApplicationIngredient ing : p.applicationIngredientList) {
+                    if (ing != null) {
+                        if (ing.substanceKey != null) {
+                            String subKey = ing.substanceKey;
+                            //Get Substance Object
+                            Query query = entityManager.createQuery("SELECT s FROM Substance s JOIN s.codes c WHERE c.type = 'PRIMARY' and c.code=:subKey");
+                            query.setParameter("subKey", subKey);
+                            Substance s = (Substance) query.getSingleResult();
 
-							if (s != null) {
-								s.names.forEach(nameObj -> {
-									if (nameObj.name != null) {
-										consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name", nameObj.name).suggestable().setSortable());
-									}
-								});
-							}
-						}
-					}
+                            if (s != null) {
+                                s.names.forEach(nameObj -> {
+                                    if (nameObj.name != null) {
+                                        consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name", nameObj.name).suggestable().setSortable());
+                                    }
+                                });
+                            }
+                        }
+                    }
 
-				}
-			}
+                }
+            }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            if ((application.appType != null) && (application.appNumber != null)) {
+                // String padAppNumber =("000000" + application.appNumber).substring(("000000" + application.appNumber).length()-6);
+                String padAppNumber = leftPadding(application.appNumber);
+                // root_applicationType_<NDA/IND/MF>:<APPL_NUMBER>
+                consumer.accept(IndexableValue.simpleFacetStringValue("root_applicationType_" + application.appType, padAppNumber));
+
+                // root_applicationID:<NDA/IND/MF><APPL_NUMBER>
+                consumer.accept(IndexableValue.simpleFacetStringValue("root_applicationID", application.appType + padAppNumber).suggestable());
+
+                // root_applicationID:<NDA/IND/MF> <APPL_NUMBER>
+                consumer.accept(IndexableValue.simpleFacetStringValue("root_applicationID", application.appType + " " + padAppNumber));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String leftPadding(String value) {
+        if (value != null) {
+            return String.format("%06d", Integer.parseInt(value));
+        }
+        return value;
+    }
 }
