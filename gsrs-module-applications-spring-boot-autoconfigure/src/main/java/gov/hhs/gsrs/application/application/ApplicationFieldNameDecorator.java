@@ -29,6 +29,8 @@ public class ApplicationFieldNameDecorator implements FieldNameDecorator {
         m.put("root_applicationIndicationList_indication", "Indication");
 
         m.put("root_applicationProductList_dosageForm", "Dosage Form");
+        m.put("root_applicationProductList_routeAdmin", "Route of Administration");
+        m.put("root_applicationProductList_unitPresentation", "Unit of Presentation");
 
         m.put("root_applicationProductList_applicationProductNameList_productName", "Product Name");
 
@@ -36,6 +38,7 @@ public class ApplicationFieldNameDecorator implements FieldNameDecorator {
         m.put("root_applicationProductList_applicationIngredientList_substanceKey", "Substance Key");
         m.put("root_applicationProductList_applicationIngredientList_ingredientType", "Ingredient Type");
         m.put("root_applicationProductList_applicationIngredientList_unit", "Unit");
+        m.put("root_applicationProductList_applicationIngredientList_grade", "Grade");
 
         displayNames = m;
     }
