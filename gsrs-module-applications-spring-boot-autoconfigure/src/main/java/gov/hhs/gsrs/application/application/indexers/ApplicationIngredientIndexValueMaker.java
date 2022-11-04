@@ -46,10 +46,8 @@ public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<App
                                         consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name", nameObj.name).suggestable().setSortable());
                                     }
                                 });
-
-                                System.out.println("**** DISPLAY NAME ****: " + s.getName());
+                                // Facet: "Ingredient Name (Preferred)"
                                 if (s.getName() != null) {
-                                    System.out.println("@@@@@@ INSIDE DISPLAY @@@@");
                                     consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name (Preferred)", s.getName()).suggestable().setSortable());
                                 }
                             }
