@@ -100,6 +100,7 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
         return stream;
     }
 
+    /*
     @PreAuthorize("isAuthenticated()")
     @GetGsrsRestApiMapping("/export/{etagId}/{format}")
     public ResponseEntity<Object> createExport(@PathVariable("etagId") String etagId,
@@ -142,6 +143,7 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
 
         return new ResponseEntity<>(GsrsControllerUtil.enhanceWithView(p.getMetaData(), parameters), HttpStatus.OK);
     }
+     */
 
     /*
     public ResponseEntity<Object> createExport(@PathVariable("etagId") String etagId, @PathVariable("format") String format, @RequestParam(value = "publicOnly", required = false) Boolean publicOnlyObj, @RequestParam(value = "filename", required = false) String fileName, Principal prof, @RequestParam Map<String, String> parameters) throws Exception {
@@ -173,6 +175,7 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
     }
     */
 
+    /*
     private Exporter<Application> getExporterFor(String extension, OutputStream pos, boolean publicOnly, Map<String, String> parameters) throws IOException {
         ExporterFactory.Parameters params = this.createParamters(extension, publicOnly, parameters);
         ExporterFactory<Application> factory = this.gsrsExportConfiguration.getExporterFor(this.getEntityService().getContext(), params);
@@ -182,6 +185,7 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
             return factory.createNewExporter(pos, params);
         }
     }
+    */
 
     @GetGsrsRestApiMapping("/applicationhistory/{applicationId}")
     public ResponseEntity<String> findApplicationHistoryByApplicationId(@PathVariable("applicationId") String applicationId) throws Exception {
