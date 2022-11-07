@@ -12,15 +12,19 @@ import gov.hhs.gsrs.application.application.services.ApplicationEntityService;
 
 import gov.nih.ncats.common.util.Unchecked;
 import gsrs.DefaultDataSourceConfig;
+import gsrs.GsrsFactoryConfiguration;
 import gsrs.autoconfigure.GsrsExportConfiguration;
 import gsrs.controller.*;
 import gsrs.controller.hateoas.HttpRequestHolder;
 import gsrs.legacy.LegacyGsrsSearchService;
+import gsrs.module.substance.SubstanceEntityServiceImpl;
 import gsrs.repository.ETagRepository;
 import gsrs.service.EtagExportGenerator;
 import gsrs.service.ExportService;
 import gsrs.service.GsrsEntityService;
 import ix.core.models.ETag;
+import ix.core.search.SearchOptions;
+import ix.core.search.text.TextIndexer;
 import ix.ginas.exporters.ExportMetaData;
 import ix.ginas.exporters.ExportProcess;
 import ix.ginas.exporters.Exporter;
@@ -83,6 +87,9 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private GsrsFactoryConfiguration gsrsFactoryConfiguration;
 
 
     @Override
@@ -233,6 +240,15 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
         return new ResponseEntity(provenanceList, HttpStatus.OK);
     }
     */
+
+    @Override
+    public SearchOptions instrumentSearchOptions(SearchOptions so) {
+
+        so= super.instrumentSearchOptions(so);
+        so.addDateRangeFacet("root_submitDate");
+
+        return so;
+    }
 
     public JsonNode injectSubstanceBySubstanceKey(String substanceKey) {
 

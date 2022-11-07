@@ -245,6 +245,7 @@ public class Application extends ApplicationCommanData {
         return result;
     }
 
+    /*
     @JsonIgnore
     @Indexable(facet=true, name="Submit Date")
     public String getSubmitDateRange(){
@@ -283,6 +284,7 @@ public class Application extends ApplicationCommanData {
         }
         return result;
     }
+     */
 
     /*
     @JsonIgnore

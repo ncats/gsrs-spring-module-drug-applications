@@ -75,9 +75,15 @@ public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<App
     }
 
     public String leftPadding(String value) {
+        /*
         if (value != null) {
             return String.format("%06d", Integer.parseInt(value));
         }
-        return value;
+        */
+        String paddedAppNumber = value;
+        if (value != null) {
+            paddedAppNumber =  ("000000" + value).substring(("000000" + value).length() - 6);
+        }
+        return paddedAppNumber;
     }
 }
