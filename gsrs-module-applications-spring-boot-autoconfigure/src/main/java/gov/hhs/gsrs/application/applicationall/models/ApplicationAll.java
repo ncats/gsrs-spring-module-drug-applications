@@ -27,18 +27,22 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Column(name="APPLICATION_ID")
     public String id;
 
+    @Indexable(sortable = true)
     @Column(name="APP_TYPE")
     public String appType;
 
+    @Indexable(sortable = true)
     @Column(name="APP_NUMBER")
     public String appNumber;
 
     @Column(name="APPLICATION_TITLE")
     public String title;
 
+    @Indexable(sortable = true)
     @Column(name="SPONSOR_NAME")
     public String sponsorName;
 
+    @Indexable(sortable = true)
     @Column(name="STATUS")
     public String appStatus;
 
@@ -51,6 +55,7 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Column(name="DIVISION_CLASS_DESC")
     public String divisionClassDesc;
 
+    @Indexable(sortable = true)
     @Column(name="APP_SUB_TYPE")
     public String appSubType;
 

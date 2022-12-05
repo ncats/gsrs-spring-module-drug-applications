@@ -1,6 +1,7 @@
 package gov.hhs.gsrs.application.applicationall.models;
 
 import gsrs.model.AbstractGsrsEntity;
+import ix.core.models.Indexable;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class ProductNameSrsAll extends AbstractGsrsEntity {
     @Column(name="ID")
     public String id;
 
+    @Indexable(sortable = true)
     @Column(name="PRODUCT_NAME")
     public String productName;
 
