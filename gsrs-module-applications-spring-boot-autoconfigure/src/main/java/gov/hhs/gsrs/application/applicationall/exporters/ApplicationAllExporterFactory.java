@@ -57,7 +57,7 @@ public class ApplicationAllExporterFactory implements ExporterFactory {
 		}
 
 		SpreadsheetFormat format = SpreadsheetFormat.XLSX;
-		Spreadsheet spreadsheet = format.createSpeadsheet(out);
+		Spreadsheet spreadsheet = format.createSpreadsheet(out);
 
 		ApplicationAllExporter.Builder builder = new ApplicationAllExporter.Builder(spreadsheet);
 		configure(builder, params);
