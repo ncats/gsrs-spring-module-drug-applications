@@ -108,7 +108,7 @@ public class ApplicationExporter implements Exporter<Application> {
         */
 
         DEFAULT_RECIPE_MAP.put(AppDefaultColumns.APPLICANT_INGREDIENT_NAME, SingleColumnValueRecipe.create(AppDefaultColumns.APPLICANT_INGREDIENT_NAME ,(s, cell) ->{
-            StringBuilder sb = getIngredientName(s);
+            StringBuilder sb = getIngredientDetails(s, AppDefaultColumns.APPLICANT_INGREDIENT_NAME);
             cell.writeString(sb.toString());
         }));
 
