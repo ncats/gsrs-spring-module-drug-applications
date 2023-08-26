@@ -5,16 +5,16 @@ import java.io.Serializable;
 
 public class ApplicationDarrtsIngredCompositePrimaryKeyId implements Serializable {
 
-    @Column(name="APP_TYPE")
+    @Column(name="APP_TYPE", length=100)
     private String appType;
 
-    @Column(name="APP_NUMBER")
+    @Column(name="APP_NUMBER", length=50)
     public String appNumber;
 
-    @Column(name="SUBSTANCE_KEY")
+    @Column(name="SUBSTANCE_KEY", length=100)
     public String substanceKey;
 
-    @Column(name="PRODUCT_NO")
+    @Column(name="PRODUCT_NO", length=50)
     public String productNo;
 
     public ApplicationDarrtsIngredCompositePrimaryKeyId() {};

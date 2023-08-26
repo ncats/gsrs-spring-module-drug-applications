@@ -35,11 +35,11 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Column(name="APP_NUMBER")
     public String appNumber;
 
-    @Column(name="APPLICATION_TITLE")
+    @Column(name="APPLICATION_TITLE", length=1000)
     public String title;
 
     @Indexable(sortable = true)
-    @Column(name="SPONSOR_NAME")
+    @Column(name="SPONSOR_NAME", length=500)
     public String sponsorName;
 
     @Indexable(sortable = true)
@@ -150,15 +150,4 @@ public class ApplicationAll extends AbstractGsrsEntity {
 
         return dtDate;
     }
-
-    /*
-    @JsonIgnore
-    @Indexable(facet=true, name= "Ingredient Type")
-    public List<String> getIndexedIngredientTypes(){
-    	if(this.ingredientType!=null){
-    		return Arrays.asList(this.ingredientType.split("\\|"));
-    	}
-    	return new ArrayList<String>(); 
-    }
-    */
 }

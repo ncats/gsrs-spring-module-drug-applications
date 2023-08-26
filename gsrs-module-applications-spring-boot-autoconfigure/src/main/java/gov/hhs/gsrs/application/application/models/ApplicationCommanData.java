@@ -22,10 +22,6 @@ import java.util.Date;
 @MappedSuperclass
 public class ApplicationCommanData extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin{
 
-  //  @Id
-  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appSeq")
-  //  public Long id;
-
     @Indexable(facet = true, name = "Record Created By")
     @Column(name = "CREATED_BY")
     private String createdBy;

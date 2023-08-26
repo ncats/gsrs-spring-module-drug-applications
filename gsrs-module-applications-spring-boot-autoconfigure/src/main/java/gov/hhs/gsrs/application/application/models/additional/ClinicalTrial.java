@@ -18,54 +18,54 @@ public class ClinicalTrial extends AbstractGsrsEntity {
     @JsonProperty("nctNumber")
     public String nctn;
 
-    @Column(name = "TITLE", length=4000)
+    @Column(name = "TITLE", length=500)
     public String title;
 
-    @Column(name = "RECRUITMENT", length=4000)
+    @Column(name = "RECRUITMENT", length=200)
     public String recruitment;
 
-    @Column(name = "RESULTS_FIRST_RECEIVED", length=4000)
+    @Column(name = "RESULTS_FIRST_RECEIVED", length=100)
     public String resultsFirstRecieved;
 
     @Column(name = "CONDITIONS", length=4000)
     public String conditions;
 
-    @Column(name = "INTERVENTION", length=4000)
+    @Column(name = "INTERVENTION", length=1800)
     public String intervention;
 
     @Column(name = "SPONSOR", length=4000)
     public String sponsor;
 
-    @Column(name = "PHASES", length=2000)
+    @Column(name = "PHASES", length=50)
     public String phases;
 
-    @Column(name = "FUNDED_BYS", length=2000)
+    @Column(name = "FUNDED_BYS", length=100)
     public String fundedBys;
 
     @Indexable(facet = true, name = "Study Types")
-    @Column(name = "STUDY_TYPES", length=2000)
+    @Column(name = "STUDY_TYPES", length=150)
     public String studyTypes;
 
-    @Column(name = "STUDY_DESIGNS", length=2000)
+    @Column(name = "STUDY_DESIGNS", length=255)
     public String studyDesigns;
 
     @Indexable(facet = true, name = "Study Results")
-    @Column(name = "STUDY_RESULTS", length=4000)
+    @Column(name = "STUDY_RESULTS", length=100)
     public String studyResults;
 
-    @Column(name = "AGE_GROUPS", length=50)
+    @Column(name = "AGE_GROUPS", length=100)
     public String ageGroups;
 
     @Column(name = "GENDER", length=50)
     public String gender;
 
-    @Column(name = "ENROLLMENT", length=2000)
+    @Column(name = "ENROLLMENT", length=100)
     public String enrollment;
 
-    @Column(name = "OTHER_IDS", length=500)
+    @Column(name = "OTHER_IDS", length=550)
     public String otherIds;
 
-    @Column(name = "ACRONYM", length=4000)
+    @Column(name = "ACRONYM", length=100)
     public String acronym;
 
     @Column(name = "START_DATE")
@@ -89,16 +89,10 @@ public class ClinicalTrial extends AbstractGsrsEntity {
     @Column(name = "OUTCOME_MEASURES", length=4000)
     public String outcomeMeasures;
 
-    @Column(name = "URL", length=4000)
+    @Column(name = "URL", length=100)
     public String url;
 
-    @Column(name = "LOCATIONS", length=4000)
-    public String locations;
- /*
-    @JsonIgnore
-    @Indexable(indexed=false)
-    @JoinColumn(name = "NCT_NUMBER", referencedColumnName = "NCTN")
-    @OneToMany(mappedBy="clinicalTrialApp", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    public List<ClinicalTrialApplication> clinicalTrialApplicationList = new ArrayList<ClinicalTrialApplication>();
-  */
+    /*@Column(name = "LOCATIONS", length=4000)
+    public String locations;*/
+
 }

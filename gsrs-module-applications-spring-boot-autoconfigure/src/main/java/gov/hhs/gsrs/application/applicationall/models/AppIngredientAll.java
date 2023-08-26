@@ -18,7 +18,7 @@ public class AppIngredientAll extends AbstractGsrsEntity {
     @Column(name="PRODUCT_ID")
     public String productId;
 
-    @Column(name="APPLICANT_INGRED_NAME")
+    @Column(name="APPLICANT_INGRED_NAME", length=1000)
     public String applicantIngredName;
 
     @Indexable(facet=true, name= "Substance Key")
@@ -27,18 +27,6 @@ public class AppIngredientAll extends AbstractGsrsEntity {
 
     @Column(name="INGREDIENT_TYPE")
     public String ingredientType;
-
-    /*
-    @ManyToOne(optional=true)
-    @JoinColumn(name="BDNUM", insertable=false, updatable=false)
-    public BdnumName bdnumName;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="BDNUM")
-    @Indexable(indexed = false)
-    public SubstanceAll subAllAppType;
-    */
 
     public AppIngredientAll () {}
 

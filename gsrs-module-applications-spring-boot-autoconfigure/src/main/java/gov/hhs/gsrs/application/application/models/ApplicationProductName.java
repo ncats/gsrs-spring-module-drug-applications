@@ -23,7 +23,7 @@ public class ApplicationProductName extends ApplicationCommanData {
     public Long id;
 
     @Indexable(suggest = true, facet=true, name = "Product Name", sortable = true)
-    @Column(name="PRODUCT_NAME")
+    @Column(name="PRODUCT_NAME", length=1000)
     public String productName;
 
     @Column(name="PRODUCT_NAME_TYPE")
@@ -47,39 +47,4 @@ public class ApplicationProductName extends ApplicationCommanData {
     public void setOwner(ApplicationProduct applicationProduct) {
         this.owner = applicationProduct;
     }
-
-    /*
-    @Version
-    @Column(name = "INTERNAL_VERSION")
-    public Long internalVersion;
-
-    @Column(name = "CREATED_BY")
-    public String createdBy;
-
-    @Column(name = "MODIFIED_BY")
-    public String modifiedBy;
-
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @CreatedDate
-    @Indexable( name = "Create Date", sortable=true)
-    @Column(name = "CREATE_DATE")
-    private Date creationDate;
-
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @LastModifiedDate
-    @Indexable( name = "Last Modified Date", sortable=true)
-    @Column(name = "MODIFY_DATE")
-    private Date lastModifiedDate;
-    */
-
-    /*
-    @Indexable(indexed=false)
-    @JsonIgnore
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="PRODUCT_ID")
-    public ApplicationProduct productFromName;
-     */
-
 }
