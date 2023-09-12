@@ -16,7 +16,7 @@ public class ProductNameSrsAll extends AbstractGsrsEntity {
     public String id;
 
     @Indexable(sortable = true)
-    @Column(name="PRODUCT_NAME", length=1000)
+    @Column(name="PRODUCT_NAME")
     public String productName;
 
     @Column(name="FROMTABLE")

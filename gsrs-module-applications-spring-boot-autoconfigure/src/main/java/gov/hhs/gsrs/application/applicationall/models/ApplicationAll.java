@@ -35,11 +35,11 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @Column(name="APP_NUMBER")
     public String appNumber;
 
-    @Column(name="APPLICATION_TITLE", length=1000)
+    @Column(name="APPLICATION_TITLE")
     public String title;
 
     @Indexable(sortable = true)
-    @Column(name="SPONSOR_NAME", length=500)
+    @Column(name="SPONSOR_NAME")
     public String sponsorName;
 
     @Indexable(sortable = true)

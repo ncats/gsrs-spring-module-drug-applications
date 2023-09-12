@@ -25,7 +25,7 @@ public class AppIndicationAll extends AbstractGsrsEntity {
     @Column(name="APP_NUMBER")
     public String appNumber;
 
-    @Column(name="INDICATION", length=4000)
+    @Column(name="INDICATION")
     public String indication;
 
     public AppIndicationAll () {}
