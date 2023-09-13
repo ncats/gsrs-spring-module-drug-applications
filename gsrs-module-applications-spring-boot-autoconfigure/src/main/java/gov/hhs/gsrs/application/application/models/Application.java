@@ -109,12 +109,6 @@ public class Application extends ApplicationCommanData {
     @Column(name = "STATUS")
     public String status;
 
-    /*
-    @Indexable(facet = true, name = "Source")
-    @Column(name = "SOURCE")
-    public String source;
-    */
-
     @Indexable(facet = true, name = "Public Domain")
     @Column(name = "PUBLIC_DOMAIN")
     public String publicDomain;
@@ -125,7 +119,6 @@ public class Application extends ApplicationCommanData {
 
     @Column(name = "EXTERNAL_TITLE")
     public String externalTitle;
-
 
     @ToString.Exclude
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -244,63 +237,6 @@ public class Application extends ApplicationCommanData {
         }
         return result;
     }
-
-    /*
-    @JsonIgnore
-    @Indexable(facet=true, name="Submit Date")
-    public String getSubmitDateRange(){
-        String result = HAS_NO_SUBMIT_DATE;
-        if (this.submitDate != null) {
-            LocalDate localDateSubmitDate = Instant.ofEpochMilli(this.submitDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-            //Instant instant = Instant.ofEpochMilli(this.submitDate.getTime());
-            //LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-            // LocalDate localDateSubmitDate = localDateTime.toLocalDate();
-            //System.out.println("Submit date : " + localDateSubmitDate.toString());
-            // Period days = Period.between(localDateSubmitDate.withDayOfMonth(1), todayDate.withDayOfMonth(1));
-            long month = ChronoUnit.MONTHS.between(localDateSubmitDate.withDayOfMonth(1), todayDate.withDayOfMonth(1));
-            // int day = days.getDays();
-            //int months = days.getMonths();
-            // int years = days.getYears();
-            //System.out.println("DAYS: " + days + " " + day + "  " + months + "   " + years);
-//            System.out.println("MONTH: " + month);
-            //if (day <= 7) {
-            //      result = THIS_WEEK;
-            //  }
-            if (month > 24) {
-                result = OLDER_THAN_2_YEARS;
-            }
-            if ((month >= 13) && (month <= 24)) {
-                result = PAST_2_YEARS;
-            }
-            if ((month >= 7) && (month <= 12)) {
-                result = PAST_1_YEAR;
-            }
-            if ((month >= 2) && (month <= 6)) {
-                result = PAST_6_MONTHS;
-            }
-            if (month == 1) {
-                result = THIS_MONTH;
-            }
-        }
-        return result;
-    }
-     */
-
-    /*
-    @JsonIgnore
-    @Indexable(facet=true, name="Product Name Deprecated")
-    public String getProductNameDeprecated(){
-        String result = "";
-        for(ApplicationProduct p: this.applicationProductList){
-            for(ApplicationProductName pn: p.applicationProductNameList){
-                if (pn != null) {
-                    result = pn.deprecated;
-                }
-            }
-        }
-        return result;
-    }
-    */
 
     @JsonIgnore
     @Indexable(facet=true, name="Deprecated")

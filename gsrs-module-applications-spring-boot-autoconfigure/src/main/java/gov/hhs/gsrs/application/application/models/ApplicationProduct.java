@@ -27,9 +27,6 @@ public class ApplicationProduct extends ApplicationCommanData {
     @Column(name = "PRODUCT_ID")
     public Long id;
 
-  //  @Column(name="APPLICATION_ID")
-  //  public String applicationId;
-
     @Indexable(facet = true, name = "Dosage Form")
     @Column(name="DOSAGE_FORM")
     public String dosageForm;
@@ -51,16 +48,6 @@ public class ApplicationProduct extends ApplicationCommanData {
 
     @Column(name="REVIEW_DATE")
     public Date reviewDate;
-
-    /*
-    @Indexable(indexed=false)
-    @ParentReference
-    @EqualsAndHashCode.Exclude
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="APPLICATION_ID")
-    public Application owner;
-    */
 
     @Indexable(indexed=false)
     @ParentReference

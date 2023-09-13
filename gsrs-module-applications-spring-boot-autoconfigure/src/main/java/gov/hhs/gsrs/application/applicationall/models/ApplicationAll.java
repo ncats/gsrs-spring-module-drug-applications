@@ -150,15 +150,4 @@ public class ApplicationAll extends AbstractGsrsEntity {
 
         return dtDate;
     }
-
-    /*
-    @JsonIgnore
-    @Indexable(facet=true, name= "Ingredient Type")
-    public List<String> getIndexedIngredientTypes(){
-    	if(this.ingredientType!=null){
-    		return Arrays.asList(this.ingredientType.split("\\|"));
-    	}
-    	return new ArrayList<String>(); 
-    }
-    */
 }

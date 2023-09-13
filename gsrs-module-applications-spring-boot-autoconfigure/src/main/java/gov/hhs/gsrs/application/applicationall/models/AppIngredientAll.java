@@ -28,18 +28,6 @@ public class AppIngredientAll extends AbstractGsrsEntity {
     @Column(name="INGREDIENT_TYPE")
     public String ingredientType;
 
-    /*
-    @ManyToOne(optional=true)
-    @JoinColumn(name="BDNUM", insertable=false, updatable=false)
-    public BdnumName bdnumName;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="BDNUM")
-    @Indexable(indexed = false)
-    public SubstanceAll subAllAppType;
-    */
-
     public AppIngredientAll () {}
 
 

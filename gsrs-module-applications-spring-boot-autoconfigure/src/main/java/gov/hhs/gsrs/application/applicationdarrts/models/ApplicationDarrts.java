@@ -72,9 +72,6 @@ public class ApplicationDarrts extends AbstractGsrsEntity {
     })
     public List<ApplicationIndicationDarrts> indicationList = new ArrayList<ApplicationIndicationDarrts>();
 
-    //  public List<String> indicationList = new ArrayList<>();
-    //  public List<ApplicationDarrtsIngredient> ingredientList = new ArrayList<>();
-
     public ApplicationDarrts () {}
 
     public String getAppType() {

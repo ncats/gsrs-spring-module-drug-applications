@@ -32,19 +32,8 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Column(name="APPLICATION_TYPE_ID")
     public Long id;
 
-   // @Column(name="PRODUCT_ID")
-   // public String productId;
-
     @Column(name="APPLICANT_INGRED_NAME")
     public String applicantIngredName;
-    /*
-    @Indexable(facet = true, name = "Bdnum")
-    @Column(name="BDNUM")
-    public String bdnum;
-
-    @Column(name="BASIS_OF_STRENGTH")
-    public String basisOfStrengthBdnum;
-    */
 
     @Indexable(facet = true, name = "Substance Key")
     @Column(name="SUBSTANCE_KEY")
@@ -163,29 +152,4 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
         }
     }
 
-    /*
-    @Transient
-    @JsonProperty("_substanceUuid")
-    public String _substanceUuid;
-
-    @Transient
-    @JsonProperty("_approvalID")
-    public String _approvalID;
-
-    @Transient
-    @JsonProperty("_name")
-    public String _name;
-
-    @Transient
-    @JsonProperty("_basisOfStrengthSubstanceUuid")
-    public String _basisOfStrengthSubstanceUuid;
-
-    @Transient
-    @JsonProperty("_basisOfStrengthApprovalID")
-    public String _basisOfStrengthApprovalID;
-
-    @Transient
-    @JsonProperty("_basisOfStrengthName")
-    public String _basisOfStrengthName;
-    */
 }

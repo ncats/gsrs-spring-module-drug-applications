@@ -35,29 +35,5 @@ public class ApplicationDarrtsIngredient extends AbstractGsrsEntity {
     @Column(name="PART_NO")
     public String partNo;
 
-    /*
-    @Transient
-    public String substanceId;
-
-    @Transient
-    public String unii;
-
-    @Transient
-    public String name;
-
-    @Transient
-    public String parentBdnum;
-
-    @Transient
-    public String parentDisplayTerm;
-    */
-
-    /*
-    @JoinColumn(name = "SUBSTANCE_KEY", referencedColumnName = "SUBSTANCE_KEY")
-   // @OneToMany(cascade = CascadeType.ALL)
-    @ManyToMany(cascade = CascadeType.ALL)
-    public List<SubstanceKeyParentConcept> substanceKeyParentConceptList = new ArrayList<>();
-    */
-
     public ApplicationDarrtsIngredient () {}
 }
