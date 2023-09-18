@@ -80,11 +80,11 @@ public class Application extends ApplicationCommanData {
     public String appNumber;
 
     @Indexable(suggest = true, facet = true, name = "Title")
-    @Column(name = "APPLICATION_TITLE", length=1000)
+    @Column(name = "APPLICATION_TITLE")
     public String title;
 
     @Indexable(suggest = true, facet = true, name = "Sponsor Name", sortable = true)
-    @Column(name = "SPONSOR_NAME", length=500)
+    @Column(name = "SPONSOR_NAME")
     public String sponsorName;
 
     @Column(name = "NONPROPRIETARY_NAME")
