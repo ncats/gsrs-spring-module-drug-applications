@@ -23,7 +23,7 @@ public class ApplicationProductName extends ApplicationCommanData {
     public Long id;
 
     @Indexable(suggest = true, facet=true, name = "Product Name", sortable = true)
-    @Column(name="PRODUCT_NAME")
+    @Column(name="PRODUCT_NAME", length=1000)
     public String productName;
 
     @Column(name="PRODUCT_NAME_TYPE")

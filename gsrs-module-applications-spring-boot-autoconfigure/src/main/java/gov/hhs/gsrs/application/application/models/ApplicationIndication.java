@@ -22,7 +22,7 @@ public class ApplicationIndication extends ApplicationCommanData {
     public Long id;
 
     @Indexable(suggest = true, facet = true, name = "Indication")
-    @Column(name="INDICATION")
+    @Column(name="INDICATION", length=4000)
     public String indication;
 
     @Indexable(indexed=false)
