@@ -33,13 +33,13 @@ public class ApplicationDarrts extends AbstractGsrsEntity {
     @Column(name="APP_SUB_TYPE_DESC")
     public String appSubTypeDesc;
 
-    @Column(name="PRODUCT_NAME")
+    @Column(name="PRODUCT_NAME", length=1000)
     public String productName;
 
     @Column(name="DOSAGE_FORM_DESC")
     public String dosageFormDesc;
 
-    @Column(name="SPONSOR_NAME")
+    @Column(name="SPONSOR_NAME", length=500)
     public String sponsorName;
 
     @Column(name="DIVISION_CLASS")

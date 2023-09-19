@@ -18,7 +18,7 @@ public class AppIngredientAll extends AbstractGsrsEntity {
     @Column(name="PRODUCT_ID")
     public String productId;
 
-    @Column(name="APPLICANT_INGRED_NAME")
+    @Column(name="APPLICANT_INGRED_NAME", length=1000)
     public String applicantIngredName;
 
     @Indexable(facet=true, name= "Substance Key")

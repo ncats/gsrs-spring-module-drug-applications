@@ -18,16 +18,16 @@ public class SubstanceKeyParentConcept extends AbstractGsrsEntity {
     @Column(name="SUBSTANCE_KEY")
     public String substanceKey;
 
-    @Column(name="NAME")
+    @Column(name="NAME", length=4000)
     public String name;
 
-    @Column(name="DISPLAY_TERM")
+    @Column(name="DISPLAY_TERM", length=2000)
     public String displayTerm;
 
     @Column(name="PARENT_SUBSTANCE_KEY")
     public String parentSubstanceKey;
 
-    @Column(name="PARENT_DISPLAY_TERM")
+    @Column(name="PARENT_DISPLAY_TERM", length=2000)
     public String parentDisplayTerm;
 
     public SubstanceKeyParentConcept () {}
