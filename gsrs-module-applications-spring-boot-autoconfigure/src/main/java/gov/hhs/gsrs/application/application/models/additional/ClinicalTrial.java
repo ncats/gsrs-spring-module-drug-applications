@@ -10,11 +10,13 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name="ct_clinical_trial")
+@Table(name="ctrial_us")
+//@Table(name="ct_clinical_trial")
 public class ClinicalTrial extends AbstractGsrsEntity {
 
     @Id
-    @Column(name = "NCTN", length=22)
+   // @Column(name = "NCTN", length=22)
+    @Column(name = "TRIAL_NUMBER", length=22)
     @JsonProperty("nctNumber")
     public String nctn;
 

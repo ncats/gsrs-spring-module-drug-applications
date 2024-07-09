@@ -188,11 +188,11 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
                 String prodConcat = "";
                 if (searchCount.prodCount > 0) {
                     // PRODUCT COUNT. Add in the List for sorting purpose
-                    if ((searchCount.prodProvenance != null) && searchCount.prodProvenance.equalsIgnoreCase("SPL")) {
-                        prodConcat = searchCount.prodProvenance + " (" + searchCount.prodIngredientType + ") : " + searchCount.prodCount + "<br>";
-                    } else {
-                        prodConcat = searchCount.prodProvenance + ": " + searchCount.prodCount + "<br>";
-                    }
+                    // if ((searchCount.prodProvenance != null) && searchCount.prodProvenance.equalsIgnoreCase("SPL")) {
+                    //    prodConcat = searchCount.prodProvenance + " (" + searchCount.prodIngredientType + ") : " + searchCount.prodCount + "<br>";
+                    // } else {
+                    prodConcat = searchCount.prodProvenance + ": " + searchCount.prodCount + "<br>";
+                    // }
                     prodCountConcatList.add(prodConcat);
                 } else {
                     prodConcat = "0";
