@@ -12,32 +12,14 @@ import javax.persistence.*;
 @Backup
 @Data
 @Entity
-//@IdClass(SearchCountCompositePrimaryKeyId.class)
 @Table(name="SRSCID_SEARCH_COUNT_MV")
 public class SubstanceSearchCount extends AbstractGsrsEntity {
-    /*
-    @Id
-    public String substanceId;
-
-    @Id
-    public String provenance;
-
-    @Id
-    public String fromTable;
-    */
-
     @Id
     @Column(name="ID")
     public String id;
 
     @Column(name="UUID")
     public String substanceId;
-
-    @Column(name="PROVENANCE")
-    public String provenance;
-
-    @Column(name="FROMTABLE")
-    public String fromTable;
 
     @Column(name="UNII")
     public String unii;
@@ -51,32 +33,29 @@ public class SubstanceSearchCount extends AbstractGsrsEntity {
     @Column(name="APPCOUNT")
     public int appCount;
 
+    @Column(name="CENTER")
+    public String center;
+
+    @Column(name="PROVENANCE")
+    public String provenance;
+
+    @Column(name="FROMTABLE")
+    public String fromTable;
+
     @Column(name="PRODCOUNT")
     public int prodCount;
 
-    @Column(name="PRODACTIVECOUNT")
-    public int prodActiveCount;
+    @Column(name="PROD_PROVENANCE")
+    public String prodProvenance;
 
-    @Column(name="PRODINACTIVECOUNT")
-    public int prodInactiveCount;
+    //@Column(name="PROD_INGREDIENT_TYPE")
+    //public String prodIngredientType;
 
     @Column(name="CLINICALCOUNT")
     public int clinicalCount;
 
     @Column(name="CASECOUNT")
     public int adverseEventCount;
-
-    @Column(name="CENTER")
-    public String center;
-
-    @Column(name="PROD_PROVENANCE")
-    public String prodProvenance;
-
-    @Column(name="PROD_FROMTABLE")
-    public String prodFromTable;
-
-    @Column(name="PROD_INGREDIENTTYPE")
-    public String prodIngredientType;
 
     @Transient
     public String appCountConcat;
