@@ -54,7 +54,7 @@ public class ClinicalTrial extends AbstractGsrsEntity {
     public String phases;
 
     @Lob
-    @Column(name = "FUNDED_BYS", length=100)
+    @Column(name = "FUNDED_BYS", length=2000)
     public String fundedBys;
 
     @Lob
