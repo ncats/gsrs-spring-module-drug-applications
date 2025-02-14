@@ -50,6 +50,12 @@ public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<App
                                 if (s.getName() != null) {
                                     consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name (Preferred)", s.getName()).suggestable().setSortable());
                                 }
+
+                                if (s.uuid != null) {
+                                    consumer.accept(IndexableValue.simpleStringValue("entity_link_substances", s.uuid.toString()));
+
+                                    consumer.accept(IndexableValue.simpleFacetStringValue("Substance UUID", s.uuid.toString()));
+                                }
                             }
                         }
                     }
