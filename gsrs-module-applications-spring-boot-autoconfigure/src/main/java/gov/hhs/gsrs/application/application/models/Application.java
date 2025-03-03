@@ -154,6 +154,7 @@ public class Application extends ApplicationCommanData {
         return this.center;
     }
 
+    @Indexable
     public Long getId() {
         return id;
     }
