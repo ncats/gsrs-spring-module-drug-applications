@@ -22,11 +22,11 @@ public class RequiredFieldNonNullValidator implements ValidatorPlugin<Applicatio
         }
 
         if (objnew.appType == null || objnew.appType.isEmpty()) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("RequiredFieldNonNullValidatorAppTypeError","Application Type is required."));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("RequiredFieldNonNullValidatorAppTypeError", "Application Type is required."));
         }
 
         if (objnew.appNumber == null || objnew.appNumber.isEmpty()) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("RequiredFieldNonNullValidatorAppNumError","Application Number is required."));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("RequiredFieldNonNullValidatorAppNumError", "Application Number is required."));
         }
     }
 }
