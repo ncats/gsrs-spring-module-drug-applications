@@ -18,15 +18,15 @@ public class RequiredFieldNonNullValidator implements ValidatorPlugin<Applicatio
     public void validate(Application objnew, Application objold, ValidatorCallback callback) {
 
         if ((objnew.center == null) || (objnew.center.isEmpty())) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Center is required"));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("RequiredFieldNonNullValidatorCenterError", "Center is required"));
         }
 
         if (objnew.appType == null || objnew.appType.isEmpty()) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Application Type is required."));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("RequiredFieldNonNullValidatorAppTypeError","Application Type is required."));
         }
 
         if (objnew.appNumber == null || objnew.appNumber.isEmpty()) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Application Number is required."));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("RequiredFieldNonNullValidatorAppNumError","Application Number is required."));
         }
     }
 }
