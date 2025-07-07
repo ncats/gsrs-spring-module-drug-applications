@@ -12,23 +12,21 @@
 
     <artifactId>gsrs-module-applications-spring-boot-starter</artifactId>
 
-    <!--
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-    -->
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
+        <!-- APPLICATION MODULE Autoconfigure Dependencies -->
         <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-module-applications-spring-boot-autoconfigure</artifactId>
             <version>${gsrs.application.version}</version>
         </dependency>
+
+        <!-- SPRING BOOT Dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
