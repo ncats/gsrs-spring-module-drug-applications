@@ -246,7 +246,21 @@ public class ApplicationController extends EtagLegacySearchEntityController<Appl
 
         so= super.instrumentSearchOptions(so);
         so.addDateRangeFacet("root_submitDate");
+        so.addDateRangeFacet("root_creationDate");
+        so.addDateRangeFacet("root_lastModifiedDate");
 
+        if (gsrsFactoryConfiguration != null) {
+            Optional<Map<String, Object>> conf = gsrsFactoryConfiguration
+                    .getSearchSettingsFor(applicationEntityService.CONTEXT);
+
+            String restrict = conf
+                    .map(cc -> cc.get("restrictDefaultToIdentifiers"))
+                    .filter(bb -> bb != null).map(bb -> bb.toString())
+                    .orElse(null);
+            if (restrict != null && "true".equalsIgnoreCase(restrict)) {
+                so.setDefaultField(TextIndexer.FULL_IDENTIFIER_FIELD);
+            }
+        }
         return so;
     }
 

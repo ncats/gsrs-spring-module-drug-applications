@@ -12,6 +12,8 @@ public class ApplicationFieldNameDecorator implements FieldNameDecorator {
     static {
         Map<String, String> m = new HashMap<>();
 
+        m.put("root_creationDate", "Record Create Date");
+        m.put("root_lastModifiedDate", "Record Last Edited");
         m.put("root_appType", "Application Type");
         m.put("root_appNumber", "Application Number");
         m.put("root_center", "Center");
