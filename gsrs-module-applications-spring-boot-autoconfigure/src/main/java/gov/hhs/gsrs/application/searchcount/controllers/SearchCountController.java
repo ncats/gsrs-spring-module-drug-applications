@@ -21,8 +21,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import java.util.Map;
 import java.util.stream.Stream;

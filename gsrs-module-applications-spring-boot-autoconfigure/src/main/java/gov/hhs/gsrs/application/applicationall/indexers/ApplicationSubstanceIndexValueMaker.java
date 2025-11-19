@@ -2,9 +2,9 @@ package gov.hhs.gsrs.application.applicationall.indexers;
 
 import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 import gov.hhs.gsrs.application.applicationall.models.AppIngredientAll;
 import gov.hhs.gsrs.application.applicationall.models.ApplicationAll;

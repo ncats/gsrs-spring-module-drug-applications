@@ -4,7 +4,7 @@ import gsrs.model.AbstractGsrsEntity;
 import ix.core.models.Indexable;
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Data
 @Entity

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>gsrs-module-applications-spring-boot-autoconfigure</artifactId>
-    
+
     <dependencies>
         <!-- NCATS Common and STARTER Dependencies -->
         <dependency>
@@ -69,6 +69,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
 
         <!-- SPRINGFOX BOOT Dependencies -->
         <dependency>

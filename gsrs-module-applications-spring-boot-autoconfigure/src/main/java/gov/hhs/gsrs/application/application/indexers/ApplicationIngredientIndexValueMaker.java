@@ -12,7 +12,7 @@ import ix.ginas.models.v1.Substance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.function.Consumer;
 
 public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<Application> {

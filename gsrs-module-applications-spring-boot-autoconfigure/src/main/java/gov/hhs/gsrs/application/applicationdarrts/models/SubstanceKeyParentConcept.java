@@ -2,7 +2,7 @@ package gov.hhs.gsrs.application.applicationdarrts.models;
 
 import gsrs.model.AbstractGsrsEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="SRSCID_SUBSTKEY_NAME_CONCEPT_V")
