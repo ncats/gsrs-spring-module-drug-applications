@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @AutoConfigureAfter(JpaRepositoriesAutoConfiguration.class)
-@Import({ApplicationAllStarterEntityRegistrar.class, PrivilegeService.class})
+@Import({ApplicationAllStarterEntityRegistrar.class})
 public class ApplicationAllConfiguration {
 }
