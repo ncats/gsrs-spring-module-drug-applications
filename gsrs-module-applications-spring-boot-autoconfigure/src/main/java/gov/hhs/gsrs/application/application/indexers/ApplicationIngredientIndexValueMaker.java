@@ -29,6 +29,11 @@ public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<App
     public void createIndexableValues(Application application, Consumer<IndexableValue> consumer) {
         try {
             String result = "HAS_NO_INGREDIENT";
+
+            if (application.getId() != null) {
+                consumer.accept(IndexableValue.simpleStringValue("root_id", Long.toString(application.id)));
+            }
+
             // Facet: Ingredient Name   (Note: This includes all the Ingredient Names)
             for (ApplicationProduct p : application.applicationProductList) {
                 for (ApplicationIngredient ing : p.applicationIngredientList) {
@@ -49,6 +54,12 @@ public class ApplicationIngredientIndexValueMaker implements IndexValueMaker<App
                                 // Facet: "Ingredient Name (Preferred)"
                                 if (s.getName() != null) {
                                     consumer.accept(IndexableValue.simpleFacetStringValue("Ingredient Name (Preferred)", s.getName()).suggestable().setSortable());
+                                }
+
+                                if (s.uuid != null) {
+                                    consumer.accept(IndexableValue.simpleStringValue("entity_link_substances", s.uuid.toString()));
+
+                                    consumer.accept(IndexableValue.simpleFacetStringValue("Substance UUID", s.uuid.toString()));
                                 }
                             }
                         }

@@ -26,7 +26,7 @@ public class ApplicationCommanData extends AbstractGsrsEntity implements ForceUp
     @Column(name = "CREATED_BY")
     private String createdBy;
 
-    @Indexable(name = "Record Last Edited By")
+    @Indexable(facet = true, name = "Record Last Edited By")
     @Column(name = "MODIFIED_BY")
     private String modifiedBy;
 
