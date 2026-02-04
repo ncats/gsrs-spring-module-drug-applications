@@ -5,21 +5,20 @@
     <parent>
         <artifactId>gsrs-module-applications</artifactId>
         <groupId>gov.nih.ncats</groupId>
-        <version>3.1.55-SNAPSHOT</version>
-<!-- relativePath/ -->
+        <version>3.2.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>applications-api</artifactId>
     <name>applications-api</name>
     <description>applications-api</description>
-    <version>3.1.55-SNAPSHOT</version>
+    <version>3.2.5-SNAPSHOT</version>
     <dependencies>
         <!-- NCATS GSRS Rest API Dependencies -->
         <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-rest-api</artifactId>
-            <version>3.1.55-SNAPSHOT</version>
+            <version>3.2.5-SNAPSHOT</version>
         </dependency>
 
         <!-- SPRING BOOT Dependencies -->
