@@ -35,7 +35,9 @@ public class ApplicationIngredient extends AbstractGsrsEntity {
     @Column(name="APPLICANT_INGRED_NAME", length=1000)
     public String applicantIngredName;
 
-    @Indexable(facet = true, name = "Substance Key")
+    @Indexable(suggest = true, facet = true, name = "Substance Key")
+
+
     @Column(name="SUBSTANCE_KEY")
     public String substanceKey;
 
