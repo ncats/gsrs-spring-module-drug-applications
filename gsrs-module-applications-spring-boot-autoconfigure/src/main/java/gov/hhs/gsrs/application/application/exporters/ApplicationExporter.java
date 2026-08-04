@@ -11,9 +11,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import ix.ginas.models.v1.Substance;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import java.io.IOException;
 import java.util.*;
 

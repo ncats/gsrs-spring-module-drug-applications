@@ -1,6 +1,6 @@
 package gov.hhs.gsrs.application.searchcount.models;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import java.io.Serializable;
 
 public class SearchCountCompositePrimaryKeyId implements Serializable {

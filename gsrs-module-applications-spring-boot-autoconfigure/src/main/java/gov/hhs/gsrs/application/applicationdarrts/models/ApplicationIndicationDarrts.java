@@ -3,7 +3,7 @@ package gov.hhs.gsrs.application.applicationdarrts.models;
 import gsrs.model.AbstractGsrsEntity;
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Data
 @Entity
