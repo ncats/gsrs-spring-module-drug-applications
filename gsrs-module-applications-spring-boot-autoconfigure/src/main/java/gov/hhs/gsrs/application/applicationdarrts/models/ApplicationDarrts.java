@@ -4,8 +4,6 @@ import gsrs.model.AbstractGsrsEntity;
 import ix.core.models.Backup;
 import ix.core.models.IndexableRoot;
 import lombok.Data;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -64,8 +62,7 @@ public class ApplicationDarrts extends AbstractGsrsEntity {
     })
     public List<ApplicationDarrtsIngredient> ingredientList = new ArrayList<ApplicationDarrtsIngredient>();
 
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumns({
             @JoinColumn(name="APP_TYPE", referencedColumnName = "APP_TYPE", insertable = false, updatable = false ),
             @JoinColumn(name="APP_NUMBER", referencedColumnName = "APP_NUMBER", insertable = false, updatable = false)
