@@ -28,7 +28,7 @@
             <version>4.1.0</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-restclient-test</artifactId>
