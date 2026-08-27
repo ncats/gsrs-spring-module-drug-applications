@@ -83,7 +83,8 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ProductSrsAll> applicationProductList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "owner")
+    // removed mappedBy = "owner"
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Indexable(indexed=false)
     @JoinColumn(name="APPLICATION_ID", referencedColumnName="APPLICATION_ID")
     public List<AppIndicationAll> indicationList = new ArrayList<>();
