@@ -1,6 +1,6 @@
 package gov.hhs.gsrs.application.applicationdarrts.models;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import java.io.Serializable;
 
 public class ApplicationDarrtsIngredCompositePrimaryKeyId implements Serializable {

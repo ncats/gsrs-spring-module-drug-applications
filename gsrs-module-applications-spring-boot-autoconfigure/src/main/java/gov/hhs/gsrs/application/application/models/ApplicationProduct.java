@@ -7,10 +7,7 @@ import ix.core.models.ParentReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,13 +55,11 @@ public class ApplicationProduct extends ApplicationCommanData {
     public Application owner;
 
     @ToString.Exclude
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="owner")
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="owner")
     public List<ApplicationProductName> applicationProductNameList = new ArrayList<>();
 
     @ToString.Exclude
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="owner")
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="owner")
     public List<ApplicationIngredient> applicationIngredientList = new ArrayList<>();
 
     public void setApplicationProductNameList(List<ApplicationProductName> applicationProductNameList) {

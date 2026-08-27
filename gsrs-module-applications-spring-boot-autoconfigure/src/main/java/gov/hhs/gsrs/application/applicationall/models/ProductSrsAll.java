@@ -2,10 +2,8 @@ package gov.hhs.gsrs.application.applicationall.models;
 
 import gsrs.model.AbstractGsrsEntity;
 import lombok.Data;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +29,9 @@ public class ProductSrsAll extends AbstractGsrsEntity {
     @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ProductNameSrsAll> applicationProductNameList = new ArrayList<>();
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<AppIngredientAll> applicationIngredientList = new ArrayList<>();
 
     public ProductSrsAll () {}

@@ -6,10 +6,8 @@ import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import ix.core.models.IndexableRoot;
 import lombok.Data;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,9 +83,9 @@ public class ApplicationAll extends AbstractGsrsEntity {
     @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ProductSrsAll> applicationProductList = new ArrayList<>();
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    // removed mappedBy = "owner"
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Indexable(indexed=false)
-    @OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="APPLICATION_ID", referencedColumnName="APPLICATION_ID")
     public List<AppIndicationAll> indicationList = new ArrayList<>();
 

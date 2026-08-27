@@ -9,8 +9,8 @@ import ix.ginas.exporters.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import ix.ginas.models.v1.Substance;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import java.io.IOException;
 import java.util.*;
 

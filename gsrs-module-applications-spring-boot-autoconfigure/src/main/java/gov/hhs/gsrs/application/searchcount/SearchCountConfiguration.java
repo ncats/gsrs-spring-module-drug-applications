@@ -1,14 +1,12 @@
 package gov.hhs.gsrs.application.searchcount;
 
-import gov.hhs.gsrs.application.searchcount.SearchCountStarterEntityRegistrar;
-
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import org.springframework.boot.data.jpa.autoconfigure.DataJpaRepositoriesAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@AutoConfigureAfter(JpaRepositoriesAutoConfiguration.class)
+@AutoConfigureAfter(DataJpaRepositoriesAutoConfiguration.class)
 @Import(SearchCountStarterEntityRegistrar.class)
 public class SearchCountConfiguration {
 }

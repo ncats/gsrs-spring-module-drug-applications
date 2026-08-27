@@ -1,8 +1,5 @@
 package gov.hhs.gsrs.application.application.models;
 
-import gsrs.BackupEntityProcessorListener;
-import gsrs.GsrsEntityProcessorListener;
-import gsrs.indexer.IndexerEntityListener;
 import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import ix.core.models.IndexableRoot;
@@ -10,17 +7,11 @@ import ix.core.models.IndexableRoot;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -121,13 +112,11 @@ public class Application extends ApplicationCommanData {
     public String externalTitle;
 
     @ToString.Exclude
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "owner")
     public List<ApplicationProduct> applicationProductList = new ArrayList<>();
 
     @ToString.Exclude
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "owner")
     public List<ApplicationIndication> applicationIndicationList = new ArrayList<>();
 
     public void setApplicationIndicationList(List<ApplicationIndication> applicationIndicationList) {

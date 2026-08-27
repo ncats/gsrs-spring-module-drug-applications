@@ -3,12 +3,7 @@ package gov.hhs.gsrs.applications.api;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gsrs.api.AbstractLegacySearchGsrsEntityRestTemplate;
-import gsrs.api.GsrsEntityRestTemplate;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 
 public class ApplicationsApi extends AbstractLegacySearchGsrsEntityRestTemplate<ApplicationAllDTO, String> {
     public ApplicationsApi(RestTemplateBuilder restTemplateBuilder, String baseUrl, ObjectMapper mapper) {

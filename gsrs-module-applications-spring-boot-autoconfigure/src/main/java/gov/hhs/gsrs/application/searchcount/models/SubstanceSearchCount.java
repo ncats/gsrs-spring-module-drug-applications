@@ -6,7 +6,7 @@ import ix.core.models.Backup;
 import ix.core.models.IndexableRoot;
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @IndexableRoot
 @Backup

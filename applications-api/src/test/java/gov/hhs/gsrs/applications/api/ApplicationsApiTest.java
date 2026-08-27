@@ -1,34 +1,28 @@
 package gov.hhs.gsrs.applications.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gsrs.api.GsrsEntityRestTemplate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.boot.restclient.test.autoconfigure.RestClientTest;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-//@SpringBootTest
 @RestClientTest(ApplicationsApi.class)
 public class ApplicationsApiTest {
 
     @Autowired
     private MockRestServiceServer mockRestServiceServer;
-
-    @Autowired
-    private ObjectMapper mapper;
 
     @Autowired
     RestTemplateBuilder restTemplateBuilder;
