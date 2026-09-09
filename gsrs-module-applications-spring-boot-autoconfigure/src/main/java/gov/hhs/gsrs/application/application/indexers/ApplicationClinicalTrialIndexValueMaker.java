@@ -2,18 +2,13 @@ package gov.hhs.gsrs.application.application.indexers;
 
 import gov.hhs.gsrs.application.ApplicationDataSourceConfig;
 import gov.hhs.gsrs.application.application.models.Application;
-import gov.hhs.gsrs.application.application.models.ApplicationIngredient;
-import gov.hhs.gsrs.application.application.models.ApplicationProduct;
-
 import gov.hhs.gsrs.application.application.models.additional.ClinicalTrialApplication;
-import gsrs.DefaultDataSourceConfig;
 import ix.core.search.text.IndexValueMaker;
 import ix.core.search.text.IndexableValue;
-import ix.ginas.models.v1.Substance;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import jakarta.persistence.*;
 import java.util.List;
 import java.util.function.Consumer;
 

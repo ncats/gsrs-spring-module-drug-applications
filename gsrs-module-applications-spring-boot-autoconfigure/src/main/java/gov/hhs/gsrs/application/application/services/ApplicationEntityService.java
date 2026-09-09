@@ -14,12 +14,13 @@ import gsrs.repository.GroupRepository;
 import gsrs.service.AbstractGsrsEntityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,7 +38,8 @@ public class ApplicationEntityService extends AbstractGsrsEntityService<Applicat
     private ApplicationRepository repository;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    @Qualifier("legacyJsonMapper")
+    private JsonMapper mapper;
 
     @Autowired
     private GroupRepository groupRepository;
@@ -53,8 +55,8 @@ public class ApplicationEntityService extends AbstractGsrsEntityService<Applicat
     }
 
     @Override
-    protected Application fromNewJson(JsonNode json) throws IOException {
-        return objectMapper.convertValue(json, Application.class);
+    protected Application fromNewJson(JsonNode json) {
+        return mapper.convertValue(json, Application.class);
     }
 
     @Override
@@ -114,7 +116,7 @@ public class ApplicationEntityService extends AbstractGsrsEntityService<Applicat
     @Override
     protected Application fromUpdatedJson(JsonNode json) throws IOException {
         //TODO should we make any edits to remove fields?
-        return objectMapper.convertValue(json, Application.class);
+        return mapper.convertValue(json, Application.class);
     }
 
     @Override
@@ -131,7 +133,7 @@ public class ApplicationEntityService extends AbstractGsrsEntityService<Applicat
 
     @Override
     protected JsonNode toJson(Application application) throws IOException {
-        return objectMapper.valueToTree(application);
+        return mapper.valueToTree(application);
     }
 
     @Override

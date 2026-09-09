@@ -6,7 +6,7 @@ import gov.hhs.gsrs.application.applicationall.models.*;
 import ix.core.EntityFetcher;
 import ix.ginas.exporters.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import ix.ginas.models.v1.Substance;
 
 import jakarta.persistence.EntityManager;

@@ -2,18 +2,12 @@ package gov.hhs.gsrs.application.application.exporters;
 
 import gov.hhs.gsrs.application.application.controllers.ApplicationController;
 import gov.hhs.gsrs.application.application.models.*;
-
-import gsrs.DefaultDataSourceConfig;
 import ix.core.EntityFetcher;
 import ix.ginas.exporters.*;
-
-import com.fasterxml.jackson.databind.JsonNode;
 import ix.ginas.models.v1.Substance;
-import org.springframework.transaction.support.TransactionTemplate;
-
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+
 import java.io.IOException;
 import java.util.*;
 

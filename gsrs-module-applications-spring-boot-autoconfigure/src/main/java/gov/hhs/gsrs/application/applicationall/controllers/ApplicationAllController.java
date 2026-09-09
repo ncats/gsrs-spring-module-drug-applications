@@ -1,48 +1,31 @@
 package gov.hhs.gsrs.application.applicationall.controllers;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import tools.jackson.databind.json.JsonMapper;
 import gov.hhs.gsrs.application.ApplicationDataSourceConfig;
 import gov.hhs.gsrs.application.SubstanceModuleService;
 import gov.hhs.gsrs.application.applicationall.models.ApplicationAll;
 import gov.hhs.gsrs.application.applicationall.searcher.LegacyApplicationAllSearcher;
 import gov.hhs.gsrs.application.applicationall.services.ApplicationAllEntityService;
-
-import gov.nih.ncats.common.util.Unchecked;
 import gsrs.autoconfigure.GsrsExportConfiguration;
 import gsrs.controller.*;
-import gsrs.controller.hateoas.HttpRequestHolder;
 import gsrs.legacy.LegacyGsrsSearchService;
 import gsrs.repository.ETagRepository;
-import gsrs.service.EtagExportGenerator;
 import gsrs.service.ExportService;
 import gsrs.service.GsrsEntityService;
-import ix.core.models.ETag;
-import ix.ginas.exporters.ExportMetaData;
-import ix.ginas.exporters.ExportProcess;
-import ix.ginas.exporters.Exporter;
-import ix.ginas.exporters.ExporterFactory;
-
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @ExposesResourceFor(ApplicationAll.class)
@@ -81,7 +64,8 @@ public class ApplicationAllController extends EtagLegacySearchEntityController<A
     private LegacyApplicationAllSearcher legacyApplicationSearcher;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    @Qualifier("legacyJsonMapper")
+    private JsonMapper mapper;
 
 
     @Override
@@ -205,7 +189,7 @@ public class ApplicationAllController extends EtagLegacySearchEntityController<A
 
                 String jsonString = response.getBody();
                 if (jsonString != null) {
-                    ObjectMapper mapper = new ObjectMapper();
+
                     actualObj = mapper.readTree(jsonString);
                 }
             }

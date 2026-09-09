@@ -1,8 +1,6 @@
 package gov.hhs.gsrs.application.application.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.security.GsrsSecurityUtils;
 import ix.core.SingleParent;
@@ -18,6 +16,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.*;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 
 @SingleParent

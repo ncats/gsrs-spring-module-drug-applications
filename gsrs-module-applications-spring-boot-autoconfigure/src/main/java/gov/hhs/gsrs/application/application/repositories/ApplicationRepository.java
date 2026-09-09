@@ -8,7 +8,6 @@ import gov.hhs.gsrs.application.application.models.additional.ProductTechnicalEf
 
 import gsrs.repository.GsrsVersionedRepository;
 
-import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,7 @@
 package gov.hhs.gsrs.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -10,9 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.JsonNode;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -21,7 +21,8 @@ import java.net.URLEncoder;
 public class SubstanceModuleService {
 
     @Autowired
-    private ObjectMapper objectMapper;
+    @Qualifier("legacyJsonMapper")
+    private JsonMapper mapper;
 
     @Autowired
     private Environment env;
@@ -59,15 +60,15 @@ public class SubstanceModuleService {
         if (statusCode.equals(HttpStatus.OK)) {
             JsonNode root = null;
             try {
-                root = objectMapper.readTree(response.getBody());
-            } catch (JsonProcessingException e) {
+                root = mapper.readTree(response.getBody());
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
             // Should not be necessary, but possible to get 200 and valid json
             // on a redirect.
             JsonNode name = root.path("uuid");
-            if (name != null &&  name.asText().equals(uuid)) {
+            if (name != null &&  name.asString().equals(uuid)) {
                 return true;
             }
         }
@@ -208,8 +209,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.persistence.EntityManager;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 // import springfox.documentation.spring.web.json.Json;
 import ix.utils.Util;

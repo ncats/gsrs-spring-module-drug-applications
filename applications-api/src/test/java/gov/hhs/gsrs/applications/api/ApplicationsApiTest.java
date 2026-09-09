@@ -1,6 +1,5 @@
 package gov.hhs.gsrs.applications.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.boot.restclient.test.autoconfigure.RestClientTest;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
@@ -35,7 +35,7 @@ public class ApplicationsApiTest {
         @Bean
         public ApplicationsApi applicationsApi(RestTemplateBuilder restTemplateBuilder){
 
-            return new ApplicationsApi(restTemplateBuilder, "http://example.com", new ObjectMapper());
+            return new ApplicationsApi(restTemplateBuilder, "http://example.com", JsonMapper.builderWithJackson2Defaults().build());
         }
     }
 

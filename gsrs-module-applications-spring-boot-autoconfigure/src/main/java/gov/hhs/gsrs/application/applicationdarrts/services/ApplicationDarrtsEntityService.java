@@ -16,10 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +34,7 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
     private ApplicationDarrtsRepository repository;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper mapper;
 
     @Autowired
     private GroupRepository groupRepository;
@@ -51,8 +50,8 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
     }
 
     @Override
-    protected ApplicationDarrts fromNewJson(JsonNode json) throws IOException {
-        return objectMapper.convertValue(json, ApplicationDarrts.class);
+    protected ApplicationDarrts fromNewJson(JsonNode json) {
+        return mapper.convertValue(json, ApplicationDarrts.class);
     }
 
     @Override
@@ -97,7 +96,7 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
     }
 
     @Override
-    protected List<ApplicationDarrts> fromNewJsonList(JsonNode list) throws IOException {
+    protected List<ApplicationDarrts> fromNewJsonList(JsonNode list)  {
         return null;
     }
 
@@ -110,13 +109,13 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
     */
 
     @Override
-    protected ApplicationDarrts fromUpdatedJson(JsonNode json) throws IOException {
+    protected ApplicationDarrts fromUpdatedJson(JsonNode json)  {
         //TODO should we make any edits to remove fields?
-        return objectMapper.convertValue(json, ApplicationDarrts.class);
+        return mapper.convertValue(json, ApplicationDarrts.class);
     }
 
     @Override
-    protected List<ApplicationDarrts> fromUpdatedJsonList(JsonNode list) throws IOException {
+    protected List<ApplicationDarrts> fromUpdatedJsonList(JsonNode list)  {
         return null;
         /*
         List<Application> substances = new ArrayList<>(list.size());
@@ -128,8 +127,8 @@ public class ApplicationDarrtsEntityService extends AbstractGsrsEntityService<Ap
     }
 
     @Override
-    protected JsonNode toJson(ApplicationDarrts application) throws IOException {
-        return objectMapper.valueToTree(application);
+    protected JsonNode toJson(ApplicationDarrts application)  {
+        return mapper.valueToTree(application);
     }
 
     @Override

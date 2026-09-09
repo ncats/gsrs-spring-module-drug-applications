@@ -1,26 +1,23 @@
 package gov.hhs.gsrs.application.searchcount.services;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 import gov.hhs.gsrs.application.searchcount.models.SubstanceSearchCount;
 import gov.hhs.gsrs.application.searchcount.repositories.SearchCountRepository;
-
 import gsrs.controller.IdHelpers;
 import gsrs.events.AbstractEntityCreatedEvent;
 import gsrs.events.AbstractEntityUpdatedEvent;
 import gsrs.repository.GroupRepository;
 import gsrs.service.AbstractGsrsEntityService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,7 +34,8 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
     private SearchCountRepository repository;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    @Qualifier("legacyJsonMapper")
+    private JsonMapper mapper;
 
     @Autowired
     private GroupRepository groupRepository;
@@ -54,7 +52,7 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
 
     @Override
     protected SubstanceSearchCount fromNewJson(JsonNode json) throws IOException {
-        return objectMapper.convertValue(json, SubstanceSearchCount.class);
+        return mapper.convertValue(json, SubstanceSearchCount.class);
     }
 
     @Override
@@ -114,7 +112,7 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
     @Override
     protected SubstanceSearchCount fromUpdatedJson(JsonNode json) throws IOException {
         //TODO should we make any edits to remove fields?
-        return objectMapper.convertValue(json, SubstanceSearchCount.class);
+        return mapper.convertValue(json, SubstanceSearchCount.class);
     }
 
     @Override
@@ -131,7 +129,7 @@ public class SearchCountEntityService extends AbstractGsrsEntityService<Substanc
 
     @Override
     protected JsonNode toJson(SubstanceSearchCount application) throws IOException {
-        return objectMapper.valueToTree(application);
+        return mapper.valueToTree(application);
     }
 
     @Override

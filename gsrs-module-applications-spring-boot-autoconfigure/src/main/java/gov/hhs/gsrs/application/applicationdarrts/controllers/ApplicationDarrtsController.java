@@ -13,13 +13,14 @@ import gsrs.service.ExportService;
 import gsrs.service.GsrsEntityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.PathVariable;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -55,9 +56,6 @@ public class ApplicationDarrtsController extends EtagLegacySearchEntityControlle
 
     @Autowired
     private LegacyApplicationDarrtsSearcher legacyApplicationDarrtsSearcher;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Override
     public GsrsEntityService<ApplicationDarrts, String> getEntityService() {
